@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>戴上春天 · 管理员后台</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .admin-shell{display:grid;grid-template-columns:230px 1fr;gap:0;min-height:100vh}
+  .admin-side{background:var(--ink);color:#fff;padding:24px 0;position:sticky;top:0;height:100vh}
+  .admin-side .brand{color:#fff;padding:0 22px 20px;border-bottom:1px solid rgba(255,255,255,.15);display:block;font-size:15px}
+  .admin-side .brand small{display:block;color:rgba(255,255,255,.6);font-weight:400;margin-top:3px}
+  .admin-side button{display:block;width:100%;text-align:left;background:none;border:0;color:rgba(255,255,255,.75);
+    padding:14px 22px;font-size:14px;cursor:pointer;border-left:3px solid transparent}
+  .admin-side button:hover{background:rgba(255,255,255,.08);color:#fff}
+  .admin-side button.on{background:rgba(231,111,81,.25);color:#fff;border-left-color:var(--primary)}
+  .admin-main{padding:30px 36px;background:var(--bg)}
+  .admin-card{background:var(--card);padding:22px;border:1px solid var(--line)}
+  .m-stat{display:inline-block;min-width:84px;text-align:center;padding:14px;margin-right:12px;background:var(--bg-soft)}
+  .m-stat b{display:block;font-size:24px;color:var(--primary-deep)}
+  .del-comment td.del-row{opacity:.45}
+  .mini-work{position:relative;width:100%}
+  .mini-work img{width:100%;display:block;border:1px solid var(--line)}
+  .mini-work .mw-flag{position:absolute;top:6px;left:6px}
+  .acct-chip{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);
+    background:#fff;cursor:pointer;width:100%;text-align:left}
+  .acct-chip:hover{border-color:var(--primary)}
+  .login-shell{max-width:400px;margin:90px auto}
+</style>
+</head>
+<body>
+
+<!-- ===== Login ===== -->
+<div class="page active" id="page-login">
+  <div class="login-shell">
+    <div class="admin-card">
+      <div style="text-align:center;font-size:40px">🛡️</div>
+      <h2 style="text-align:center">管理员登录</h2>
+      <p class="muted" style="text-align:center">病房美学计划管理后台</p>
+      <div class="field" style="margin-top:18px"><label>管理员用户名</label><input id="loginUser" placeholder="wardbeauty"></div>
+      <div class="field"><label>密码</label><input id="loginPass" type="password" placeholder="请输入密码"></div>
+      <button class="btn btn-primary btn-block btn-lg" onclick="doLogin()">登 录</button>
+      <p style="margin-top:14px"><a href="index.html">‹ 返回门户</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Admin shell ===== -->
+<div class="page" id="page-console">
+  <div class="admin-shell">
+    <aside class="admin-side">
+      <span class="brand">🛡️ 管理后台<small>WARD BEAUTY · ADMIN</small></span>
+      <button data-mod="review" class="on" onclick="showMod('review')">① 评价控制</button>
+      <button data-mod="select" onclick="showMod('select')">② 选择画作</button>
+      <button data-mod="accounts" onclick="showMod('accounts')">③ 账号管理</button>
+      <button data-mod="info" onclick="showMod('info')">④ 管理员信息</button>
+      <div style="position:absolute;bottom:20px;left:0;right:0;padding:0 22px">
+        <button style="padding:10px 0;color:rgba(255,255,255,.6)" onclick="logout()">退出登录</button>
+      </div>
+    </aside>
+    <main class="admin-main">
+
+      <!-- Module 1: Review -->
+      <section id="mod-review">
+        <h1 style="margin-bottom:18px">评价控制</h1>
+        <div style="margin-bottom:18px">
+          <span class="m-stat"><b id="stCmtAll">0</b>评论总数</span>
+          <span class="m-stat"><b id="stCmtDel">0</b>已删评论</span>
+          <span class="m-stat"><b id="stWorkAll">0</b>画作总数</span>
+          <span class="m-stat"><b id="stWorkDel">0</b>已删画作</span>
+        </div>
+        <div class="admin-card">
+          <div class="sub-tabs">
+            <button id="rvCmt" class="on" onclick="switchRv('comments')">用户评论</button>
+            <button id="rvWork" onclick="switchRv('works')">用户画作</button>
+          </div>
+          <div id="rvComments" style="margin-top:16px"></div>
+          <div id="rvWorks" style="margin-top:16px;display:none"></div>
+        </div>
+      </section>
+
+      <!-- Module 2: Select -->
+      <section id="mod-select" style="display:none">
+        <h1 style="margin-bottom:18px">选择画作</h1>
+        <div style="margin-bottom:18px">
+          <span class="m-stat"><b id="stPending">0</b>待评选</span>
+          <span class="m-stat"><b id="stSelected">0</b>已选中</span>
+          <span class="m-stat"><b id="stRejected">0</b>已放弃</span>
+        </div>
+        <div class="admin-card">
+          <p class="muted">正常用户新画作：标记「选择」后，作品将随机分配给一个公益账户；选择「放弃」则结果同步为未选中。</p>
+          <div id="selectGrid" class="grid grid-4" style="margin-top:16px"></div>
+        </div>
+      </section>
+
+      <!-- Module 3: Accounts -->
+      <section id="mod-accounts" style="display:none">
+        <h1 style="margin-bottom:18px">账号管理</h1>
+        <div class="admin-card">
+          <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+            <div class="sub-tabs" style="margin:0">
+              <button id="acN" class="on" onclick="switchAcct('n')">正常用户</button>
+              <button id="acC" onclick="switchAcct('c')">公益用户</button>
+            </div>
+            <input id="acctSearch" placeholder="搜索用户名…" oninput="renderAccounts()"
+              style="width:260px;padding:9px 12px;border:1px solid var(--line)">
+          </div>
+          <div id="acctGrid" class="grid grid-4" style="margin-top:16px"></div>
+        </div>
+      </section>
+
+      <!-- Module 4: Info -->
+      <section id="mod-info" style="display:none">
+        <h1 style="margin-bottom:18px">管理员信息</h1>
+        <div class="admin-card" style="max-width:520px">
+          <div id="adminAvatar"></div>
+          <p style="margin-top:18px"><b>用户名：</b><span id="adminName"></span></p>
+          <p><b>工　号：</b><span id="adminEmp"></span></p>
+          <button class="btn btn-primary" style="margin-top:10px" onclick="document.getElementById('adminAvatarInput').click()">设置头像</button>
+          <input type="file" id="adminAvatarInput" accept="image/*" hidden onchange="setAdminAvatar(this)">
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<script src="assets/common.js"></script>
+<script>
+/* ================= Login ================= */
+function doLogin(){
+  const a = getAdmin();
+  if($('loginUser').value.trim() === a.user && $('loginPass').value === a.pass){
+    $('page-login').classList.remove('active');
+    $('page-console').classList.add('active');
+    showMod('review');
+    renderInfo();
+  }else toast('管理员用户名或密码错误');
+}
+function logout(){
+  $('page-login').classList.add('active');
+  $('page-console').classList.remove('active');
+}
+function showMod(name){
+  ['review','select','accounts','info'].forEach(m => {
+    $('mod-'+m).style.display = m === name ? 'block' : 'none';
+    document.querySelector(`[data-mod="${m}"]`).classList.toggle('on', m === name);
+  });
+  if(name === 'review') renderReview();
+  if(name === 'select') renderSelectMod();
+  if(name === 'accounts') renderAccounts();
+  if(name === 'info') renderInfo();
+}
+
+/* ================= Module 1: Review ================= */
+let rvTab = 'comments';
+function switchRv(t){
+  rvTab = t;
+  $('rvCmt').classList.toggle('on', t==='comments');
+  $('rvWork').classList.toggle('on', t==='works');
+  $('rvComments').style.display = t==='comments' ? 'block' : 'none';
+  $('rvWorks').style.display = t==='works' ? 'block' : 'none';
+}
+function renderReview(){
+  const cmts = getComments();
+  const works = allWorks('n').concat(allWorks('c'));
+  $('stCmtAll').textContent = cmts.length;
+  $('stCmtDel').textContent = cmts.filter(c => c.del).length;
+  $('stWorkAll').textContent = works.length;
+  $('stWorkDel').textContent = works.filter(w => w.gal === 0).length;
+
+  $('rvComments').innerHTML = `
+    <table class="tbl">
+      <thead><tr><th style="width:130px">用户</th><th>评论内容</th><th style="width:170px">时间</th><th style="width:110px">状态</th><th style="width:110px">操作</th></tr></thead>
+      <tbody>${cmts.length ? cmts.map(c => `
+        <tr class="del-comment ${c.del?'del-row':''}">
+          <td>${esc(c.user)}</td>
+          <td>${esc(c.text)}</td>
+          <td>${c.time}</td>
+          <td>${c.del ? '<span class="badge badge-rejected">已删除</span>' : '<span class="badge badge-selected">正常</span>'}</td>
+          <td>${c.del
+            ? `<button class="btn btn-sm" onclick="restoreComment(${c.id})">恢复</button>`
+            : `<button class="btn btn-sm btn-danger" onclick="deleteComment(${c.id})">删除</button>`}</td>
+        </tr>`).join('') : `<tr><td colspan="5" class="muted" style="text-align:center;padding:30px">暂无评论</td></tr>`}
+      </tbody>
+    </table>`;
+
+  $('rvWorks').innerHTML = `<div class="grid grid-4">${works.length ? works.map(w => `
+    <div class="mini-work">
+      <img src="${w.img}">
+      <span class="mw-flag">${w.gal === 0 ? '<span class="badge badge-rejected">已下架</span>' : '<span class="badge badge-selected">展示中</span>'}</span>
+      <p class="muted" style="margin:6px 0">作者：${esc(w.owner)}</p>
+      ${w.gal === 0
+        ? `<button class="btn btn-sm btn-block" onclick="restoreWork('${w.type}','${esc(w.owner)}',${w.id})">恢复展示</button>`
+        : `<button class="btn btn-sm btn-danger btn-block" onclick="deleteWork('${w.type}','${esc(w.owner)}',${w.id})">删除画作</button>`}
+    </div>`).join('') : '<div class="muted">暂无画作</div>'}</div>`;
+}
+function bumpUser(type, name, key, delta){
+  const users = getUsers(type);
+  if(!users[name]) users[name] = ensureUserObj({pass:'', nickname:name});
+  users[name][key] = Math.max(0, (users[name][key]||0) + delta);
+  saveUsers(type, users);
+}
+function deleteComment(id){
+  const list = getComments();
+  const c = list.find(x => x.id === id);
+  if(!c) return;
+  c.del = 1; saveComments(list);
+  bumpUser(c.type, c.user, 'delC', 1);
+  toast('评论已删除'); renderReview();
+}
+function restoreComment(id){
+  const list = getComments();
+  const c = list.find(x => x.id === id);
+  if(!c) return;
+  c.del = 0; saveComments(list);
+  bumpUser(c.type, c.user, 'delC', -1);
+  toast('评论已恢复'); renderReview();
+}
+function deleteWork(type, owner, id){
+  /* gallery removal only — the work stays saved in the owner account */
+  const w = updateWork(type, owner, id, {gal:0});
+  if(!w) return;
+  bumpUser(type, owner, 'delW', 1);
+  toast('画作已从画廊删除（账户作品仍保留）');
+  renderReview();
+}
+function restoreWork(type, owner, id){
+  updateWork(type, owner, id, {gal:1});
+  bumpUser(type, owner, 'delW', -1);
+  toast('画作已恢复展示'); renderReview();
+}
+
+/* ================= Module 2: Select ================= */
+function renderSelectMod(){
+  const works = allWorks('n');
+  const pending = works.filter(w => w.sel !== 'selected' && w.sel !== 'rejected');
+  $('stPending').textContent = pending.length;
+  $('stSelected').textContent = works.filter(w => w.sel === 'selected').length;
+  $('stRejected').textContent = works.filter(w => w.sel === 'rejected').length;
+  $('selectGrid').innerHTML = pending.length
+    ? pending.map(w => `
+      <div class="mini-work">
+        <img src="${w.img}">
+        <span class="mw-flag"><span class="badge badge-pending">待评选</span></span>
+        <p class="muted" style="margin:6px 0">作者：${esc(w.owner)}<br>${w.time}</p>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-sm btn-primary" style="flex:1" onclick="selectWork('${esc(w.owner)}',${w.id})">选择</button>
+          <button class="btn btn-sm" style="flex:1" onclick="rejectWork('${esc(w.owner)}',${w.id})">放弃</button>
+        </div>
+      </div>`).join('')
+    : '<div class="muted">暂无待评选的新画作</div>';
+}
+function selectWork(owner, id){
+  const w = updateWork('n', owner, id, {sel:'selected'});
+  if(!w) return;
+  /* sync coupon + notify creator */
+  addMsg('n', owner, {kind:'coupon', title:'作品审核通过通知',
+    text:'恭喜！您的作品已被选中，已获得一张公益优惠券，作品将随机分配给一位公益用户。'});
+  /* random distribution to a charity account */
+  const d = addDistribution(Object.assign({}, w, {owner}));
+  if(!d) toast('已选中（暂无公益账户，画作未分配）');
+  else { toast('已选中并随机分配给公益用户：' + d.charity); }
+  renderSelectMod();
+}
+function rejectWork(owner, id){
+  updateWork('n', owner, id, {sel:'rejected'});
+  toast('已放弃，结果已同步到用户账户');
+  renderSelectMod();
+}
+
+/* ================= Module 3: Accounts ================= */
+let acctType = 'n';
+function switchAcct(t){
+  acctType = t;
+  $('acN').classList.toggle('on', t==='n');
+  $('acC').classList.toggle('on', t==='c');
+  renderAccounts();
+}
+function renderAccounts(){
+  const kw = ($('acctSearch').value || '').trim().toLowerCase();
+  const users = getUsers(acctType);
+  const names = Object.keys(users).filter(n => !kw || n.toLowerCase().includes(kw));
+  $('acctGrid').innerHTML = names.length
+    ? names.map(n => {
+        const u = ensureUserObj(users[n]);
+        return `<button class="acct-chip" onclick="acctDetail('${esc(n)}')">
+          ${avatarHTML(n, u.avatar)}
+          <span><b>${esc(n)}</b><br>
+          <small class="muted">删评 ${u.delC||0} · 删画 ${u.delW||0}</small></span>
+        </button>`;
+      }).join('')
+    : '<div class="muted">未找到匹配账号</div>';
+}
+function acctDetail(name){
+  const users = getUsers(acctType);
+  const u = ensureUserObj(users[name]);
+  const works = getWorks(acctType, name);
+  openModal(acctType==='n' ? '正常用户详情' : '公益用户详情',
+    `<div style="display:flex;gap:16px;align-items:center">
+       ${avatarHTML(name, u.avatar, 'avatar-big')}
+       <div>
+         <p style="font-size:17px"><b>${esc(name)}</b></p>
+         <p class="muted">昵称：${esc(u.nickname||name)}</p>
+         <p class="muted">被删除评论次数：<b>${u.delC||0}</b></p>
+         <p class="muted">被删除画作次数：<b>${u.delW||0}</b></p>
+       </div>
+     </div>
+     <div class="divider"></div>
+     <p class="muted">作品（${works.length}）：</p>
+     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+       ${works.length ? works.map(w =>
+         `<img src="${w.img}" class="thumb" style="width:64px;height:64px;${w.gal===0?'opacity:.35':''}">`).join('')
+         : '<span class="muted">无</span>'}
+     </div>`,
+    `<button class="btn btn-primary" onclick="closeModal()">关闭</button>`);
+}
+
+/* ================= Module 4: Info ================= */
+function renderInfo(){
+  const a = getAdmin();
+  $('adminAvatar').innerHTML = avatarHTML(a.user, a.avatar, 'avatar-big');
+  $('adminName').textContent = a.user;
+  $('adminEmp').textContent = a.emp;
+}
+async function setAdminAvatar(input){
+  const f = input.files[0]; if(!f) return;
+  const img = await readImageFile(f);
+  const a = getAdmin(); a.avatar = img; saveAdmin(a);
+  renderInfo(); toast('管理员头像已更新');
+}
+</script>
+</body>
+</html>

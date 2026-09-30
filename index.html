@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>病房美学计划 · 戴上春天</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .landing-hero{
+    margin-top:0;padding:90px 0 70px;text-align:center;
+    background:linear-gradient(180deg,var(--bg) 0%,var(--bg-soft) 100%);
+    border-bottom:1px solid var(--line);
+  }
+  .landing-hero .kicker{letter-spacing:.3em;color:var(--primary-deep);font-size:13px;font-weight:600}
+  .landing-hero h1{font-size:clamp(34px,5vw,56px);font-weight:800;margin:16px 0 10px}
+  .landing-hero .en{font-size:clamp(15px,1.8vw,20px);color:var(--ink-soft);letter-spacing:.08em}
+  .landing-hero p.desc{max-width:680px;margin:22px auto 0;color:var(--ink-soft);font-size:15px}
+  .portal-section{padding:64px 0}
+  .portal-section h2{text-align:center;font-size:24px;margin-bottom:6px}
+  .portal-section .sub{text-align:center;color:var(--ink-soft);margin-bottom:36px}
+  .admin-strip{
+    border-top:1px solid var(--line);background:var(--bg-soft);
+    padding:22px 0;text-align:center;font-size:14px;
+  }
+  .admin-strip button{margin-left:14px}
+  footer.site{padding:30px 0;text-align:center;color:var(--ink-soft);font-size:12px}
+</style>
+</head>
+<body>
+
+<header class="landing-hero">
+  <div class="container">
+    <div class="kicker">WARD AESTHETICS PROGRAM</div>
+    <h1>病房美学计划 · 戴上春天</h1>
+    <div class="en">Beauty Belongs to Every Bed</div>
+    <p class="desc">让长期住院的女性和儿童，把本来就必须戴的头巾和口罩，变成自己创作的艺术品。美不是虚荣，是尊严。</p>
+  </div>
+</header>
+
+<section class="portal-section">
+  <div class="container">
+    <h2>选择入口</h2>
+    <div class="sub">请根据您的身份进入对应界面</div>
+    <div class="grid grid-2">
+      <button class="entry-card" onclick="location.href='charity.html'">
+        <div class="ic">🧡</div>
+        <h3>公益用户</h3>
+        <p>面向病房中的女性与儿童：作画疗愈、AI 试妆、接收爱心画作与公益产品。</p>
+        <span class="btn btn-primary" style="margin-top:10px;align-self:flex-start">进入公益端</span>
+      </button>
+      <button class="entry-card" onclick="location.href='user.html'">
+        <div class="ic">🎨</div>
+        <h3>普通用户</h3>
+        <p>健康用户创作数字画作、捐赠定制头巾口罩、AI 试妆体验与社区互动。</p>
+        <span class="btn btn-primary" style="margin-top:10px;align-self:flex-start">进入正常端</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<div class="admin-strip">
+  <div class="container" style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px">
+    <span class="muted">平台工作人员</span>
+    <button class="btn btn-outline btn-sm" onclick="location.href='admin.html'">管理员入口</button>
+  </div>
+</div>
+
+<footer class="site">
+  <div class="container">病房美学计划 Ward Aesthetics Program · 公益演示系统（PC 版）</div>
+</footer>
+
+<script src="assets/common.js"></script>
+<script>
+  /* If a session already exists, show a quick re-entry hint */
+  const s = getSession();
+  if(s){
+    const map = {n:['user.html','正常端'], c:['charity.html','公益端']};
+    const [url, label] = map[s.type];
+    toast('检测到' + label + '登录记录：' + s.name);
+  }
+</script>
+</body>
+</html>

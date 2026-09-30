@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ward Aesthetics · Charity Portal</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .banner{height:420px}
+  .banner-slide:nth-child(1){background-image:url('poster1.jpg');background-position:50% 32%}
+  .banner-slide:nth-child(2){background-image:url('poster2.jpg');background-position:42% 40%}
+  .banner-slide:nth-child(3){background-image:url('poster3.jpg');background-position:50% 35%}
+  .banner-slide:nth-child(4){background-image:url('poster4.jpg');background-position:50% 45%}
+  .banner-slide .headline{text-shadow:0 2px 8px rgba(0,0,0,.7)}
+  .stage{height:440px}
+  .auth-wrap{max-width:440px;margin:80px auto}
+  .cr-meta{font-size:13px;color:var(--ink-soft);margin:6px 0}
+  .cr-photo{border:1px solid var(--line);max-height:260px;margin:10px 0}
+  .lang-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .lang-btn{padding:11px 0;background:var(--bg-soft);color:var(--ink-soft);font-size:14px;border:2px solid transparent}
+  .lang-btn.sel{border-color:var(--primary);color:var(--primary-deep);font-weight:600}
+</style>
+</head>
+<body>
+
+<nav class="topnav" id="topnav" style="display:none">
+  <div class="container">
+    <span class="brand">🎨 <span data-i18n="brand">Ward Aesthetics</span><small>CHARITY PORTAL</small></span>
+    <div class="nav-links">
+      <button data-route="me" onclick="go('me')" data-i18n="nav_home">Home</button>
+      <button data-route="gallery" onclick="go('gallery')" data-i18n="nav_gallery">Gallery</button>
+      <button data-route="profile" onclick="go('profile')" data-i18n="nav_profile">Profile</button>
+      <button class="btn btn-sm" onclick="go('index')">‹ 门户</button>
+    </div>
+  </div>
+</nav>
+
+<!-- Auth -->
+<div class="page" id="page-auth">
+  <div class="container auth-wrap">
+    <div class="card">
+      <div style="text-align:center;font-size:42px">🎨</div>
+      <h2 style="text-align:center" data-i18n="auth_title">Ward Aesthetics Program</h2>
+      <p class="muted" style="text-align:center;margin-bottom:20px" data-i18n="auth_sub">Bringing color and kindness to every moment of recovery</p>
+      <div class="field"><label data-i18n="username">Username</label><input id="authUser" data-i18n-ph="ph_username" placeholder="Enter your username"></div>
+      <div class="field"><label data-i18n="password">Password</label><input id="authPass" type="password" data-i18n-ph="ph_password" placeholder="Enter your password"></div>
+      <button class="btn btn-primary btn-block btn-lg" id="authBtn" onclick="doAuth()">Log In</button>
+      <p class="muted" style="text-align:center;margin-top:14px">
+        <span id="authTip">Don't have an account?</span>
+        <a href="#" id="authSwitch" onclick="toggleAuthMode();return false;">Register now</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- Home -->
+<div class="page" id="page-me">
+  <div class="container">
+    <div class="banner">
+      <div class="banner-track" id="bannerTrack">
+        <div class="banner-slide"><span class="eyebrow" data-i18n="poster1">Poster 1</span><div class="headline" data-i18n="poster1_sub">Charity Art Exhibition · Let Love Be Seen</div></div>
+        <div class="banner-slide"><span class="eyebrow" data-i18n="poster2">Poster 2</span><div class="headline" data-i18n="poster2_sub">AI Makeup Try-On · Meet a Brighter You</div></div>
+        <div class="banner-slide"><span class="eyebrow" data-i18n="poster3">Poster 3</span><div class="headline" data-i18n="poster3_sub">Color Therapy · Ward Aesthetics Workshop</div></div>
+        <div class="banner-slide"><span class="eyebrow" data-i18n="poster4">Poster 4</span><div class="headline" data-i18n="poster4_sub">Kind Donations · Free Charity Products</div></div>
+      </div>
+      <div class="banner-dots" id="bannerDots"><i class="on"></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="grid grid-3" style="margin-top:28px">
+      <button class="entry-card" onclick="go('paint')">
+        <div class="ic">🖌️</div><h3 data-i18n="entry_paint">Paint</h3><p data-i18n="entry_paint_desc">Express your feelings with colors; submit to receive a charity product</p>
+      </button>
+      <button class="entry-card" onclick="go('tryon')">
+        <div class="ic">💄</div><h3 data-i18n="entry_tryon">AI Try-On</h3><p data-i18n="entry_tryon_desc">Mood-matched makeup, one tap to a beautiful new look</p>
+      </button>
+      <button class="entry-card" onclick="go('works')">
+        <div class="ic">🖼️</div><h3 data-i18n="entry_works">My Works</h3><p data-i18n="entry_works_desc">View your creations and the encouragement you received</p>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Paint -->
+<div class="page" id="page-paint">
+  <div class="container">
+    <div class="page-head"><h1 data-i18n="paint_title">Paint</h1></div>
+    <div class="card" style="display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:start">
+      <canvas id="paintCanvas" width="640" height="640"></canvas>
+      <div>
+        <p class="muted" data-i18n="pick_color">Pick a color (labeled by product number only):</p>
+        <div class="palette" id="palette" style="grid-template-columns:repeat(4,1fr)"></div>
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button class="btn" style="flex:1" data-i18n="clear_canvas" onclick="clearCanvas()">Clear Canvas</button>
+          <button class="btn btn-primary" style="flex:1" data-i18n="submit_artwork" onclick="submitPaint()">Submit Artwork ›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Receive -->
+<div class="page" id="page-receive">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1 data-i18n="receive_title">Choose Your Charity Product</h1></div>
+    <div class="card">
+      <p class="muted" data-i18n="receive_intro">Your artwork has been submitted and shared to the gallery 🎉 Please pick a product donated by caring partners:</p>
+      <div class="grid grid-4" id="goodsGrid" style="margin-top:14px"></div>
+      <button class="btn btn-primary btn-block btn-lg" style="margin-top:18px" data-i18n="confirm_pickup" onclick="confirmReceive()">Confirm Pickup</button>
+    </div>
+  </div>
+</div>
+
+<!-- Try-on -->
+<div class="page" id="page-tryon">
+  <div class="container" style="max-width:900px">
+    <div class="page-head"><h1 data-i18n="tryon_title">AI Makeup Try-On</h1></div>
+    <div class="card">
+      <p class="muted" data-i18n="select_mood">Select your current mood and we'll match a look for you:</p>
+      <div class="grid" id="moodGrid" style="grid-template-columns:repeat(6,1fr);margin-top:10px"></div>
+      <div class="stage" style="height:240px;margin-top:16px">
+        <div style="font-size:88px" id="faceEmoji">🙂</div>
+        <div class="muted" style="position:absolute;bottom:10px;width:100%;text-align:center" id="tryonTip" data-i18n="waiting_mood">Waiting for a mood…</div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:14px">
+        <button class="btn" style="flex:1" data-i18n="start_tryon" onclick="doTryon()">Start Try-On</button>
+        <button class="btn btn-primary" style="flex:1" data-i18n="save_share" onclick="saveTryon()">Save / Share</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Works -->
+<div class="page" id="page-works">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1 data-i18n="my_works">My Works</h1></div>
+    <div class="card">
+      <div class="stat-row">
+        <div class="stat"><div class="num" id="statLikes">0</div><div class="muted" data-i18n="likes_received">Likes Received</div></div>
+        <div class="stat"><div class="num" id="statComments">0</div><div class="muted" data-i18n="comments_received">Comments Received</div></div>
+      </div>
+    </div>
+    <div class="sub-tabs">
+      <button id="tabWorks" class="on" data-i18n="tab_myworks" onclick="switchWorksTab('works')">My Works</button>
+      <button id="tabRecords" data-i18n="tab_records" onclick="switchWorksTab('records')">Likes & Comments</button>
+    </div>
+    <div class="card" id="myWorksList"></div>
+    <div class="card" id="myRecordsList" style="display:none"></div>
+  </div>
+</div>
+
+<!-- Gallery -->
+<div class="page" id="page-gallery">
+  <div class="container">
+    <div class="page-head"><h1 data-i18n="nav_gallery">Gallery</h1></div>
+  </div>
+  <div class="container" style="display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:start">
+    <div>
+      <div class="stage">
+        <div class="stage-track" id="galleryTrack"></div>
+        <button class="stage-fab" onclick="likeCurrent()">🧡 <span data-i18n="like">Like</span> <span id="likeCount">0</span></button>
+      </div>
+      <div class="color-strip" id="colorStrip"></div>
+    </div>
+    <div class="card" style="margin-top:0">
+      <h2 data-i18n="community">Community Chat</h2>
+      <div class="chat-list" id="chatList"></div>
+      <div class="chat-bar">
+        <input id="chatInput" data-i18n-ph="ph_chat" placeholder="Leave encouragement or a comment…">
+        <button class="btn btn-primary" data-i18n="send" onclick="sendChat()">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Profile -->
+<div class="page" id="page-profile">
+  <div class="container" style="max-width:820px">
+    <div class="page-head"><h1 data-i18n="profile_title">My Profile</h1></div>
+    <div class="card" style="display:flex;gap:18px;align-items:center">
+      <div id="avatarBox"></div>
+      <div style="flex:1">
+        <div style="font-size:19px;font-weight:700" id="profileName">—</div>
+        <p class="muted" data-i18n="hospital">Hospital: First Hospital</p>
+      </div>
+      <button class="btn" data-i18n="set_avatar" onclick="document.getElementById('avatarInput').click()">Set Avatar</button>
+      <input type="file" id="avatarInput" accept="image/*" hidden onchange="setAvatar(this)">
+    </div>
+    <div class="card">
+      <button class="menu-row" onclick="go('works')">🖼️ <span data-i18n="menu_works">My Works</span><span class="arrow">›</span></button>
+      <button class="menu-row" onclick="go('cr')">🎁 <span data-i18n="cr_menu">My Charity Records</span><span class="arrow">›</span></button>
+      <button class="menu-row" onclick="go('msgs')">💬 <span data-i18n="msgs_title">Messages</span><span class="arrow">›</span></button>
+    </div>
+    <div class="card">
+      <h3 data-i18n="language">Language</h3>
+      <div class="lang-row">
+        <button class="lang-btn" data-l="zh" onclick="setLang('zh')">简体中文</button>
+        <button class="lang-btn" data-l="en" onclick="setLang('en')">English</button>
+        <button class="lang-btn" data-l="fr" onclick="setLang('fr')">Français</button>
+      </div>
+    </div>
+    <div class="card">
+      <button class="menu-row" style="color:var(--primary-deep)" onclick="logout()"><span data-i18n="log_out">Log Out</span><span class="arrow">›</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- Charity records -->
+<div class="page" id="page-cr">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1 data-i18n="cr_menu">My Charity Records</h1></div>
+    <div class="card" id="crList"></div>
+  </div>
+</div>
+
+<!-- Messages -->
+<div class="page" id="page-msgs">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1 data-i18n="msgs_title">Messages</h1></div>
+    <div class="card" id="msgList"></div>
+  </div>
+</div>
+
+<script src="assets/common.js"></script>
+<script>
+/* ================= i18n ================= */
+const I18N = {
+  zh:{
+    brand:'病房美学', auth_title:'病房美学计划', auth_sub:'用色彩与善意，陪伴每一段康复时光',
+    username:'用户名',password:'密码',ph_username:'请输入用户名',ph_password:'请输入密码',
+    login:'登 录',register:'登 记',no_account:'还没有账号？',have_account:'已有账号？',
+    register_now:'立即登记',login_now:'去登录',
+    nav_home:'首页',nav_gallery:'画作展示',nav_profile:'个人中心',
+    poster1:'宣传海报 1',poster1_sub:'公益画展 · 让爱被看见',
+    poster2:'宣传海报 2',poster2_sub:'AI 试妆 · 遇见更好的自己',
+    poster3:'宣传海报 3',poster3_sub:'色彩疗愈 · 病房美学课堂',
+    poster4:'宣传海报 4',poster4_sub:'爱心捐赠 · 公益产品领取',
+    entry_paint:'作画',entry_paint_desc:'用色彩表达心情，提交后可领取公益产品',
+    entry_tryon:'AI 试妆',entry_tryon_desc:'情绪智能匹配，一键体验美丽妆容',
+    entry_works:'我的作品',entry_works_desc:'查看创作记录与收到的鼓励',
+    paint_title:'作画',pick_color:'选择色号（仅标注产品号）：',
+    clear_canvas:'清空画布',submit_artwork:'提交作品 ›',
+    receive_title:'选择公益产品',receive_intro:'作品已提交并分享至画作展示区 🎉 请选择一份爱心企业捐赠的产品：',
+    g1:'润肤乳（公益装）',g2:'口红（爱心捐赠）',g3:'手工香皂',g4:'绘画材料包',confirm_pickup:'确认领取',
+    tryon_title:'AI 试妆',select_mood:'选择当前情绪，为你匹配妆容：',
+    waiting_mood:'等待选择情绪…',start_tryon:'开始试妆',save_share:'保存 / 分享',
+    my_works:'我的作品',likes_received:'被点赞',comments_received:'被评论',
+    tab_myworks:'我的作品',tab_records:'评论与点赞记录',
+    no_works:'还没有作品，去「作画」创作第一幅吧',artwork_label:'作品 · ',
+    likes_unit:'点赞',comments_unit:'评论',no_records:'暂无评论与点赞记录',
+    like:'点赞',community:'互动区',ph_chat:'写下鼓励或评价…',send:'发送',
+    profile_title:'个人中心',hospital:'医院名称：第一医院',set_avatar:'设置头像',
+    menu_works:'我的作品',log_out:'退出登录',language:'语言',
+    cr_menu:'我的公益记录',msgs_title:'信息栏',
+    cr_waiting:'待选择',cr_accepted:'已选择',cr_rejected:'未选择',
+    cr_accept:'选择',cr_reject:'不选择',
+    cr_upload_tip:'选择后请上传一张您戴着作品的照片（经本人或监护人授权），将匿名发给创作者',
+    cr_empty:'暂无分配给您的画作',cr_sent:'照片已发送给创作者 🧡',
+    cr_thanks_default:'谢谢你为我创作的作品，我很喜欢！🧡',
+    cr_photo_label:'来自创作者的爱心画作',
+    msgs_thanks:'收到来自创作者的感谢',msgs_empty:'暂无消息',
+    toast_need_credentials:'请输入用户名和密码',toast_user_taken:'该用户名已被登记',
+    toast_reg_ok:'登记成功，请登录。',toast_auth_fail:'用户名或密码错误',
+    toast_select_product:'请选择一份产品',toast_pickup_submitted:'领取申请已提交，将由志愿者配送 🧡',
+    toast_select_mood:'请先选择当前情绪',toast_need_tryon:'请先完成试妆',
+    toast_tryon_saved:'试妆结果已保存并分享 🧡',
+    toast_liked:'已点赞 🧡',toast_no_artwork:'暂无可点赞的作品',
+    toast_avatar:'头像已更新',toast_lang:'语言已切换',
+    bot_u1:'阿橙',bot_u2:'木槿',bot_u3:'小志愿者安',bot_u4:'南希',bot_u5:'大熊',
+    bot_m1:'这幅画的颜色好温柔呀～',bot_m2:'今天也要加油哦！',
+    bot_m3:'看到大家的作品，心情都变好了',bot_m4:'橙色让人觉得很温暖',
+    bot_m5:'祝你早日康复 🌻',bot_m6:'一起加油，明天会更好！',
+    bot_m7:'这个配色好棒，很有灵气',bot_m8:'AI试妆那个功能好有趣哈哈',
+    bot_m9:'收到公益产品啦，感谢爱心企业',bot_m10:'画得真好看，收藏啦！',
+    bot_m11:'病房里的一抹色彩 🎨',bot_m12:'给你点一个大大的赞',
+    typing:'正在输入…',cr_confirm_reject:'确认不选择这幅画作？'
+  },
+  en:{
+    brand:'Ward Aesthetics',auth_title:'Ward Aesthetics Program',
+    auth_sub:'Bringing color and kindness to every moment of recovery',
+    username:'Username',password:'Password',ph_username:'Enter your username',ph_password:'Enter your password',
+    login:'Log In',register:'Register',no_account:"Don't have an account?",have_account:'Already have an account?',
+    register_now:'Register now',login_now:'Log in',
+    nav_home:'Home',nav_gallery:'Gallery',nav_profile:'Profile',
+    poster1:'Poster 1',poster1_sub:'Charity Art Exhibition · Let Love Be Seen',
+    poster2:'Poster 2',poster2_sub:'AI Makeup Try-On · Meet a Brighter You',
+    poster3:'Poster 3',poster3_sub:'Color Therapy · Ward Aesthetics Workshop',
+    poster4:'Poster 4',poster4_sub:'Kind Donations · Free Charity Products',
+    entry_paint:'Paint',entry_paint_desc:'Express your feelings with colors; submit to receive a charity product',
+    entry_tryon:'AI Try-On',entry_tryon_desc:'Mood-matched makeup, one tap to a beautiful new look',
+    entry_works:'My Works',entry_works_desc:'View your creations and the encouragement you received',
+    paint_title:'Paint',pick_color:'Pick a color (labeled by product number only):',
+    clear_canvas:'Clear Canvas',submit_artwork:'Submit Artwork ›',
+    receive_title:'Choose Your Charity Product',
+    receive_intro:'Your artwork has been submitted and shared to the gallery 🎉 Please pick a product donated by caring partners:',
+    g1:'Moisturizing Lotion (Charity Pack)',g2:'Lipstick (Kind Donation)',g3:'Handmade Soap',g4:'Art Supplies Kit',
+    confirm_pickup:'Confirm Pickup',
+    tryon_title:'AI Makeup Try-On',select_mood:"Select your current mood and we'll match a look for you:",
+    waiting_mood:'Waiting for a mood…',start_tryon:'Start Try-On',save_share:'Save / Share',
+    my_works:'My Works',likes_received:'Likes Received',comments_received:'Comments Received',
+    tab_myworks:'My Works',tab_records:'Likes & Comments',
+    no_works:'No artwork yet. Go to Paint and create your first piece.',
+    artwork_label:'Artwork · ',likes_unit:'likes',comments_unit:'comments',
+    no_records:'No likes or comments yet.',
+    like:'Like',community:'Community Chat',ph_chat:'Leave encouragement or a comment…',send:'Send',
+    profile_title:'My Profile',hospital:'Hospital: First Hospital',set_avatar:'Set Avatar',
+    menu_works:'My Works',log_out:'Log Out',language:'Language',
+    cr_menu:'My Charity Records',msgs_title:'Messages',
+    cr_waiting:'Awaiting choice',cr_accepted:'Accepted',cr_rejected:'Not chosen',
+    cr_accept:'Accept',cr_reject:'Pass',
+    cr_upload_tip:'After accepting, upload a photo of you wearing the artwork (with consent); it is sent anonymously to the creator',
+    cr_empty:'No paintings assigned to you yet',cr_sent:'Photo sent to the creator 🧡',
+    cr_thanks_default:'Thank you for creating this for me. I love it! 🧡',
+    cr_photo_label:'A kind painting from the creator',
+    msgs_thanks:'Thanks from the creator',msgs_empty:'No messages',
+    toast_need_credentials:'Please enter both username and password',
+    toast_user_taken:'That username is already registered',
+    toast_reg_ok:'Registration successful. Please log in.',
+    toast_auth_fail:'Incorrect username or password',
+    toast_select_product:'Please select a product first',
+    toast_pickup_submitted:'Your request has been submitted. A volunteer will deliver it soon 🧡',
+    toast_select_mood:'Please select your current mood first',
+    toast_need_tryon:'Please complete a try-on first',
+    toast_tryon_saved:'Try-on result saved and shared 🧡',
+    toast_liked:'Liked 🧡',toast_no_artwork:'No artwork to like yet',
+    toast_avatar:'Avatar updated',toast_lang:'Language switched',
+    bot_u1:'Lily',bot_u2:'Noah',bot_u3:'Mia',bot_u4:'Kai',bot_u5:'Zoe',
+    bot_m1:'The colors in this painting are so gentle~',bot_m2:'Keep going today!',
+    bot_m3:"Seeing everyone's work brightens my mood",bot_m4:'Orange feels so warm',
+    bot_m5:'Wishing you a speedy recovery 🌻',bot_m6:'Together, tomorrow will be better!',
+    bot_m7:'A wonderful palette, full of spirit',bot_m8:'The AI try-on is so much fun haha',
+    bot_m9:'Got my charity product — thanks to the kind donors',
+    bot_m10:'Beautiful painting, I saved it!',bot_m11:'A touch of color in the ward 🎨',
+    bot_m12:'A big like for you',
+    typing:'is typing…',cr_confirm_reject:'Are you sure you want to pass on this painting?'
+  },
+  fr:{
+    brand:'Esthétique hospitalière',auth_title:"Programme d'esthétique hospitalière",
+    auth_sub:'De la couleur et de la bienveillance à chaque instant de convalescence',
+    username:"Nom d'utilisateur",password:'Mot de passe',
+    ph_username:"Entrez votre nom d'utilisateur",ph_password:'Entrez votre mot de passe',
+    login:'Connexion',register:'Inscription',
+    no_account:"Vous n'avez pas de compte ?",have_account:'Vous avez déjà un compte ?',
+    register_now:"S'inscrire",login_now:'Se connecter',
+    nav_home:'Accueil',nav_gallery:'Galerie',nav_profile:'Profil',
+    poster1:'Affiche 1',poster1_sub:"Exposition caritative · Que l'amour soit vu",
+    poster2:'Affiche 2',poster2_sub:'Essai maquillage IA · Révélez votre éclat',
+    poster3:'Affiche 3',poster3_sub:"Colorothérapie · Atelier d'esthétique hospitalière",
+    poster4:'Affiche 4',poster4_sub:'Dons généreux · Produits caritatifs offerts',
+    entry_paint:'Peindre',entry_paint_desc:'Exprimez vos émotions en couleurs ; soumettez pour recevoir un produit caritatif',
+    entry_tryon:'Essai IA',entry_tryon_desc:'Maquillage adapté à votre humeur, un nouveau regard en un clic',
+    entry_works:'Mes œuvres',entry_works_desc:'Découvrez vos créations et les encouragements reçus',
+    paint_title:'Peindre',pick_color:'Choisissez une couleur (numéro de produit uniquement) :',
+    clear_canvas:'Effacer',submit_artwork:"Soumettre l'œuvre ›",
+    receive_title:'Choisissez votre produit caritatif',
+    receive_intro:'Votre œuvre a été soumise et partagée dans la galerie 🎉 Choisissez un produit offert par nos partenaires :',
+    g1:'Lotion hydratante (pack caritatif)',g2:'Rouge à lèvres (don solidaire)',
+    g3:'Savon artisanal',g4:"Kit de matériel d'art",confirm_pickup:'Confirmer le retrait',
+    tryon_title:'Essai maquillage IA',
+    select_mood:"Sélectionnez votre humeur actuelle, nous vous suggérons un maquillage :",
+    waiting_mood:"En attente d'une humeur…",start_tryon:"Lancer l'essai",save_share:'Enregistrer / Partager',
+    my_works:'Mes œuvres',likes_received:"J'aime reçus",comments_received:'Commentaires reçus',
+    tab_myworks:'Mes œuvres',tab_records:"J'aime et commentaires",
+    no_works:'Aucune œuvre pour le moment. Allez dans Peindre pour créer votre première pièce.',
+    artwork_label:'Œuvre · ',likes_unit:"j'aime",comments_unit:'commentaires',
+    no_records:"Aucun j'aime ou commentaire pour le moment.",
+    like:"J'aime",community:"Espace d'échange",
+    ph_chat:'Laissez un encouragement ou un commentaire…',send:'Envoyer',
+    profile_title:'Mon profil',hospital:'Hôpital : Hôpital n°1',set_avatar:'Changer la photo',
+    menu_works:'Mes œuvres',log_out:'Se déconnecter',language:'Langue',
+    cr_menu:'Mes dossiers caritatifs',msgs_title:'Messages',
+    cr_waiting:'En attente de choix',cr_accepted:'Accepté',cr_rejected:'Non retenu',
+    cr_accept:'Choisir',cr_reject:'Refuser',
+    cr_upload_tip:'Après avoir choisi, téléversez une photo de vous portant l’œuvre (avec consentement) ; elle est envoyée anonymement au créateur',
+    cr_empty:'Aucune œuvre ne vous a encore été attribuée',
+    cr_sent:'Photo envoyée au créateur 🧡',
+    cr_thanks_default:'Merci d’avoir créé cette œuvre pour moi, je l’adore ! 🧡',
+    cr_photo_label:'Une œuvre offerte par le créateur',
+    msgs_thanks:'Remerciements du créateur',msgs_empty:'Aucun message',
+    toast_need_credentials:"Veuillez saisir le nom d'utilisateur et le mot de passe",
+    toast_user_taken:"Ce nom d'utilisateur est déjà inscrit",
+    toast_reg_ok:'Inscription réussie. Veuillez vous connecter.',
+    toast_auth_fail:"Nom d'utilisateur ou mot de passe incorrect",
+    toast_select_product:"Veuillez d'abord choisir un produit",
+    toast_pickup_submitted:'Votre demande a été envoyée. Un bénévole vous livrera bientôt 🧡',
+    toast_select_mood:"Veuillez d'abord sélectionner votre humeur",
+    toast_need_tryon:"Veuillez d'abord effectuer un essai",
+    toast_tryon_saved:'Résultat enregistré et partagé 🧡',
+    toast_liked:'Aimé 🧡',toast_no_artwork:"Aucune œuvre à aimer pour le moment",
+    toast_avatar:'Photo de profil mise à jour',toast_lang:'Langue changée',
+    bot_u1:'Camille',bot_u2:'Lucas',bot_u3:'Léa',bot_u4:'Jules',bot_u5:'Ambre',
+    bot_m1:'Les couleurs de ce tableau sont si douces~',bot_m2:'Bon courage pour aujourd’hui !',
+    bot_m3:'Voir les œuvres de tous m’égaye le moral',bot_m4:'L’orange fait tellement chaud au cœur',
+    bot_m5:'Prompt rétablissement 🌻',bot_m6:'On se soutient ensemble, demain sera meilleur !',
+    bot_m7:'Quelle belle palette, pleine de vie',bot_m8:'L’essai maquillage IA est très amusant haha',
+    bot_m9:'J’ai reçu mon produit caritatif, merci aux donateurs',
+    bot_m10:'Très beau tableau, je l’ai enregistré !',
+    bot_m11:'Une touche de couleur dans la chambre 🎨',bot_m12:'Un grand j’aime pour toi',
+    typing:'est en train d’écrire…',cr_confirm_reject:'Confirmer ne pas retenir cette œuvre ?'
+  }
+};
+let lang = Store.get('lang','en');
+const t = k => (I18N[lang] && I18N[lang][k] != null) ? I18N[lang][k]
+             : (I18N.en[k] != null ? I18N.en[k] : k);
+function nowText(){
+  return new Date().toLocaleString({zh:'zh-CN',en:'en-US',fr:'fr-FR'}[lang], {hour12:false});
+}
+function applyI18n(){
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => el.placeholder = t(el.dataset.i18nPh));
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('sel', b.dataset.l === lang));
+  $('authBtn').textContent = t(authMode === 'login' ? 'login' : 'register');
+  $('authTip').textContent = t(authMode === 'login' ? 'no_account' : 'have_account');
+  $('authSwitch').textContent = t(authMode === 'login' ? 'register_now' : 'login_now');
+}
+function setLang(l){
+  lang = l; Store.set('lang', l); applyI18n();
+  renderGoods(); renderMoods();
+  if(currentUser){
+    renderProfile(); renderWorks(); renderGallery();
+    const wasTyping = simTyping;
+    renderChat();
+    if($('page-cr').classList.contains('active')) renderCR();
+    if($('page-msgs').classList.contains('active')) renderMsgs();
+    if(wasTyping && $('page-gallery').classList.contains('active')) showTyping();
+  }
+  toast(t('toast_lang'));
+}
+
+/* ================= Auth ================= */
+let authMode = 'login';
+let currentUser = null;
+(function restoreSession(){
+  const s = getSession();
+  if(s && s.type === 'c' && getUsers('c')[s.name]){ currentUser = s.name; }
+})();
+
+function toggleAuthMode(){ authMode = authMode === 'login' ? 'register' : 'login'; applyI18n(); }
+function doAuth(){
+  const u = $('authUser').value.trim(), p = $('authPass').value;
+  if(!u || !p) return toast(t('toast_need_credentials'));
+  const users = getUsers('c');
+  if(authMode === 'register'){
+    if(users[u]) return toast(t('toast_user_taken'));
+    users[u] = ensureUserObj({pass:p});
+    saveUsers('c', users);
+    toast(t('toast_reg_ok'));
+    toggleAuthMode();
+  }else{
+    if(!users[u] || users[u].pass !== p) return toast(t('toast_auth_fail'));
+    currentUser = u;
+    setSession('c', u);
+    enterApp();
+  }
+}
+function logout(){
+  currentUser = null; clearSession();
+  $('topnav').style.display = 'none';
+  go('auth');
+}
+function enterApp(){
+  $('topnav').style.display = 'block';
+  renderProfile(); renderWorks(); renderGallery(); renderChat();
+  go('me');
+}
+
+/* ================= Router ================= */
+const PAGES = ['auth','me','paint','receive','tryon','works','gallery','profile','cr','msgs'];
+function go(name){
+  if(name === 'index'){ location.href = 'index.html'; return; }
+  if(!currentUser) name = 'auth';
+  PAGES.forEach(p => $('page-'+p).classList.toggle('active', p === name));
+  document.querySelectorAll('[data-route]').forEach(b =>
+    b.classList.toggle('on', b.dataset.route === name));
+  if(name === 'gallery'){ renderGallery(); renderChat(); startChatSim(); }
+  else stopChatSim();
+  if(name === 'works') renderWorks();
+  if(name === 'cr') renderCR();
+  if(name === 'msgs') renderMsgs();
+  window.scrollTo(0,0);
+}
+
+/* ================= Home banner ================= */
+let bannerIdx = 0;
+setInterval(() => {
+  if(!$('page-me').classList.contains('active')) return;
+  bannerIdx = (bannerIdx+1) % 4;
+  $('bannerTrack').style.transform = `translateX(-${bannerIdx*100}%)`;
+  [...$('bannerDots').children].forEach((d,i) => d.classList.toggle('on', i === bannerIdx));
+}, 3500);
+
+/* ================= Paint ================= */
+let curColor = COLORS[1][1];
+const canvas = $('paintCanvas'), ctx = canvas.getContext('2d');
+ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0,0,canvas.width,canvas.height);
+function renderPalette(){
+  $('palette').innerHTML = COLORS.map(([no,c],i) =>
+    `<button class="swatch${c===curColor?' sel':''}" style="background:${c}" data-c="${c}"><span>${no}</span></button>`
+  ).join('');
+  document.querySelectorAll('.swatch').forEach(s => s.onclick = () => { curColor = s.dataset.c; renderPalette(); });
+}
+renderPalette();
+let drawing = false;
+function posOf(e){
+  const r = canvas.getBoundingClientRect();
+  return {x:(e.clientX-r.left)*(canvas.width/r.width), y:(e.clientY-r.top)*(canvas.height/r.height)};
+}
+function startDraw(e){ drawing = true; const {x,y}=posOf(e); ctx.beginPath(); ctx.moveTo(x,y); }
+function moveDraw(e){
+  if(!drawing) return;
+  const {x,y}=posOf(e);
+  ctx.strokeStyle = curColor; ctx.lineWidth = 6; ctx.lineCap='square';
+  ctx.lineTo(x,y); ctx.stroke();
+}
+function endDraw(){ drawing = false; }
+canvas.onmousedown = startDraw; canvas.onmousemove = moveDraw;
+canvas.onmouseup = canvas.onmouseleave = endDraw;
+function clearCanvas(){ ctx.fillStyle='#fff'; ctx.fillRect(0,0,canvas.width,canvas.height); }
+
+const usedColors = [];
+const _strokeOrig = ctx.stroke.bind(ctx);
+ctx.stroke = function(){
+  if(curColor){
+    const no = COLORS.find(x => x[1] === curColor);
+    if(no && !usedColors.includes(no[0])) usedColors.push(no[0]);
+  }
+  _strokeOrig();
+};
+function submitPaint(){
+  const list = getWorks('c', currentUser);
+  list.unshift({id:Date.now(), img:canvas.toDataURL('image/png'), colors:[...usedColors],
+    time:nowText(), sel:'pending', gal:1, likes:0});
+  saveWorks('c', currentUser, list);
+  go('receive');
+}
+
+/* ================= Receive goods ================= */
+let selGood = -1;
+function renderGoods(){
+  $('goodsGrid').innerHTML = GOODS.map((g,i) =>
+    `<button class="entry-card ${i===selGood?'':''}" id="good${i}" style="padding:18px 10px;text-align:center">
+       <div style="font-size:30px">${g[0]}</div>
+       <div style="font-size:13px;margin-top:6px">${t('g'+(i+1))}</div>
+     </button>`).join('');
+  GOODS.forEach((g,i) => $('good'+i).onclick = () => {
+    selGood = i;
+    document.querySelectorAll('#goodsGrid .entry-card').forEach((el,j) =>
+      el.style.borderColor = j === i ? 'var(--primary)' : 'var(--line)');
+  });
+}
+renderGoods();
+function confirmReceive(){
+  if(selGood < 0) return toast(t('toast_select_product'));
+  toast(t('toast_pickup_submitted'));
+  go('me');
+}
+
+/* ================= Try-on ================= */
+let selMood = -1, tryonResult = null;
+function renderMoods(){
+  $('moodGrid').innerHTML = MOODS.map((m,i) =>
+    `<button class="btn ${i===selMood?'btn-primary':''}" id="mood${i}">${t('mood_'+m[0])}</button>`).join('');
+  MOODS.forEach((m,i) => $('mood'+i).onclick = () => { selMood = i; renderMoods(); });
+}
+renderMoods();
+function doTryon(){
+  if(selMood < 0) return toast(t('toast_select_mood'));
+  const m = MOODS[selMood];
+  $('faceEmoji').textContent = m[2];
+  $('tryonTip').textContent = t('look_'+m[0]);
+  tryonResult = {mood:m[0]};
+}
+function saveTryon(){
+  if(!tryonResult) return toast(t('toast_need_tryon'));
+  toast(t('toast_tryon_saved'));
+}
+
+/* ================= My works ================= */
+let worksTab = 'works';
+function switchWorksTab(tab){
+  worksTab = tab;
+  $('tabWorks').classList.toggle('on', tab==='works');
+  $('tabRecords').classList.toggle('on', tab==='records');
+  $('myWorksList').style.display = tab==='works' ? 'block' : 'none';
+  $('myRecordsList').style.display = tab==='records' ? 'block' : 'none';
+}
+function renderWorks(){
+  const list = getWorks('c', currentUser);
+  $('statLikes').textContent = list.reduce((s,w) => s+(w.likes||0),0);
+  $('statComments').textContent = getComments().filter(c => !c.del && c.type==='c' && c.user===currentUser).length;
+  $('myWorksList').innerHTML = list.length
+    ? list.map(w => `<div class="row-item"><img class="thumb" src="${w.img}">
+        <div><b>${t('artwork_label')}${w.time}</b>
+        <p class="muted" style="margin-top:4px">🧡 ${w.likes||0} ${t('likes_unit')}</p></div></div>`).join('')
+    : `<div class="empty">${t('no_works')}</div>`;
+  const records = getRecords('c', currentUser);
+  $('myRecordsList').innerHTML = records.length
+    ? records.map(r => `<div class="row-item" style="display:block">${r.icon} ${r.text}<div class="muted">${r.time}</div></div>`).join('')
+    : `<div class="empty">${t('no_records')}</div>`;
+}
+
+/* ================= Gallery ================= */
+let galIdx = 0, galTimer = null, gWorks = [];
+function renderGallery(){
+  gWorks = galleryWorks();
+  $('galleryTrack').innerHTML = gWorks.length
+    ? gWorks.map(w => `<div class="stage-item"><img src="${w.img}"></div>`).join('')
+    : `<div class="stage-item"><div class="muted">🖼️ <span data-i18n="nav_gallery">Gallery</span><br>${t('no_works')}</div></div>`;
+  galIdx = 0; updateFab(); renderColorStrip();
+  clearInterval(galTimer);
+  galTimer = setInterval(() => {
+    if(!$('page-gallery').classList.contains('active') || !gWorks.length) return;
+    galIdx = (galIdx+1) % gWorks.length;
+    $('galleryTrack').style.transform = `translateX(-${galIdx*100}%)`;
+    updateFab(); renderColorStrip();
+  }, 4000);
+}
+function updateFab(){ $('likeCount').textContent = gWorks[galIdx] ? (gWorks[galIdx].likes||0) : 0; }
+function renderColorStrip(){
+  const w = gWorks[galIdx];
+  if(!w){ $('colorStrip').innerHTML = '<span class="muted">—</span>'; return; }
+  const colors = w.colors && w.colors.length ? w.colors : [];
+  $('colorStrip').innerHTML =
+    `<span class="muted">${w.type==='n'?'🎨':'🖌️'} ${esc(w.owner)}</span>` +
+    colors.map(no => `<span class="color-chip" title="${no}"><i style="background:${colorName(no)}"></i>${no}</span>`).join('');
+}
+function likeCurrent(){
+  const w = gWorks[galIdx];
+  if(!w) return toast(t('toast_no_artwork'));
+  const updated = updateWork(w.type, w.owner, w.id, {likes:(w.likes||0)+1});
+  w.likes = updated.likes;
+  addRecord('c', currentUser, {icon:'🧡', text:(w.type==='n'?'点赞了画作':'点赞了画作')+' #'+w.id});
+  updateFab(); toast(t('toast_liked'));
+}
+
+/* ================= Chat + simulation ================= */
+function chatItemHTML(c){
+  const users = getUsers(c.type);
+  const img = users[c.user] ? users[c.user].avatar : null;
+  return `<div class="chat-item">${avatarHTML(c.user, img)}
+    <div><b style="font-size:13px">${esc(c.user)}</b>
+    <div>${esc(c.text)}</div><div class="muted">${c.time}</div></div></div>`;
+}
+function renderChat(){
+  const list = getComments().filter(c => !c.del);
+  $('chatList').innerHTML = list.length
+    ? list.map(chatItemHTML).join('')
+    : `<div class="empty">${t('msgs_empty')}</div>`;
+  $('chatList').scrollTop = $('chatList').scrollHeight;
+}
+function sendChat(){
+  const v = $('chatInput').value.trim();
+  if(!v) return;
+  addComment('c', currentUser, v);
+  $('chatInput').value = '';
+  renderChat();
+}
+
+const BOT_NAMES=['bot_u1','bot_u2','bot_u3','bot_u4','bot_u5'];
+const BOT_MSGS=Array.from({length:12},(_,i)=>'bot_m'+(i+1));
+let simWaitTimer, simTypeTimer, simTyping=false, simName=null, simType='n';
+function showTyping(){
+  simTyping = true;
+  simName = t(BOT_NAMES[Math.floor(Math.random()*BOT_NAMES.length)]);
+  simType = Math.random() < .5 ? 'n' : 'c';
+  if($('typingIndicator')) $('typingIndicator').remove();
+  $('chatList').insertAdjacentHTML('beforeend',
+    `<div class="chat-item" id="typingIndicator">
+       <div class="avatar-sm" style="background:${avatarColor(simName)}">${esc(simName[0])}</div>
+       <div class="typing-bubble"><b>${simName}</b> ${t('typing')}
+         <span class="typing-dots"><i></i><i></i><i></i></span></div></div>`);
+  $('chatList').scrollTop = $('chatList').scrollHeight;
+}
+function hideTyping(){ simTyping = false; const el=$('typingIndicator'); if(el) el.remove(); }
+function pushBot(){
+  const text = t(BOT_MSGS[Math.floor(Math.random()*BOT_MSGS.length)]);
+  /* store as a comment so admin can moderate; fictional users get no account */
+  const list = getComments();
+  list.push({id:Date.now()+Math.floor(Math.random()*999), type:simType, user:simName,
+    text, time:nowText(), del:0, bot:true});
+  saveComments(list);
+  hideTyping(); renderChat();
+}
+function scheduleTyping(){
+  clearTimeout(simWaitTimer);
+  simWaitTimer = setTimeout(() => {
+    if(!$('page-gallery').classList.contains('active')) return;
+    showTyping();
+    simTypeTimer = setTimeout(() => {
+      if(!$('page-gallery').classList.contains('active')){ hideTyping(); return; }
+      pushBot(); scheduleTyping();
+    }, 1200 + Math.random()*1600);
+  }, 2500 + Math.random()*4500);
+}
+function startChatSim(){ hideTyping(); scheduleTyping(); }
+function stopChatSim(){ clearTimeout(simWaitTimer); clearTimeout(simTypeTimer); hideTyping(); }
+
+/* ================= Profile ================= */
+function renderProfile(){
+  $('profileName').textContent = currentUser;
+  const u = getUsers('c')[currentUser];
+  $('avatarBox').innerHTML = avatarHTML(currentUser, u.avatar, 'avatar-big');
+}
+async function setAvatar(input){
+  const f = input.files[0]; if(!f) return;
+  const img = await readImageFile(f);
+  const users = getUsers('c');
+  users[currentUser].avatar = img;
+  saveUsers('c', users);
+  renderProfile(); toast(t('toast_avatar'));
+}
+
+/* ================= Charity records ================= */
+function myDist(){ return getDist().filter(d => d.charity === currentUser); }
+function statusBadge(s){
+  const key = s === 'waiting' ? 'cr_waiting' : s === 'accepted' ? 'cr_accepted' : 'cr_rejected';
+  const cls = s === 'waiting' ? 'badge-pending' : s === 'accepted' ? 'badge-ok' : 'badge-rejected';
+  return `<span class="badge ${cls}">${t(key)}</span>`;
+}
+function renderCR(){
+  const list = myDist();
+  $('crList').innerHTML = list.length
+    ? list.map(d => `<div style="border-bottom:1px solid var(--line);padding:16px 0;display:flex;gap:16px">
+        <img src="${d.img}" class="thumb" style="width:96px;height:96px">
+        <div style="flex:1">
+          ${statusBadge(d.status)}
+          <div class="cr-meta">${d.time}</div>
+          ${d.photo ? `<img src="${d.photo}" class="cr-photo">
+             <p class="muted">${esc(d.thanks||'')}</p>` : ''}
+          <div style="margin-top:8px">
+            ${d.status==='waiting'
+              ? `<button class="btn btn-primary btn-sm" onclick="acceptDist(${d.id})">${t('cr_accept')}</button>
+                 <button class="btn btn-danger btn-sm" onclick="rejectDist(${d.id})">${t('cr_reject')}</button>`
+              : ''}
+          </div>
+        </div></div>`).join('')
+    : `<div class="empty">${t('cr_empty')}</div>`;
+}
+function rejectDist(id){
+  if(!confirm(t('cr_confirm_reject'))) return;
+  const list = getDist();
+  const d = list.find(x => x.id === id);
+  if(d){ d.status = 'rejected'; saveDist(list); renderCR(); }
+}
+function acceptDist(id){
+  const m = openModal(t('cr_accept'),
+    `<p class="muted">${t('cr_upload_tip')}</p>
+     <div class="field" style="margin-top:14px">
+       <input type="file" id="crFile" accept="image/*">
+     </div>
+     <div class="field">
+       <label>✉️</label>
+       <textarea id="crThanks"></textarea>
+     </div>`,
+    `<button class="btn" onclick="closeModal()">${t('cr_reject')}</button>
+     <button class="btn btn-primary" id="crSendBtn">${t('cr_accept')}</button>`);
+  $('crThanks').value = t('cr_thanks_default');
+  $('crSendBtn').onclick = async () => {
+    const f = $('crFile').files[0];
+    if(!f){ toast(t('cr_upload_tip')); return; }
+    const photo = await readImageFile(f);
+    const list = getDist();
+    const d = list.find(x => x.id === id);
+    if(!d) return;
+    d.status = 'accepted'; d.photo = photo; d.thanks = $('crThanks').value.trim();
+    saveDist(list);
+    /* anonymously deliver photo + thanks to the normal creator */
+    addMsg('n', d.painter, {kind:'photo', title:t('cr_photo_label'), img:photo, text:d.thanks, distId:d.id});
+    closeModal(); renderCR();
+    toast(t('cr_sent'));
+  };
+}
+
+/* ================= Messages ================= */
+function renderMsgs(){
+  /* thanks arrive as anonymous messages; dist.replies kept for history only */
+  const all = getMsgs('c', currentUser);
+  $('msgList').innerHTML = all.length
+    ? all.map(m => `<div class="msg-card">
+        <b>${esc(m.title||'')}</b>
+        ${m.img ? `<img src="${m.img}">` : ''}
+        <div>${esc(m.text||'')}</div>
+        <div class="when">${m.time||''}</div></div>`).join('')
+    : `<div class="empty">${t('msgs_empty')}</div>`;
+}
+
+/* ================= Boot ================= */
+applyI18n();
+if(currentUser) enterApp(); else go('auth');
+</script>
+</body>
+</html>

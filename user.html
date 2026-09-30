@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>戴上春天 · 正常用户端</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .banner{height:420px}
+  .banner-slide:nth-child(1){background-image:url('poster1.jpg');background-position:50% 32%}
+  .banner-slide:nth-child(2){background-image:url('poster2.jpg');background-position:42% 40%}
+  .banner-slide:nth-child(3){background-image:url('poster3.jpg');background-position:50% 35%}
+  .banner-slide:nth-child(4){background-image:url('poster4.jpg');background-position:50% 45%}
+  .stage{height:440px}
+  .auth-wrap{max-width:440px;margin:80px auto}
+  .lp-timer{user-select:none}
+  .follow-box{position:absolute;left:16px;bottom:14px}
+  .rule-card{border-left:4px solid var(--primary);padding-left:18px;margin:18px 0}
+</style>
+</head>
+<body>
+
+<nav class="topnav" id="topnav" style="display:none">
+  <div class="container">
+    <span class="brand">🎨 病房美学计划<small>BEAUTY BELONGS TO EVERY BED</small></span>
+    <div class="nav-links">
+      <button data-route="home" onclick="go('home')">首页</button>
+      <button data-route="gallery" onclick="go('gallery')">画作展示</button>
+      <button data-route="me" onclick="go('me')">个人中心</button>
+      <button class="btn btn-sm" onclick="location.href='index.html'">‹ 门户</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== Auth ===== -->
+<div class="page" id="page-auth">
+  <div class="container auth-wrap">
+    <div class="card">
+      <div style="text-align:center;font-size:42px">🎨</div>
+      <h2 style="text-align:center">戴上春天 · 用户登记</h2>
+      <p class="muted" style="text-align:center;margin-bottom:20px">用创作与善意，把美送到病房</p>
+      <div class="field"><label>用户名</label><input id="authUser" placeholder="请输入用户名"></div>
+      <div class="field"><label>密码</label><input id="authPass" type="password" placeholder="请输入密码"></div>
+      <button class="btn btn-primary btn-block btn-lg" id="authBtn" onclick="doAuth()">登 录</button>
+      <p class="muted" style="text-align:center;margin-top:14px">
+        <span id="authTip">还没有账号？</span>
+        <a href="#" id="authSwitch" onclick="toggleAuthMode();return false;">立即登记</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Home ===== -->
+<div class="page" id="page-home">
+  <div class="container">
+    <div class="banner">
+      <div class="banner-track" id="bannerTrack">
+        <div class="banner-slide"><span class="eyebrow">宣传海报 1</span><div class="headline">公益画展 · 让爱被看见</div></div>
+        <div class="banner-slide"><span class="eyebrow">宣传海报 2</span><div class="headline">AI 试妆 · 遇见更好的自己</div></div>
+        <div class="banner-slide"><span class="eyebrow">宣传海报 3</span><div class="headline">色彩疗愈 · 病房美学课堂</div></div>
+        <div class="banner-slide"><span class="eyebrow">宣传海报 4</span><div class="headline">爱心捐赠 · 公益产品领取</div></div>
+      </div>
+      <div class="banner-dots" id="bannerDots"><i class="on"></i><i></i><i></i><i></i></div>
+    </div>
+    <div class="grid grid-4" style="margin-top:28px">
+      <button class="entry-card" onclick="go('paint/rules')">
+        <div class="ic">🖌️</div><h3>作画</h3><p>选择色号自由创作，可捐赠或自购定制头巾口罩</p>
+      </button>
+      <button class="entry-card" onclick="go('tryon/select')">
+        <div class="ic">💄</div><h3>AI 试妆</h3><p>情绪智能匹配妆容，体验最新产品</p>
+      </button>
+      <button class="entry-card" onclick="go('intro')">
+        <div class="ic">📖</div><h3>项目介绍</h3><p>了解“戴上春天”的故事与参与方式</p>
+      </button>
+      <button class="entry-card" onclick="go('me/works')">
+        <div class="ic">🖼️</div><h3>我的作品</h3><p>作品历史、评选状态与捐赠记录</p>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Intro ===== -->
+<div class="page" id="page-intro">
+  <div class="container" style="max-width:900px">
+    <div class="intro-section" style="text-align:center;padding-top:48px">
+      <div class="hero-slogan">戴上春天</div>
+      <div class="hero-en hero-slogan" style="font-size:clamp(20px,2.4vw,30px)">Beauty Belongs to Every Bed</div>
+      <p style="margin-top:18px;font-size:16px">让长期住院的女性和儿童，把本来就必须戴的头巾和口罩，变成自己创作的艺术品。</p>
+      <button class="btn btn-primary btn-lg" style="margin-top:26px" onclick="go('paint/rules')">开始作画 ›</button>
+    </div>
+
+    <div class="intro-section">
+      <div class="quote-box">
+        “住院那段日子，我觉得自己很丑，很无聊。”
+        <div style="margin-top:8px">——某青少年时期癌症康复者（已授权匿名引用）</div>
+      </div>
+      <p>长期住院的女性与儿童，包括化疗脱发患者、免疫力低下者、长期卧床者，她们面对的是双重剥夺：化疗导致脱发，免疫力要求佩戴口罩，她们照镜子的时候，会有失望的感觉。同时，病房被白墙、病号服和消毒水定义，美与色彩被排除在外。现有公益几乎全部集中在“捐善款”的抽象援助，没有人解决“病房里的日常审美需求”。<b>美不是虚荣，是尊严。</b>作为致力于向人们提供美的一家企业，我们感到有责任行动。</p>
+    </div>
+
+    <div class="intro-section">
+      <h2>1. 我们做什么</h2>
+      <p>化疗脱发的患者本来就要戴头巾，免疫力低下的患者本来就要戴口罩。我们不讨论“病人能不能化妆”，而是把他们本来就必须佩戴的用品变成画布。</p>
+      <p style="margin-top:10px">在“戴上春天”平台上，每个人都可以用欧莱雅旗下产品的色号作为“颜料”，自由创作数字油画或书法。AI 会将作品自动转化为可印花的四方连续纹样，实时预览在头巾、口罩上的效果。你可以选择自己购买这件独一无二的定制产品，也可以一键捐赠。您的作品在审核通过后将转化为实物，经医院社工送到病房里的女性与儿童手中。</p>
+      <p style="margin-top:10px">病床上的创作同样轻量。患者只需随手涂几笔，AI 就会生成专属纹样，定制成头巾或口罩送到医院。创作的疗愈发生在过程中，而戴着自己设计的作品的尊严感，持续每一天。</p>
+      <p style="margin-top:10px">同时，我们还开发 AI 试妆功能，让在与疾病斗争的过程中略显疲惫的人们可以自由地借我们的产品，重现健康时自信形象，获得审美上的愉悦。健康的人们也可以通过这一项功能，体验我们的最新产品，做出明智的购物决策。</p>
+      <div class="grid grid-2" style="margin-top:18px">
+        <div class="photo-ph">图片位置 1（头巾纹样效果）</div>
+        <div class="photo-ph">图片位置 2（口罩纹样效果）</div>
+      </div>
+    </div>
+
+    <div class="intro-section">
+      <h2>故事回传墙：让捐赠有回音</h2>
+      <p>获赠患者（经本人或监护人授权）戴着作品的照片会回传给原作者。你看到自己画的那条头巾，戴在一个真实的、笑着的女孩头上。这让捐赠不再是单向的输出，而是有回音的连接。平台公益页滚动展示这些故事，让每一次创作都被看见。</p>
+    </div>
+
+    <div class="intro-section">
+      <h2>为什么这件事值得做</h2>
+      <p><b>美不是健康的特权。</b> 技术应该有温度。AI 在这里不做惊世骇俗的事，只是把一抹颜色，送到一张白色的病床上。</p>
+      <p style="margin-top:10px">我们相信，公益不只是捐钱捐物，更是让被帮助的人重新成为创造者。当一位长期住院的女孩戴上自己设计的头巾，她不再只是“病人”，而是“创作者”。</p>
+    </div>
+
+    <div class="intro-section">
+      <h2>如何参与</h2>
+      <div class="participate-step"><div class="n">1</div><div><b>创作一幅作品：</b>用你喜欢的色号，在平台上画一幅画，AI 会把它变成可印花的纹样；</div></div>
+      <div class="participate-step"><div class="n">2</div><div><b>捐赠一件实物：</b>一键捐赠，让作品变成头巾或口罩，送到病房里的她手中；</div></div>
+      <div class="participate-step"><div class="n">3</div><div><b>分享一个故事：</b>当收到回传照片时，分享出去，让更多人看见美的连接；</div></div>
+      <div class="participate-step"><div class="n">4</div><div><b>配捐一份“美的包裹”：</b>你每分享一幅作品，欧莱雅配捐一份“美的包裹”，让公益可持续。</div></div>
+      <div class="grid grid-3" style="margin-top:18px">
+        <div class="photo-ph">图片位置 3</div>
+        <div class="photo-ph">图片位置 4</div>
+        <div class="photo-ph">图片位置 5</div>
+      </div>
+    </div>
+
+    <div class="intro-section">
+      <h2>合规与尊严</h2>
+      <p>头巾和口罩是生活必需品的美学升级，不涉及化妆品直接接触治疗期患者。分发全程走医院社工渠道，密封包装，感染科可控。患者照片回传须主动授权，展示时以“创作者”而非“病人”身份呈现。服务对象是共创者，而非素材。</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Paint: rules ===== -->
+<div class="page" id="page-paint-rules">
+  <div class="container" style="max-width:820px">
+    <div class="page-head"><h1>作画规则</h1></div>
+    <div class="card">
+      <div class="rule-card"><p><b>① 选色</b>：从欧莱雅产品色号库中挑选“颜料”，色号即颜料，无商品链接强制跳转。</p></div>
+      <div class="rule-card"><p><b>② 创作</b>：在画布上自由作画，可保存草稿；AI 会将作品转为可印花的四方连续纹样。</p></div>
+      <div class="rule-card"><p><b>③ 提交</b>：选择认捐（一键捐赠实物）或自己购买定制产品；作品进入审核。</p></div>
+      <button class="btn btn-primary btn-block btn-lg" style="margin-top:18px" onclick="go('paint/colors')">选择颜色 ›</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Paint: colors ===== -->
+<div class="page" id="page-paint-colors">
+  <div class="container" style="max-width:1000px">
+    <div class="page-head"><h1>选择色号</h1><p class="muted">点击选择，长按查看商品介绍</p></div>
+    <div class="card">
+      <div class="palette" id="colorsPalette" style="grid-template-columns:repeat(6,1fr)"></div>
+      <div class="divider"></div>
+      <p class="muted">推荐颜色：</p>
+      <div id="recommendRow" style="display:flex;gap:10px;margin-top:8px"></div>
+      <button class="btn btn-primary btn-block btn-lg" style="margin-top:20px" onclick="confirmColors()">确认 ›</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Paint: canvas ===== -->
+<div class="page" id="page-paint-canvas">
+  <div class="container">
+    <div class="page-head"><h1>画布作画</h1></div>
+    <div class="card" style="display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:start">
+      <canvas id="paintCanvas" width="640" height="640"></canvas>
+      <div>
+        <p class="muted">本次使用色号：</p>
+        <div class="palette" id="canvasPalette" style="grid-template-columns:repeat(4,1fr);margin-top:8px"></div>
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <button class="btn" onclick="saveDraft()">保存草稿</button>
+          <button class="btn" onclick="loadDraft()">读取草稿</button>
+          <button class="btn" onclick="clearCanvas2()">清空</button>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:10px">
+          <button class="btn btn-outline" onclick="shareWork()">分享</button>
+          <button class="btn btn-primary" style="flex:1" onclick="go('paint/confirm')">完成 ›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Paint: confirm ===== -->
+<div class="page" id="page-paint-confirm">
+  <div class="container" style="max-width:900px">
+    <div class="page-head"><h1>提交确认</h1></div>
+    <div class="card" style="display:grid;grid-template-columns:1.2fr 1fr;gap:24px">
+      <canvas id="confirmCanvas" width="640" height="640" style="width:100%;border:1px solid var(--line)"></canvas>
+      <div>
+        <p class="muted">请选择作品去向：</p>
+        <button class="btn btn-primary btn-block btn-lg" style="margin-top:12px" onclick="submitWork('donate')">🧡 认捐（一键捐赠实物）</button>
+        <button class="btn btn-outline btn-block btn-lg" style="margin-top:10px" onclick="submitWork('buy')">🛍️ 自己购买（C2M 定制）</button>
+        <div class="divider"></div>
+        <p class="muted">所用颜色介绍，戳我了解：</p>
+        <div id="usedColorRow" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px"></div>
+        <p class="muted" style="margin-top:14px">作品提交后进入审核，审核通过将发放优惠券，可在信息栏查看。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Try-on: select ===== -->
+<div class="page" id="page-tryon-select">
+  <div class="container" style="max-width:900px">
+    <div class="page-head"><h1>AI 试妆</h1></div>
+    <div class="card">
+      <p class="muted">选择当前情绪：</p>
+      <div class="grid" id="tryMoodGrid" style="grid-template-columns:repeat(6,1fr);margin-top:10px"></div>
+      <button class="btn btn-primary btn-block btn-lg" style="margin-top:18px" onclick="runTryon()">开始试妆 ›</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Try-on: result ===== -->
+<div class="page" id="page-tryon-result">
+  <div class="container" style="max-width:900px">
+    <div class="page-head"><h1>试妆效果</h1></div>
+    <div class="card">
+      <div class="stage" style="height:300px">
+        <div style="font-size:110px" id="tryFace">🙂</div>
+      </div>
+      <p id="tryLook" class="muted" style="margin-top:12px"></p>
+      <div style="display:flex;gap:10px;margin-top:14px">
+        <button class="btn btn-primary" style="flex:1" onclick="toast('试妆结果已保存并分享 🧡')">保存 / 分享</button>
+        <button class="btn btn-outline" onclick="productModal()">多了解以下吧 ›</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Gallery ===== -->
+<div class="page" id="page-gallery">
+  <div class="container" style="display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:start">
+    <div>
+      <div class="stage" style="margin-top:20px">
+        <div class="stage-track" id="galleryTrack"></div>
+        <button class="stage-fab" onclick="likeCurrent()">🧡 点赞 <span id="likeCount">0</span></button>
+        <button class="btn btn-sm follow-box" id="followBtn" onclick="toggleFollow()">＋ 关注作者</button>
+      </div>
+      <div class="color-strip" id="colorStrip"></div>
+    </div>
+    <div class="card" style="margin-top:20px">
+      <h2>互动区</h2>
+      <div class="chat-list" id="chatList"></div>
+      <div class="chat-bar">
+        <input id="chatInput" placeholder="写下鼓励或评价…">
+        <button class="btn btn-primary" onclick="sendChat()">发送</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Me: main ===== -->
+<div class="page" id="page-me">
+  <div class="container" style="max-width:820px">
+    <div class="page-head"><h1>个人中心</h1></div>
+    <div class="card" style="display:flex;gap:18px;align-items:center">
+      <div id="avatarBox"></div>
+      <div style="flex:1">
+        <div style="font-size:19px;font-weight:700" id="nickShow">—</div>
+        <p class="muted">用户名：<span id="nameShow"></span></p>
+      </div>
+      <button class="btn" onclick="document.getElementById('avatarInput').click()">设置头像</button>
+      <button class="btn" onclick="editNick()">设置昵称</button>
+      <input type="file" id="avatarInput" accept="image/*" hidden onchange="setAvatar(this)">
+    </div>
+    <div class="card">
+      <button class="menu-row" onclick="go('me/works')">🖼️ 我的作品<span class="arrow">›</span></button>
+      <button class="menu-row" onclick="go('me/cart')">🛒 我的购物车<span class="arrow">›</span></button>
+      <button class="menu-row" onclick="go('me/follows')">👥 我的关注<span class="arrow">›</span></button>
+      <button class="menu-row" onclick="go('me/donations')">🎁 我的捐赠记录<span class="arrow">›</span></button>
+      <button class="menu-row" onclick="go('me/history')">🕘 我的浏览记录<span class="arrow">›</span></button>
+      <button class="menu-row" onclick="go('me/messages')">💬 信息栏<span class="arrow">›</span></button>
+    </div>
+    <div class="card">
+      <button class="menu-row" style="color:var(--primary-deep)" onclick="logout()">退出登录<span class="arrow">›</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Me: works ===== -->
+<div class="page" id="page-me-works">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1>我的作品</h1></div>
+    <div class="card" id="myWorksList"></div>
+  </div>
+</div>
+
+<!-- ===== Me: cart ===== -->
+<div class="page" id="page-me-cart">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1>我的购物车</h1></div>
+    <div class="card" id="cartList"></div>
+  </div>
+</div>
+
+<!-- ===== Me: follows ===== -->
+<div class="page" id="page-me-follows">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1>我的关注</h1></div>
+    <div class="card" id="followsList"></div>
+  </div>
+</div>
+
+<!-- ===== Me: donations ===== -->
+<div class="page" id="page-me-donations">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1>我的捐赠记录</h1></div>
+    <div class="card">
+      <p>我被选中了 <b id="donCount" style="color:var(--primary);font-size:18px">0</b> 个作品</p>
+    </div>
+    <div class="card" id="donationsList"></div>
+  </div>
+</div>
+
+<!-- ===== Me: history ===== -->
+<div class="page" id="page-me-history">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1>我的浏览记录</h1></div>
+    <div class="sub-tabs">
+      <button id="histLike" class="on" onclick="switchHist('liked')">我点赞的</button>
+      <button id="histFollow" onclick="switchHist('followed')">我关注的</button>
+    </div>
+    <div class="card" id="histList"></div>
+  </div>
+</div>
+
+<!-- ===== Me: messages ===== -->
+<div class="page" id="page-me-messages">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1>信息栏</h1><p class="muted">来自病房的照片与感谢（不展示公益用户信息）</p></div>
+    <div class="card" id="msgsList"></div>
+  </div>
+</div>
+
+<script src="assets/common.js"></script>
+<script>
+/* ================= Auth ================= */
+let authMode = 'login', currentUser = null;
+(function restore(){
+  const s = getSession();
+  if(s && s.type === 'n' && getUsers('n')[s.name]) currentUser = s.name;
+})();
+function toggleAuthMode(){
+  authMode = authMode === 'login' ? 'register' : 'login';
+  $('authBtn').textContent = authMode === 'login' ? '登 录' : '登 记';
+  $('authTip').textContent = authMode === 'login' ? '还没有账号？' : '已有账号？';
+  $('authSwitch').textContent = authMode === 'login' ? '立即登记' : '去登录';
+}
+function doAuth(){
+  const u = $('authUser').value.trim(), p = $('authPass').value;
+  if(!u || !p) return toast('请输入用户名和密码');
+  const users = getUsers('n');
+  if(authMode === 'register'){
+    if(users[u]) return toast('该用户名已被登记');
+    users[u] = ensureUserObj({pass:p, nickname:u});
+    saveUsers('n', users);
+    toast('登记成功，请登录。');
+    toggleAuthMode();
+  }else{
+    if(!users[u] || users[u].pass !== p) return toast('用户名或密码错误');
+    currentUser = u; setSession('n', u);
+    enterApp();
+  }
+}
+function logout(){ currentUser = null; clearSession(); $('topnav').style.display = 'none'; go('auth'); }
+function enterApp(){
+  $('topnav').style.display = 'block';
+  renderMeMain(); renderMyWorks(); renderGallery(); renderChat();
+  go('home');
+}
+
+/* ================= Router ================= */
+const PATHS = ['auth','home','intro','paint/rules','paint/colors','paint/canvas','paint/confirm',
+  'tryon/select','tryon/result','gallery',
+  'me','me/works','me/cart','me/follows','me/donations','me/history','me/messages'];
+function go(path){
+  if(!currentUser) path = 'auth';
+  const key = path.replace(/\//g,'-');
+  PATHS.forEach(p => $('page-'+p.replace(/\//g,'-')).classList.toggle('active', p === path));
+  document.querySelectorAll('[data-route]').forEach(b => b.classList.toggle('on', b.dataset.route === path));
+  location.hash = '#/' + path;
+  if(path === 'gallery'){ renderGallery(); renderChat(); }
+  if(path === 'paint/colors') renderColors();
+  if(path === 'paint/canvas') enterCanvas();
+  if(path === 'paint/confirm') renderConfirm();
+  if(path === 'tryon/select') renderTryMoods();
+  if(path === 'me') renderMeMain();
+  if(path === 'me/works') renderMyWorks();
+  if(path === 'me/cart') renderCart();
+  if(path === 'me/follows') renderFollows();
+  if(path === 'me/donations') renderDonations();
+  if(path === 'me/history') renderHist();
+  if(path === 'me/messages') renderMsgs();
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange', () => {
+  const h = location.hash.replace(/^#\//,'');
+  if(PATHS.includes(h)) go(h);
+});
+
+/* ================= Home banner ================= */
+let bIdx = 0;
+setInterval(() => {
+  if(!$('page-home').classList.contains('active')) return;
+  bIdx = (bIdx+1) % 4;
+  $('bannerTrack').style.transform = `translateX(-${bIdx*100}%)`;
+  [...$('bannerDots').children].forEach((d,i) => d.classList.toggle('on', i === bIdx));
+}, 3500);
+
+/* ================= Paint: colors ================= */
+let chosenColors = [];
+function swatchEl(no, c){
+  const rec = RECOMMENDED.includes(no) ? '<span class="tag" style="position:absolute;top:3px;left:3px;background:var(--accent);color:var(--ink)">推荐</span>' : '';
+  return `<button class="swatch lp-timer" style="background:${c}" data-no="${no}" id="sw-${no}">${rec}<span>${no}</span></button>`;
+}
+function renderColors(){
+  $('colorsPalette').innerHTML = COLORS.map(([no,c]) => swatchEl(no,c)).join('');
+  $('recommendRow').innerHTML = RECOMMENDED.map(no => {
+    const c = colorName(no);
+    return `<span class="color-chip" onclick="toggleChosen('${no}');renderColors()"><i style="background:${c}"></i>${no}</span>`;
+  }).join('');
+  COLORS.forEach(([no]) => bindLongPress(no));
+  markChosen();
+}
+function bindLongPress(no){
+  const el = $('sw-' + no);
+  let timer, fired = false;
+  el.addEventListener('mousedown', () => {
+    fired = false;
+    timer = setTimeout(() => { fired = true; productModal(no); }, 600);
+  });
+  el.addEventListener('mouseup', () => clearTimeout(timer));
+  el.addEventListener('mouseleave', () => clearTimeout(timer));
+  el.addEventListener('click', () => {
+    if(!fired) toggleChosen(no);
+    renderColors();
+  });
+}
+function toggleChosen(no){
+  const i = chosenColors.indexOf(no);
+  if(i >= 0) chosenColors.splice(i,1); else chosenColors.push(no);
+}
+function markChosen(){
+  chosenColors.forEach(no => { const el = $('sw-'+no); if(el) el.classList.add('sel'); });
+}
+function confirmColors(){
+  if(!chosenColors.length) return toast('请至少选择一个色号');
+  go('paint/canvas');
+}
+
+/* Product intro modal (shopping disabled placeholder) */
+function productModal(no){
+  no = no || COLORS[0][0];
+  const c = colorName(no);
+  openModal('商品介绍 · ' + no,
+    `<div style="display:flex;gap:16px;align-items:center">
+       <div style="width:80px;height:80px;background:${c};flex-shrink:0"></div>
+       <div>
+         <p><b>产品号：</b>${no}</p>
+         <p class="muted">欧莱雅旗下产品 · 色号即颜料</p>
+         <p class="muted">公益演示版：商品详情与购物车功能暂未开放。</p>
+       </div>
+     </div>`,
+    `<button class="btn" onclick="closeModal()">关闭</button>
+     <button class="btn btn-primary" onclick="closeModal();toast('购物车功能暂未开放')">前往商品页</button>`);
+}
+
+/* ================= Paint: canvas ================= */
+let pCanvas, pCtx, pCurColor;
+let usedNos = [];
+function enterCanvas(){
+  pCanvas = $('paintCanvas'); pCtx = pCanvas.getContext('2d');
+  pCtx.fillStyle = '#fff'; pCtx.fillRect(0,0,pCanvas.width,pCanvas.height);
+  const palette = chosenColors.length ? chosenColors.map(no => [no, colorName(no)]) : COLORS;
+  pCurColor = palette[0][1];
+  $('canvasPalette').innerHTML = palette.map(([no,c]) =>
+    `<button class="swatch" style="background:${c}" id="cp-${no}" data-c="${c}" data-no="${no}"><span>${no}</span></button>`).join('');
+  palette.forEach(([no,c]) => $('cp-'+no).onclick = () => {
+    pCurColor = c;
+    document.querySelectorAll('#canvasPalette .swatch').forEach(x=>x.classList.remove('sel'));
+    $('cp-'+no).classList.add('sel');
+  });
+  $('cp-'+palette[0][0]).classList.add('sel');
+  bindCanvas();
+}
+let drawing2 = false;
+function bindCanvas(){
+  const c = pCanvas;
+  c.onmousedown = e => {
+    drawing2 = true; const p = pos(c,e); pCtx.beginPath(); pCtx.moveTo(p.x,p.y);
+  };
+  c.onmousemove = e => {
+    if(!drawing2) return;
+    const p = pos(c,e);
+    pCtx.strokeStyle = pCurColor; pCtx.lineWidth = 6; pCtx.lineCap='square';
+    pCtx.lineTo(p.x,p.y); pCtx.stroke();
+    const no = COLORS.find(x => x[1] === pCurColor);
+    if(no && !usedNos.includes(no[0])) usedNos.push(no[0]);
+  };
+  c.onmouseup = c.onmouseleave = () => drawing2 = false;
+}
+function pos(c,e){
+  const r = c.getBoundingClientRect();
+  return {x:(e.clientX-r.left)*(c.width/r.width), y:(e.clientY-r.top)*(c.height/r.height)};
+}
+function clearCanvas2(){ pCtx.fillStyle='#fff'; pCtx.fillRect(0,0,pCanvas.width,pCanvas.height); usedNos=[]; }
+function saveDraft(){
+  Store.set('draft_'+currentUser, {img:pCanvas.toDataURL(), colors:chosenColors, used:usedNos});
+  toast('草稿已保存');
+}
+function loadDraft(){
+  const d = Store.get('draft_'+currentUser, null);
+  if(!d) return toast('暂无草稿');
+  chosenColors = d.colors || chosenColors;
+  enterCanvas();
+  const img = new Image();
+  img.onload = () => { pCtx.drawImage(img,0,0,pCanvas.width,pCanvas.height); usedNos = d.used||[]; };
+  img.src = d.img;
+  toast('草稿已读取');
+}
+function shareWork(){
+  openModal('1:1 配捐提示',
+    `<p>您每分享一幅作品，<b>欧莱雅配捐一份“美的包裹”</b>，让公益可持续。</p>
+     <p class="muted" style="margin-top:10px">分享后作品将进入画作展示页，被更多人看见。</p>`,
+    `<button class="btn" onclick="closeModal()">稍后再说</button>
+     <button class="btn btn-primary" onclick="closeModal();toast('已分享，感谢配捐 🧡')">立即分享</button>`);
+}
+
+/* ================= Paint: confirm ================= */
+function renderConfirm(){
+  const cc = $('confirmCanvas');
+  cc.width = pCanvas.width; cc.height = pCanvas.height;
+  cc.getContext('2d').drawImage(pCanvas,0,0);
+  $('usedColorRow').innerHTML = usedNos.map(no =>
+    `<span class="color-chip" onclick="productModal('${no}')"><i style="background:${colorName(no)}"></i>${no}</span>`).join('');
+}
+function submitWork(mode){
+  const list = getWorks('n', currentUser);
+  list.unshift({
+    id:Date.now(), img:pCanvas.toDataURL(), colors:[...usedNos],
+    time:nowText(), sel:'pending', gal:1, likes:0, mode
+  });
+  saveWorks('n', currentUser, list);
+  addRecord('n', currentUser, {icon:'🖼️', text:(mode==='donate'?'提交认捐作品':'提交自购定制作品')});
+  toast(mode==='donate' ? '认捐作品已提交，等待审核 🧡' : '定制订单已提交（C2M）');
+  go('me/works');
+}
+
+/* ================= Try-on ================= */
+let tryMood = -1;
+function renderTryMoods(){
+  $('tryMoodGrid').innerHTML = MOODS.map((m,i) =>
+    `<button class="btn ${i===tryMood?'btn-primary':''}" id="tm-${i}">${m[1]}</button>`).join('');
+  MOODS.forEach((m,i) => $('tm-'+i).onclick = () => { tryMood = i; renderTryMoods(); });
+}
+function runTryon(){
+  if(tryMood < 0) return toast('请先选择当前情绪');
+  const m = MOODS[tryMood];
+  $('tryFace').textContent = m[2];
+  $('tryLook').textContent = m[3];
+  go('tryon/result');
+}
+
+/* ================= Gallery ================= */
+let gIdx = 0, gTimer, gWorks = [];
+function renderGallery(){
+  gWorks = galleryWorks();
+  $('galleryTrack').innerHTML = gWorks.length
+    ? gWorks.map(w => `<div class="stage-item"><img src="${w.img}"></div>`).join('')
+    : `<div class="stage-item"><div class="muted">🖼️ 作品展示区<br>（预留空位 · 等待第一幅作品）</div></div>`;
+  gIdx = 0; updateGFab(); renderStrip();
+  clearInterval(gTimer);
+  gTimer = setInterval(() => {
+    if(!$('page-gallery').classList.contains('active') || !gWorks.length) return;
+    gIdx = (gIdx+1) % gWorks.length;
+    $('galleryTrack').style.transform = `translateX(-${gIdx*100}%)`;
+    updateGFab(); renderStrip();
+  }, 4000);
+}
+function updateGFab(){ $('likeCount').textContent = gWorks[gIdx] ? (gWorks[gIdx].likes||0) : 0; }
+function renderStrip(){
+  const w = gWorks[gIdx];
+  if(!w){ $('colorStrip').innerHTML = '<span class="muted">—</span>'; return; }
+  const followed = isFollowing(w);
+  $('followBtn').textContent = followed ? '✓ 已关注' : '＋ 关注作者';
+  const colors = w.colors || [];
+  $('colorStrip').innerHTML =
+    `<span class="muted">作者：${esc(w.owner)}</span>` +
+    colors.map(no => `<span class="color-chip" title="点击查看（购物车暂未开放）" onclick="productModal('${no}')">
+      <i style="background:${colorName(no)}"></i>${no}</span>`).join('');
+}
+function likeCurrent(){
+  const w = gWorks[gIdx];
+  if(!w) return toast('暂无可点赞的作品');
+  const u = updateWork(w.type, w.owner, w.id, {likes:(w.likes||0)+1});
+  w.likes = u.likes;
+  addRecord('n', currentUser, {icon:'🧡', text:'点赞了 ' + w.owner + ' 的作品', workId:w.id, img:w.img});
+  updateGFab(); toast('已点赞 🧡');
+}
+function isFollowing(w){
+  const u = getUsers('n')[currentUser];
+  return (u.follows||[]).some(f => f.type === w.type && f.name === w.owner);
+}
+function toggleFollow(){
+  const w = gWorks[gIdx];
+  if(!w) return;
+  const users = getUsers('n'), u = users[currentUser];
+  u.follows = u.follows || [];
+  const i = u.follows.findIndex(f => f.type === w.type && f.name === w.owner);
+  if(i >= 0){ u.follows.splice(i,1); toast('已取消关注'); }
+  else{ u.follows.push({type:w.type, name:w.owner}); toast('已关注作者'); }
+  saveUsers('n', users);
+  renderStrip();
+}
+
+/* ================= Chat ================= */
+function chatItemHTML(c){
+  const users = getUsers(c.type);
+  const img = users[c.user] ? users[c.user].avatar : null;
+  return `<div class="chat-item">${avatarHTML(c.user, img)}
+    <div><b style="font-size:13px">${esc(c.user)}</b>
+    <div>${esc(c.text)}</div><div class="muted">${c.time}</div></div></div>`;
+}
+function renderChat(){
+  const list = getComments().filter(c => !c.del);
+  $('chatList').innerHTML = list.length
+    ? list.map(chatItemHTML).join('')
+    : '<div class="empty">还没有留言，来写下第一句鼓励吧</div>';
+  $('chatList').scrollTop = $('chatList').scrollHeight;
+}
+function sendChat(){
+  const v = $('chatInput').value.trim();
+  if(!v) return;
+  addComment('n', currentUser, v);
+  addRecord('n', currentUser, {icon:'💬', text:'评论：' + v});
+  $('chatInput').value = '';
+  renderChat();
+}
+
+/* ================= Me: main ================= */
+function me(){ return getUsers('n')[currentUser]; }
+function renderMeMain(){
+  const u = me();
+  $('nameShow').textContent = currentUser;
+  $('nickShow').textContent = u.nickname || currentUser;
+  $('avatarBox').innerHTML = avatarHTML(currentUser, u.avatar, 'avatar-big');
+}
+function editNick(){
+  openModal('设置昵称',
+    `<div class="field"><input id="nickInput" value="${esc(me().nickname||currentUser)}"></div>`,
+    `<button class="btn" onclick="closeModal()">取消</button>
+     <button class="btn btn-primary" onclick="saveNick()">保存</button>`);
+}
+function saveNick(){
+  const users = getUsers('n');
+  users[currentUser].nickname = $('nickInput').value.trim() || currentUser;
+  saveUsers('n', users);
+  closeModal(); renderMeMain(); toast('昵称已更新');
+}
+async function setAvatar(input){
+  const f = input.files[0]; if(!f) return;
+  const img = await readImageFile(f);
+  const users = getUsers('n');
+  users[currentUser].avatar = img;
+  saveUsers('n', users);
+  renderMeMain(); toast('头像已更新');
+}
+
+/* ================= Me: works ================= */
+function workBadge(w){
+  if(w.gal === 0 || w.sel === 'rejected') return '<span class="badge badge-rejected">未选中</span>';
+  if(w.sel === 'selected') return '<span class="badge badge-selected">已选中</span>';
+  return '<span class="badge badge-pending">待评选</span>';
+}
+function renderMyWorks(){
+  const list = getWorks('n', currentUser);
+  $('myWorksList').innerHTML = list.length
+    ? list.map(w => `<div class="row-item"><img class="thumb" src="${w.img}">
+        <div style="flex:1">${workBadge(w)}
+          <p class="muted" style="margin-top:5px">${w.time} · ${w.mode==='donate'?'认捐':'自购'}</p>
+          <p class="muted">🧡 ${w.likes||0} 点赞 · 色号：${(w.colors||[]).join(', ')||'—'}</p>
+        </div></div>`).join('')
+    : '<div class="empty">还没有作品，去「作画」创作第一幅吧</div>';
+}
+
+/* ================= Cart ================= */
+function renderCart(){
+  const cart = me().cart || [];
+  $('cartList').innerHTML = cart.length
+    ? cart.map(x => `<div class="row-item">${x}</div>`).join('')
+    : '<div class="empty">购物车为空（购物功能暂未开放）</div>';
+}
+
+/* ================= Follows ================= */
+function renderFollows(){
+  const follows = me().follows || [];
+  $('followsList').innerHTML = follows.length
+    ? follows.map(f => {
+        const users = getUsers(f.type);
+        const u = users[f.name];
+        return `<div class="row-item">${avatarHTML(f.name, u?u.avatar:null)}
+          <div><b>${esc(f.name)}</b><p class="muted">${f.type==='c'?'公益创作者':'用户'}</p></div></div>`;
+      }).join('')
+    : '<div class="empty">暂无关注</div>';
+}
+
+/* ================= Donations ================= */
+function renderDonations(){
+  const list = getWorks('n', currentUser).filter(w => w.sel === 'selected');
+  $('donCount').textContent = list.length;
+  $('donationsList').innerHTML = list.length
+    ? list.map(w => `<div class="row-item"><img class="thumb" src="${w.img}">
+        <div><span class="badge badge-selected">已选中</span>
+        <p class="muted" style="margin-top:5px">${w.time}</p></div></div>`).join('')
+    : '<div class="empty">暂无被选中的作品</div>';
+}
+
+/* ================= History ================= */
+let histTab = 'liked';
+function switchHist(t){
+  histTab = t;
+  $('histLike').classList.toggle('on', t==='liked');
+  $('histFollow').classList.toggle('on', t==='followed');
+  renderHist();
+}
+function renderHist(){
+  if(histTab === 'liked'){
+    const recs = getRecords('n', currentUser).filter(r => r.icon === '🧡');
+    $('histList').innerHTML = recs.length
+      ? recs.map(r => `<div class="row-item">${r.img?`<img class="thumb" src="${r.img}">`:''}
+          <div><b>${esc(r.text)}</b><p class="muted">${r.time}</p></div></div>`).join('')
+      : '<div class="empty">还没有点赞记录</div>';
+  }else{
+    const follows = me().follows || [];
+    $('histList').innerHTML = follows.length
+      ? follows.map(f => `<div class="row-item">
+          <div class="avatar-sm" style="background:${avatarColor(f.name)}">${esc(f.name[0])}</div>
+          <div><b>${esc(f.name)}</b><p class="muted">${f.type==='c'?'关注的病患用户':'用户'}</p></div></div>`).join('')
+      : '<div class="empty">还没有关注记录</div>';
+  }
+}
+
+/* ================= Messages ================= */
+function renderMsgs(){
+  const list = getMsgs('n', currentUser);
+  $('msgsList').innerHTML = list.length
+    ? list.map(m => `<div class="msg-card">
+        <b>${esc(m.title||'通知')}</b>
+        ${m.img ? `<img src="${m.img}">` : ''}
+        <div>${esc(m.text||'')}</div>
+        <div class="when">${m.time||''}</div>
+        ${m.kind==='photo'
+          ? `<div class="chat-bar" style="margin-top:10px">
+               <input id="reply-${m.distId}" placeholder="回复感谢（匿名发送）">
+               <button class="btn btn-primary btn-sm" onclick="sendThanks(${m.distId})">发送</button>
+             </div>` : ''}
+      </div>`).join('')
+    : '<div class="empty">暂无消息</div>';
+}
+function sendThanks(distId){
+  const v = $('reply-'+distId).value.trim();
+  if(!v) return toast('请输入感谢内容');
+  const dist = getDist();
+  const d = dist.find(x => x.id === distId);
+  if(!d) return;
+  d.replies = d.replies || [];
+  d.replies.push({text:v, time:nowText()});
+  saveDist(dist);
+  /* charity receives thanks without normal account info */
+  addMsg('c', d.charity, {kind:'thanks', title:'来自创作者的感谢', text:v});
+  toast('感谢已匿名发送 🧡');
+  renderMsgs();
+}
+
+/* ================= Boot ================= */
+if(currentUser) enterApp(); else go('auth');
+</script>
+</body>
+</html>
