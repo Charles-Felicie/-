@@ -78,10 +78,11 @@ function updateWork(type, owner, id, patch){
 /* ---------------- Comments (gallery chat) ---------------- */
 function getComments(){ return Store.get('comments', []); }
 function saveComments(list){ Store.set('comments', list); }
-/* {id, type:'n'|'c', user, text, time, del:0|1} */
-function addComment(type, user, text){
+/* {id, type:'n'|'c', user, text, time, del:0|1, workId?} */
+function addComment(type, user, text, workId){
   const list = getComments();
   const c = {id:Date.now() + Math.floor(Math.random()*999), type, user, text, time:nowText(), del:0};
+  if(workId != null) c.workId = workId;
   list.push(c); saveComments(list); return c;
 }
 
