@@ -59,13 +59,12 @@ html[lang="en"] .f-bahn b,html[lang="fr"] .f-bahn b{font-family:"Britannic Bold"
   background:#fff;
   border-bottom:1px solid var(--line);
   display:flex;align-items:center;gap:24px;
-  transition:background .25s;
 }
-.topnav.scrolled{background:#FFF3D0}
 .topnav .container{display:flex;align-items:center;gap:10px;width:100%}
 .brand{font-weight:700;font-size:17px;color:var(--ink);white-space:nowrap;margin-right:auto}
 .brand small{display:block;font-size:11px;font-weight:400;color:var(--ink-soft);letter-spacing:.14em}
-.brand-logo{height:40px;width:auto;margin-right:auto;object-fit:contain}
+.brand-logo{height:var(--nav-h);max-height:var(--nav-h);width:auto;max-width:220px;
+  object-fit:contain;margin-right:auto}
 .lang-sel{padding:8px 12px;border:none;background:transparent;border-radius:999px;
   font-size:13px;color:var(--ink);cursor:pointer}
 .nav-links{display:flex;gap:4px;align-items:center}
