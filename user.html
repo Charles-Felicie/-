@@ -66,22 +66,38 @@
     </div>
     <div class="grid grid-3" style="margin-top:28px">
       <button class="home-card" onclick="go('paint/rules')">
+        <img class="card-img" src="作画.png" alt="">
+        <div class="home-hover">
+          <p class="home-desc" data-i18n="entry_paint_desc">选择色号自由创作，可捐赠或自购定制头巾口罩</p>
+          <span class="btn btn-pill enter-pill" data-i18n="enter_btn">进入</span>
+        </div>
         <h3 class="f-entry" data-i18n="entry_paint">作画</h3>
-        <p class="home-desc" data-i18n="entry_paint_desc">选择色号自由创作，可捐赠或自购定制头巾口罩</p>
       </button>
       <button class="home-card" onclick="go('tryon/select')">
+        <img class="card-img" src="AI试妆.png" alt="">
+        <div class="home-hover">
+          <p class="home-desc" data-i18n="entry_tryon_desc">情绪智能匹配妆容，体验最新产品</p>
+          <span class="btn btn-pill enter-pill" data-i18n="enter_btn">进入</span>
+        </div>
         <h3 class="f-entry" data-i18n="entry_tryon">AI 试妆</h3>
-        <p class="home-desc" data-i18n="entry_tryon_desc">情绪智能匹配妆容，体验最新产品</p>
       </button>
       <button class="home-card" onclick="go('me/works')">
+        <img class="card-img" src="我的作品.png" alt="">
+        <div class="home-hover">
+          <p class="home-desc" data-i18n="entry_works_desc">作品历史、评选状态与捐赠记录</p>
+          <span class="btn btn-pill enter-pill" data-i18n="enter_btn">进入</span>
+        </div>
         <h3 class="f-entry" data-i18n="entry_works">我的作品</h3>
-        <p class="home-desc" data-i18n="entry_works_desc">作品历史、评选状态与捐赠记录</p>
       </button>
     </div>
     <div style="margin-top:16px">
       <button class="intro-card" onclick="go('intro')">
+        <img class="card-img" src="项目介绍.png" alt="">
+        <div class="home-hover">
+          <p class="home-desc" data-i18n="entry_intro_desc">了解“戴上春天”的故事与参与方式</p>
+          <span class="btn btn-pill enter-pill" data-i18n="enter_btn">进入</span>
+        </div>
         <h3 class="f-brand" data-i18n="entry_intro">项目介绍</h3>
-        <p class="home-desc" data-i18n="entry_intro_desc">了解“戴上春天”的故事与参与方式</p>
       </button>
     </div>
   </div>
@@ -296,6 +312,7 @@ const I18N = {
     entry_tryon:'AI 试妆',entry_tryon_desc:'情绪智能匹配妆容，体验最新产品',
     entry_works:'我的作品',entry_works_desc:'作品历史、评选状态与捐赠记录',
     entry_intro:'项目介绍',entry_intro_desc:'了解“戴上春天”的故事与参与方式',
+    enter_btn:'进入',
     rules_title:'作画规则',
     rule1_b:'① 选色',rule1:'：从欧莱雅产品色号库中挑选“颜料”，色号即颜料，无商品链接强制跳转。',
     rule2_b:'② 创作',rule2:'：在画布上自由作画，可保存草稿；AI 会将作品转为可印花的四方连续纹样。',
@@ -355,6 +372,7 @@ const I18N = {
     entry_tryon:'AI Try-On',entry_tryon_desc:'Mood-matched makeup, experience the latest products',
     entry_works:'My Works',entry_works_desc:'Work history, selection status and donation records',
     entry_intro:'About the Project',entry_intro_desc:'The story of "Wear the Spring" and how to join',
+    enter_btn:'Enter',
     rules_title:'Painting Rules',
     rule1_b:'1. Pick colors',rule1:': choose "pigments" from the L\'Oréal shade library. Shades are pigments; no forced product links.',
     rule2_b:'2. Create',rule2:': paint freely on the canvas, save drafts; AI turns your work into a printable seamless pattern.',
@@ -414,6 +432,7 @@ const I18N = {
     entry_tryon:'Essai IA',entry_tryon_desc:'Maquillage adapté à votre humeur, découvrez les nouveautés',
     entry_works:'Mes œuvres',entry_works_desc:'Historique, statut de sélection et dons',
     entry_intro:'À propos du projet',entry_intro_desc:'L’histoire de « Porter le printemps » et comment participer',
+    enter_btn:'Entrer',
     rules_title:'Règles de peinture',
     rule1_b:'1. Choisir les couleurs',rule1:' : choisissez des « pigments » dans la bibliothèque de teintes L\'Oréal. Aucun lien produit forcé.',
     rule2_b:'2. Créer',rule2:' : peignez librement, enregistrez des brouillons ; l\'IA transforme l\'œuvre en motif imprimable.',
