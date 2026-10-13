@@ -7,16 +7,30 @@
 <link rel="stylesheet" href="assets/style.css">
 <style>
   .landing-hero{
-    margin-top:0;padding:110px 0 90px;text-align:center;cursor:default;
+    position:relative;margin:0;padding:0;height:440px;overflow:hidden;cursor:default;
+    background:#5B4232 url('登录页头图.png') center/cover no-repeat;
   }
-  .landing-hero h1{font-size:clamp(38px,5.4vw,60px);margin:0}
+  .landing-hero::before{
+    content:'';position:absolute;inset:0;background:rgba(43,30,22,0);
+    transition:background .5s;
+  }
+  .landing-hero:hover::before{background:rgba(43,30,22,.55)}
+  .hero-content{
+    position:absolute;left:48px;bottom:40px;max-width:720px;
+    transition:left .55s ease,bottom .55s ease,transform .55s ease;
+  }
+  .landing-hero:hover .hero-content{
+    left:50%;bottom:50%;transform:translate(-50%,50%);text-align:center;
+  }
+  .landing-hero h1{font-size:clamp(38px,5.4vw,60px);margin:0;color:#fff;
+    text-shadow:0 2px 14px rgba(0,0,0,.45)}
   .landing-hero .hero-more{
     max-height:0;opacity:0;overflow:hidden;
-    transition:max-height .5s ease,opacity .5s ease,margin-top .5s ease;
+    transition:max-height .5s ease .1s,opacity .5s ease .1s,margin-top .5s ease .1s;
   }
   .landing-hero:hover .hero-more{max-height:220px;opacity:1;margin-top:18px}
-  .landing-hero .en{font-size:clamp(16px,1.9vw,22px);color:var(--ink-soft);letter-spacing:.1em}
-  .landing-hero p.desc{max-width:680px;margin:14px auto 0;color:var(--ink-soft);font-size:15px}
+  .landing-hero .en{font-size:clamp(16px,1.9vw,22px);color:rgba(255,255,255,.92);letter-spacing:.1em}
+  .landing-hero p.desc{max-width:680px;margin:14px auto 0;color:rgba(255,255,255,.85);font-size:15px}
   .portal-section{padding:64px 0}
   .portal-card{
     position:relative;overflow:hidden;
@@ -52,7 +66,7 @@
 <body>
 
 <header class="landing-hero">
-  <div class="container">
+  <div class="hero-content">
     <h1 class="f-brand" data-i18n="hero_title">病房美学计划 · 戴上春天</h1>
     <div class="hero-more">
       <div class="en" data-i18n="hero_en">Beauty Belongs to Every Bed</div>
