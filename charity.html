@@ -748,6 +748,10 @@ function renderMsgs(){
 }
 
 /* ================= Boot ================= */
+window.addEventListener('scroll', () => {
+  const n = $('topnav');
+  if(n) n.classList.toggle('scrolled', window.scrollY > 12);
+});
 applyI18n();
 if(currentUser) enterApp(); else go('auth');
 </script>
