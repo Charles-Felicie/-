@@ -70,13 +70,28 @@
     </div>
     <div class="grid grid-3" style="margin-top:28px">
       <button class="home-card" onclick="go('paint')">
-        <h3 class="f-entry" data-i18n="entry_paint">Paint</h3><p class="home-desc" data-i18n="entry_paint_desc">Express your feelings with colors; submit to receive a charity product</p>
+        <img class="card-img" src="作画.png" alt="">
+        <div class="home-hover">
+          <p class="home-desc" data-i18n="entry_paint_desc">Express your feelings with colors; submit to receive a charity product</p>
+          <span class="btn btn-pill enter-pill" data-i18n="enter_btn">进入</span>
+        </div>
+        <h3 class="f-entry" data-i18n="entry_paint">Paint</h3>
       </button>
       <button class="home-card" onclick="go('tryon')">
-        <h3 class="f-entry" data-i18n="entry_tryon">AI Try-On</h3><p class="home-desc" data-i18n="entry_tryon_desc">Mood-matched makeup, one tap to a beautiful new look</p>
+        <img class="card-img" src="AI试妆.png" alt="">
+        <div class="home-hover">
+          <p class="home-desc" data-i18n="entry_tryon_desc">Mood-matched makeup, one tap to a beautiful new look</p>
+          <span class="btn btn-pill enter-pill" data-i18n="enter_btn">进入</span>
+        </div>
+        <h3 class="f-entry" data-i18n="entry_tryon">AI Try-On</h3>
       </button>
       <button class="home-card" onclick="go('works')">
-        <h3 class="f-entry" data-i18n="entry_works">My Works</h3><p class="home-desc" data-i18n="entry_works_desc">View your creations and the encouragement you received</p>
+        <img class="card-img" src="我的作品.png" alt="">
+        <div class="home-hover">
+          <p class="home-desc" data-i18n="entry_works_desc">View your creations and the encouragement you received</p>
+          <span class="btn btn-pill enter-pill" data-i18n="enter_btn">进入</span>
+        </div>
+        <h3 class="f-entry" data-i18n="entry_works">My Works</h3>
       </button>
     </div>
   </div>
@@ -215,6 +230,7 @@ const I18N = {
     entry_paint:'作画',entry_paint_desc:'用色彩表达心情，提交后可领取公益产品',
     entry_tryon:'AI 试妆',entry_tryon_desc:'情绪智能匹配，一键体验美丽妆容',
     entry_works:'我的作品',entry_works_desc:'查看创作记录与收到的鼓励',
+    enter_btn:'进入',
     paint_title:'作画',pick_color:'选择色号（仅标注产品号）：',
     clear_canvas:'清空画布',submit_artwork:'提交作品 ›',
     receive_title:'选择公益产品',receive_intro:'作品已提交并分享至画作展示区 🎉 请选择一份爱心企业捐赠的产品：',
@@ -270,6 +286,7 @@ const I18N = {
     entry_paint:'Paint',entry_paint_desc:'Express your feelings with colors; submit to receive a charity product',
     entry_tryon:'AI Try-On',entry_tryon_desc:'Mood-matched makeup, one tap to a beautiful new look',
     entry_works:'My Works',entry_works_desc:'View your creations and the encouragement you received',
+    enter_btn:'Enter',
     paint_title:'Paint',pick_color:'Pick a color (labeled by product number only):',
     clear_canvas:'Clear Canvas',submit_artwork:'Submit Artwork ›',
     receive_title:'Choose Your Charity Product',
@@ -335,6 +352,7 @@ const I18N = {
     entry_paint:'Peindre',entry_paint_desc:'Exprimez vos émotions en couleurs ; soumettez pour recevoir un produit caritatif',
     entry_tryon:'Essai IA',entry_tryon_desc:'Maquillage adapté à votre humeur, un nouveau regard en un clic',
     entry_works:'Mes œuvres',entry_works_desc:'Découvrez vos créations et les encouragements reçus',
+    enter_btn:'Entrer',
     paint_title:'Peindre',pick_color:'Choisissez une couleur (numéro de produit uniquement) :',
     clear_canvas:'Effacer',submit_artwork:"Soumettre l'œuvre ›",
     receive_title:'Choisissez votre produit caritatif',
