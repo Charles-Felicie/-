@@ -9,7 +9,9 @@
   .landing-hero{
     position:relative;margin:0;padding:0;height:440px;overflow:hidden;cursor:default;
     background:#5B4232 url('登录页头图.png') center/cover no-repeat;
+    transition:height .65s cubic-bezier(.34,1.56,.64,1);
   }
+  .landing-hero.expanded{height:88vh;background-size:contain;background-position:center top}
   .landing-hero::before{
     content:'';position:absolute;inset:0;background:rgba(43,30,22,0);
     transition:background .5s;
@@ -160,6 +162,19 @@ function applyI18n(){
 }
 function setLang(l){ lang = l; Store.set('lang', l); applyI18n(); }
 applyI18n();
+
+/* Elastic hero: pull down (wheel up at page top) to reveal the full image */
+(function(){
+  const hero = document.querySelector('.landing-hero');
+  window.addEventListener('wheel', e => {
+    if(window.scrollY > 0) return;
+    if(e.deltaY < 0 && !hero.classList.contains('expanded')){
+      hero.classList.add('expanded');
+    }else if(e.deltaY > 0 && hero.classList.contains('expanded')){
+      hero.classList.remove('expanded');
+    }
+  }, {passive:true});
+})();
 
 /* If a session already exists, show a quick re-entry hint */
 const s = getSession();
