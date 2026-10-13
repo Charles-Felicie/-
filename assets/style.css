@@ -251,32 +251,46 @@ table.tbl th{background:var(--bg-soft);font-weight:600}
 /* ---------------- Home entry buttons (square 1:1, hover reveals desc) ---------------- */
 .home-card{
   position:relative;background:#fff;border:1px solid var(--line);
-  aspect-ratio:1/1;padding:22px;text-align:center;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  transition:box-shadow .18s,transform .18s;
+  aspect-ratio:1/1;padding:22px;text-align:center;overflow:hidden;
+  transition:box-shadow .18s,transform .18s,background .3s;
 }
 .home-card:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(91,66,50,.14)}
-.home-card h3{font-size:22px;font-weight:700}
-.home-card .home-desc{
-  max-height:0;opacity:0;overflow:hidden;margin-top:0;
-  transition:max-height .3s ease,opacity .3s ease,margin-top .3s ease;
-  font-size:13px;color:var(--ink-soft);
+.card-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:opacity .3s;pointer-events:none}
+.home-card h3{
+  position:absolute;left:18px;bottom:16px;z-index:2;margin:0;
+  font-size:30px;font-weight:700;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.55);
+  transition:color .3s,text-shadow .3s;
 }
-.home-card:hover .home-desc{max-height:90px;opacity:1;margin-top:10px}
+.home-hover{
+  position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:16px;padding:22px;
+  opacity:0;transition:opacity .3s;
+}
+.home-card:hover{background:#fff}
+.home-card:hover .card-img{opacity:0}
+.home-card:hover .home-hover{opacity:1}
+.home-card:hover h3{color:var(--ink);text-shadow:none}
+.home-hover .home-desc{font-size:13px;color:var(--ink-soft);margin:0}
+.enter-pill{pointer-events:none}
 
-/* project intro entry: 4:3 rounded rect, title top-left */
+/* project intro entry: 4:3 rounded rect with image */
 .intro-card{
   position:relative;display:block;width:100%;aspect-ratio:4/3;max-height:340px;
-  background:#fff;border:1px solid var(--line);padding:26px;text-align:left;
-  transition:box-shadow .18s,transform .18s;
+  background:#fff;border:1px solid var(--line);overflow:hidden;text-align:left;
+  transition:box-shadow .18s,transform .18s,background .3s;
 }
 .intro-card:hover{transform:translateY(-3px);box-shadow:0 12px 26px rgba(91,66,50,.14)}
-.intro-card h3{font-size:27px;font-weight:800}
-.intro-card .home-desc{
-  max-height:0;opacity:0;overflow:hidden;transition:max-height .3s,opacity .3s,margin-top .3s;
-  font-size:14px;color:var(--ink-soft);
+.intro-card h3{
+  position:absolute;left:22px;bottom:18px;z-index:2;margin:0;
+  font-size:34px;font-weight:800;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.55);
+  transition:color .3s,text-shadow .3s;
 }
-.intro-card:hover .home-desc{max-height:120px;opacity:1;margin-top:12px}
+.intro-card:hover{background:#fff}
+.intro-card:hover .card-img{opacity:0}
+.intro-card:hover .home-hover{opacity:1}
+.intro-card:hover h3{color:var(--ink);text-shadow:none}
+.intro-card .home-hover .home-desc{font-size:14px}
 
 /* ---------------- Gallery wall (two columns, auto vertical scroll) ---------------- */
 .gallery-wall{height:calc(100vh - var(--nav-h) - 130px);min-height:420px;overflow:hidden;
