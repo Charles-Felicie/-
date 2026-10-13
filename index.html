@@ -163,17 +163,17 @@ function applyI18n(){
 function setLang(l){ lang = l; Store.set('lang', l); applyI18n(); }
 applyI18n();
 
-/* Elastic hero: pull down (wheel up at page top) to reveal the full image */
+/* Elastic hero: wheel down reveals the full image, wheel up restores it */
 (function(){
   const hero = document.querySelector('.landing-hero');
   window.addEventListener('wheel', e => {
-    if(window.scrollY > 0) return;
-    if(e.deltaY < 0 && !hero.classList.contains('expanded')){
+    if(e.deltaY > 0 && window.scrollY === 0 && !hero.classList.contains('expanded')){
+      e.preventDefault();
       hero.classList.add('expanded');
-    }else if(e.deltaY > 0 && hero.classList.contains('expanded')){
+    }else if(e.deltaY < 0 && hero.classList.contains('expanded')){
       hero.classList.remove('expanded');
     }
-  }, {passive:true});
+  }, {passive:false});
 })();
 
 /* If a session already exists, show a quick re-entry hint */
