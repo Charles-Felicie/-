@@ -1,0 +1,39 @@
+/* ============================================================
+   AI 试妆独立页（ai-makeup-normalside / ai-makeup-wardside）
+   与主站风格统一：字体 / 圆角 / 背景 / 顶部返回栏
+   本文件在页面自带 <style> 之后引入，用于覆盖其默认样式
+   ============================================================ */
+body{
+  background:var(--bg) url('../囔囔叫.jpg') center/cover no-repeat fixed;
+  font-family:"Segoe UI","PingFang SC","Microsoft YaHei",Helvetica,Arial,sans-serif;
+}
+.home-left,.home-right{background:transparent}
+button,input,select{font-family:inherit}
+
+/* 字体体系（与主站一致：中文用华文中宋，英/法用 Britannic Bold） */
+.home-left h1{font-family:"STZhongsong","华文中宋","SimSun",serif;font-weight:700}
+html[lang="en"] .home-left h1,html[lang="fr"] .home-left h1{
+  font-family:"Britannic Bold","Britannic","Arial Black",sans-serif}
+.plist-header h2,.emotion-title{font-family:"STZhongsong","华文中宋","SimSun",serif;font-weight:700}
+html[lang="en"] .plist-header h2,html[lang="fr"] .plist-header h2,
+html[lang="en"] .emotion-title,html[lang="fr"] .emotion-title{
+  font-family:"Britannic Bold","Britannic","Arial Black",sans-serif}
+
+/* 圆角：按钮统一胶囊形，卡片 14px，色号方块 8px */
+button{border-radius:999px}
+.shade-btn{border-radius:8px}
+.modal-box,.plist-item{border-radius:14px}
+
+/* 主按钮沿用主站橙黄渐变胶囊 */
+.btn-primary{background:linear-gradient(135deg,var(--secondary),var(--accent));font-weight:700}
+.btn-primary:hover{background:linear-gradient(135deg,#E88F4F,#DFAF4A)}
+
+/* 顶部返回栏（左侧返回 + 语言选择） */
+.site-bar{position:fixed;top:14px;left:16px;z-index:20;display:flex;align-items:center;gap:8px}
+.back-home{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;
+  background:rgba(255,255,255,.92);border:1px solid var(--line);color:var(--ink);
+  font-size:14px;cursor:pointer;transition:background .2s}
+.back-home:hover{background:#fff}
+.lang-sel{padding:8px 12px;border:none;background:transparent;
+  font-size:13px;color:var(--ink);cursor:pointer}
+.lang-sel:hover{background:rgba(255,255,255,.6)}
