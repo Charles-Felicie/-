@@ -341,11 +341,11 @@ table.tbl th{background:var(--bg-soft);font-weight:600}
 .mood-tip-row em{font-style:normal;color:var(--ink)}
 
 /* ---------------- 画布作画页：笔刷工具区 ---------------- */
-.paint-grid{display:grid;grid-template-columns:1.42fr 1fr;gap:24px;align-items:start}
+.paint-grid{display:grid;grid-template-columns:1.85fr 1fr;gap:24px;align-items:start}
 .studio{min-width:0}
 
 .brush-bar{
-  display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-bottom:12px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;
 }
 .brush-btn{
   display:flex;flex-direction:column;align-items:center;gap:4px;
@@ -961,10 +961,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
           <p class="muted" style="margin:14px 0 6px" data-p="wheel_chosen">已选色号（点击可移除）：</p>
           <div class="chosen-row" id="wheelChosen"></div>
           <button class="btn btn-primary btn-block btn-lg" style="margin-top:16px" onclick="confirmColors()"<span data-p="wheel_go">用已选色号开始作画 ›</span></button>
-          <div style="display:flex;gap:10px;margin-top:10px">
-            <button class="btn btn-outline btn-block" onclick="go('paint/colors')" data-p="wheel_back">返回完整色号库</button>
-            <button class="btn btn-outline btn-block" onclick="replayOpening()" data-p="wheel_replay">重播开场</button>
-          </div>
+          <button class="btn btn-outline btn-block" style="margin-top:10px" onclick="go('paint/colors')" data-p="wheel_back">返回完整色号库</button>
         </div>
       </div>
     </div>
@@ -979,8 +976,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
       <div class="paint-grid" data-page-node-id="2uH6uUFpkH6dKmkVpwNONY">
 
         <div class="studio" data-page-node-id="NWozWF3hPY58pBEunBQMQ8">
-          <div class="brush-bar" id="brushBar" data-page-node-id="fy0E7xrancBSdB2j1IDI89"></div>
-          <canvas id="paintCanvas" width="640" height="640" data-page-node-id="HG9MjQTOJjxI1NbFWhqMga"></canvas>
+          <canvas id="paintCanvas" width="800" height="800" data-page-node-id="HG9MjQTOJjxI1NbFWhqMga"></canvas>
           <div class="brush-opts" data-page-node-id="9oQKUZHkM0Hx1bWi8V6BUy">
             <label data-page-node-id="U5BgGckIkJ943MMcqacfY0">笔刷大小
               <input type="range" id="brushSize" min="25" max="300" value="100" oninput="onBrushSize(this.value)" data-page-node-id="Ek5svuz9dRUranLfWtCqqr">
@@ -994,6 +990,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
         </div>
 
         <div data-page-node-id="kL0fHsePBoTYKZaY5Xi9Y2">
+          <div class="brush-bar" id="brushBar" data-page-node-id="fy0E7xrancBSdB2j1IDI89"></div>
           <p class="muted" data-page-node-id="HEsaKdu8W8Mv5cF4fhVC32" data-p="c_used">本次使用色号（悬停色块可查看颜色寓意）：</p>
           <div class="palette" id="canvasPalette" style="grid-template-columns:repeat(4,1fr);margin-top:8px" data-page-node-id="gFEDCHp4VSZ9XavptQfLmW"></div>
 
@@ -1002,10 +999,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
             <button class="btn" onclick="saveDraft()" data-page-node-id="JfZU9AB4OtVoCLorNLtBEq" data-p="c_save">保存草稿</button>
             <button class="btn" onclick="loadDraft()" data-page-node-id="6Ipswf7nRkkxPcgkYrcciz" data-p="c_load">读取草稿</button>
           </div>
-          <div style="display:flex;gap:10px;margin-top:10px" data-page-node-id="sPLz6mI7MAJvaTfc0fZwZS">
-            <button class="btn btn-outline" onclick="shareWork()" data-page-node-id="DsOclr7CfHCQHtTmiC1IeM" data-p="c_share">分享</button>
-            <button class="btn btn-outline" onclick="openPattern()" data-page-node-id="DKojyySIQIdzzZsFJzJ0OO" data-p="c_ai">✨ AI 纹样化</button>
-          </div>
+          <button class="btn btn-outline btn-block" style="margin-top:10px" onclick="shareWork()" data-page-node-id="DsOclr7CfHCQHtTmiC1IeM" data-p="c_share">分享</button>
           <button class="btn btn-primary btn-block btn-lg" style="margin-top:10px" onclick="go('paint/pattern')" data-page-node-id="J6iaHOe3774MVQaCgSEoid" data-p="c_done">完成 ›</button>
         </div>
 
@@ -1727,7 +1721,7 @@ function createBrushEngine(canvas, opts){
   const S = {
     brush: BRUSHES[0],
     color: '#E76F51',
-    sizeScale: 1,
+    sizeScale: opts.baseScale || 1,
     drawing: false,
     last: null,
     sm: null,
@@ -2243,6 +2237,287 @@ const SHADE_POEMS = {
   S133: "紫罗兰开在窗边，安静地香着，有些美好从不需要被大声说出。",
   S134: "灰色是所有颜色的休止符，也是黎明到来前，世界温柔的呼吸。",
 };
+/* ===== 每一句诗的英文版（随语言系统同步） ===== */
+const SHADE_POEMS_EN = {
+  S001: "The first warm sip of milk in the morning glides softly over the tongue, while the wind outside gently turns the first page of a new day.",
+  S002: "A rose kissed by morning dew — fingertips brush its cool petals, and even silence takes on a tender colour.",
+  S003: "A quiet fire in the hearth, the scent of wood and warmth spreading slowly, reminding us that a light in the heart never goes out.",
+  S004: "Peeling a ripe orange in the afternoon, a fresh sweetness rushes out, turning sunlight into a flavour you can taste.",
+  S005: "The evening wind brushes pale pink clouds, soft light settles in the palm — even the night hides a spring not yet fully told.",
+  S006: "Sun-dried wood carries a dry, warm scent; one light touch recalls the embraces the years have kept like treasure.",
+  S007: "After the rain, dark brown soil, moist and calm, quietly holds a seed that is still growing.",
+  S008: "Maple syrup melting into warm milk, a sweet fragrance rising slowly, making every ordinary morning worth looking forward to.",
+  S009: "The last apricot light before sunset brushes the cheek softly, warming even the distance into brightness.",
+  S010: "A ripe apricot splits open a sweet seam in the sun, fragrance overflowing, as if the whole summer were softly singing.",
+  S011: "A pot of spiced tea simmering slowly, its mellow warmth curling round the eaves, keeping a lamp lit for those coming home.",
+  S012: "The red that splashes when the setting sun kisses the earth — so fervent you can almost hear a heartbeat, urging every seed to grow bravely upward.",
+  S013: "The red that overflows when rose meets berry — floral scent laced with tart fruit, making us believe again in life's abundance.",
+  S014: "A soft peach warmed by sunlight, its fuzz brushing the fingertips, the air full of summer's sweet breathing.",
+  S015: "A coral sea greets the first morning light; salty wind sweeps the cheek, and the world grows a little brighter.",
+  S016: "In the dusk, a pale purple flower quietly releases its fragrance — tenderness needs no words to have power.",
+  S017: "A pink petal drifts down from the cherry tree, landing softly in the palm — as if spring came just to keep a promise.",
+  S018: "A wisp of lavender-coloured morning mist, cool against the skin, while a distant wind carries new stories in.",
+  S019: "Old roots deep in the forest hold the scent of earth in their rough grain, steadily supporting every upward growth.",
+  S020: "Thin mist on stone steps after rain, cool and peaceful, letting the world slow down for a moment to hear its own breathing.",
+  S021: "Biting a crab apple on an autumn day, sweet-sour juice floods the tongue as a clear wind passes through the branches.",
+  S022: "A dove skims the pink sky, its wings stirring a gentle wind, while someone far away folds longing into a letter.",
+  S023: "Ripe goji berries on the branch — within their sweet tartness hides a vivid life-force, as if every fruit were quietly glowing.",
+  S024: "A deep-red dahlia unfolds into the wind, petals layered on petals; as the wind crosses the garden it brings courage for the journey ahead.",
+  S025: "A shaft of sunlight leaps beside the coral reef — the sea is cool, the surf soft, and even the sleeping fish begin to dance.",
+  S026: "A red berry falls into the morning stream, its bright colour rippling outward, carrying a small joy toward the distance.",
+  S027: "Pomegranate seeds burst sweet-sour between the lips; within the brilliant juice hides an ardent wish.",
+  S028: "Autumn chrysanthemums sway in the wind; in their faint herbal scent lives a resilience that never hurries.",
+  S029: "A touch of red rises from volcanic crevices, carrying burning warmth, telling the world that life never lacks the strength to begin again.",
+  S030: "A piece of faintly bitter dark chocolate melts slowly on the tongue; after the rich aroma, a warm and lingering sweetness remains.",
+  S031: "The deepest black of the night sky quietly embraces ten thousand stars, giving every dream not yet arrived a place to rest.",
+  S032: "Fine sand lit by morning light on the beach — cool grains slip through fingers as the waves gently wake the distance.",
+  S033: "A wool blanket warmed by the sun wraps softly around the shoulders; the air smells of clean, sun-dried cotton.",
+  S034: "The branch where forest birds rest holds a steady wooden scent; as leaves sway, a soft chirping comes through.",
+  S035: "Dunes flowing in the dusk, fine light glinting at the fingertips — every grain of sand remembers the wind has been here.",
+  S036: "A stone soaked by the river, warm-smooth and still; the water's sound curls round it and runs on toward the wide world.",
+  S037: "Raindrops fall on dark roof tiles, tapping out a steady rhythm, letting the heart unfurl slowly in the sound of rain.",
+  S038: "Peach cream melts on the tongue, sweetness light as air, until even the air becomes a soft dream.",
+  S039: "Ripe apricots sun-warmed into honey; a trace of fruit scent on the fingertips recalls long summer afternoons.",
+  S040: "A wild rose in the valley, wind-reddened, carrying the scent of earth, stubbornly blooming for the world.",
+  S041: "Autumn leaves and feathers on the forest floor; stepping on soft earth, you hear life walking gently through the silence.",
+  S042: "The setting sun dyes the coral warm orange; the salty sea wind arrives, and the surf brings greetings from afar.",
+  S043: "Purple berries steeped in a fragrant fruit tea — after the slight tartness, a sweetness rises, like a small miracle hidden in the night.",
+  S044: "A peach-apricot sparkling drink, sweet fruit scent rising with tiny bubbles, sunlight glinting along the rim.",
+  S045: "A soft pink rose just unfolding, petals thin as breath, leaving a faint sweetness as the breeze passes.",
+  S046: "Wine-coloured berries ripen on the branch; within their deep scent hides a tenderness slowly brewed by time.",
+  S047: "A handful of fine gold dust scattered in morning light — tilt it and starlight falls, as if joy had found a sound.",
+  S048: "A deer's shadow slips through warm brown thickets; grass blades bear dew, and the distant forest is quiet and abundant.",
+  S049: "Where the deep sea meets the green forest, the tide breathes low, and all things gather strength in unseen depths.",
+  S050: "The warm brown of a pecan shell, rich with nutty aroma, as if the earth laid its harvest gently in the palm.",
+  S051: "A pink rose wrapped in thin mist; its soft fragrance spreads in the morning, and even time softens its steps.",
+  S052: "A rose and coral exchange a kiss — floral scent mixed with sea wind, adding a little brightness to every breath.",
+  S053: "Burning sunset clouds at the canyon's end, warm wind brushing the rock walls, as the sky tells the earth the story of its day.",
+  S054: "Ripe plums at the desert's edge, their sweet-tart scent woven with dry wind — even the wilderness bears abundant fruit.",
+  S055: "A berry covered in thin frost — its slight tartness wakes the tongue, yet deep inside a gentle sweetness hides.",
+  S056: "Pale toast fresh from the oven, the warm scent of wheat in the air — even an ordinary morning has a taste worth waiting for.",
+  S057: "Toffee melting slowly in a warm pan, sweetness curling through the kitchen, reminding you someone is waiting for you to come home.",
+  S058: "Cocoa beans gently ground, a mellow aroma rising from the palm, carrying a steady and tranquil strength.",
+  S059: "Dark roast drops its last rich bead; bitter meets sweet on the tongue, and a clear-hearted courage sets out again.",
+  S060: "An old rose swaying softly in the wind, its scent quiet and enduring — as if tenderness never needed to be loudly declared.",
+  S061: "Caramel dropped into hot coffee, sweetness and faint bitterness slowly merging; hands cup the warmth, and the days turn gently sweet.",
+  S062: "A ripe apricot and the evening wind exchange secrets — the scent barely there, yet a flower quietly opens in the heart.",
+  S063: "Pink gauze catches the setting sun's light, drifting feather-light across the cheek, dyeing even the breath with gentle warmth.",
+  S064: "The sweetness of first-tasted strawberry, the heartbeat quietly quickening — as if spring were sprouting from the chest.",
+  S065: "A tomato just picked in the sun, skin taut and full, sweet-tart and fresh, carrying the living scent of garden soil.",
+  S066: "Morning light falls on an apricot-white cloud, softly lighting the skin — and the unspoken wishes of the heart.",
+  S067: "A sheet of white paper warmed by the sun, clean and soft, waiting for every new story to begin.",
+  S068: "Honey dropped into warm milk, a sweet round scent rising slowly — ordinary days gain a golden warmth.",
+  S069: "The first pink-apricot blossom of morning reflected on water; a breeze passes, the reflection sways — life quietly unfolding.",
+  S070: "Almond cream melts on the tongue, fine and mellow, as if the world had caught you gently.",
+  S071: "Sun-dried wheat and almonds, full-bodied grain scent, steadily holding the life-force of the earth.",
+  S072: "Almond wood breathing a faint scent in the warm sun; fingertips over fine grain, as if touching the tender texture of time.",
+  S073: "A cup of oolong just steeped, faintly astringent, steam brushing the face — the taste of life unfurling slowly between the lips.",
+  S074: "Earl Grey meets ripe red bean — a thread of sweetness floats in the refined tea scent, like a candy passed over during a long afternoon.",
+  S075: "Rose petals fall into warm black tea; the floral scent is calm, the taste lingers — tenderness takes a form you can touch.",
+  S076: "A cool-pink flower in thin mist, dew sliding along its petals; in the chill wind, a spring that refuses to fade.",
+  S077: "A crystal dewdrop on the morning windowsill — cool to the touch, holding skylight, hiding hope inside transparent shimmer.",
+  S078: "Almonds and wheat ears warmed by sun; in their soft scent lies the steadiness of earth and the sweetness of days ripening slowly.",
+  S079: "A white porcelain cup of warm water — the palm feels its delicate heat; even in quiet, life echoes.",
+  S080: "Peach-toned morning light spills on white curtains; in the swaying light and shadow, even the air carries a sweet warmth.",
+  S081: "The late-night sea reflects blue starlight far off; the wind passes and the waves sound low, while every star guides those sailing far.",
+  S082: "A wisp of purple smoke rises in the dusk, carrying the wet breath of a rained-on garden, quietly sending unfulfilled dreams toward the sky.",
+  S083: "Tea steeping beneath the olive tree, leaves holding a clean-bitter herbal scent; a breeze passes, and the forest breathes slowly.",
+  S084: "Mint leaves lightly crushed between fingertips, cool fragrance straight to the nose — like a summer stream flowing through the heart.",
+  S085: "A hazelnut drops into cold tea; nutty richness meets the leaf's clarity, giving calm a long aftertaste.",
+  S086: "Caramel slowly turns amber in the pan, sweet scent wrapping the whole kitchen — happiness, it turns out, can be this concrete.",
+  S087: "Red flowers blooming by the brick wall, warmed through by sun; floral scent mixed with earth holds the strength of blooming on, storm after storm.",
+  S088: "An orange just peeled, juice glistening between fingers, fresh scent filling the room at once — even the mood starts to dance.",
+  S089: "Cherry blossoms fall into spring's palm, soft petals faintly fragrant; one gust of wind and the whole world turns light.",
+  S090: "A purple berry softly breaks on the tongue, sweet-sour juice lighting the taste buds — dark fruit with a bright soul.",
+  S091: "A feast brewed together by rose and berry — heady floral scent, vivid fruit, every petal living earnestly.",
+  S092: "The fine milk foam atop a cappuccino, mellow coffee scent spreading wide, pausing the busy world inside one warm sip.",
+  S093: "A golden meteor crosses the warm brown night sky, glimmering — as if every upward glance could meet the stars anew.",
+  S094: "A purple dream settles on the midnight lake, ripples glowing faintly, while the distant moon tells its secrets to the stars.",
+  S095: "A handful of warm almonds at dusk, faint grain scent, steady and soft — the words \u201cI am here,\u201d gently said.",
+  S096: "Moonlight falls into the clear frozen lake, coolness brushing the fingertips — starlight remains at the lake bottom, keeping a place for every dream.",
+  S097: "A strong coffee steaming in the morning, sweetness hidden in its faint bitterness, quietly accompanying every new beginning.",
+  S098: "The boundless canopy of late night quietly receives the shine of stars, giving every unspoken wish a home.",
+  S099: "Blackcurrant and deep rose meet in the dusk — fruit scent profound, petals soft — as if a quiet heart could also bloom a fervent spring.",
+  S100: "A peach just picked from the branch, fuzz brushing the fingertips; in its sweet scent hides the warmth of sunshine.",
+  S101: "A strawberry drops into cold milk, sweet-sour melting on the tongue; in the fresh scent, spring is tiptoeing closer.",
+  S102: "Pale purple mist floating over the garden at dawn, carrying dew's coolness, gently kissing every leaf newly awake.",
+  S103: "Autumn bonfire reddening the treetops, the scent of firewood spinning in the air; warm firelight invites life to stretch out fully.",
+  S104: "The orange-brown skin of ripe autumn fruit leaves the sun's warmth on a fingertip; its scent writes harvest into every ordinary day.",
+  S105: "The setting sun stains the land warm brown; wind skims the golden grass, carrying mixed scent of green and earth toward the distance.",
+  S106: "Almonds steeped in warm cream, a faint nutty scent unfolding slowly — as if the world were handing you a soft letter.",
+  S107: "A chestnut rolls down through autumn leaves; its shell rough and firm — inside, once opened, hides a warm, soft sweetness.",
+  S108: "The leaf-shadow of an ancient olive tree falls on the earth; wind through its branches makes a fine rustle — green life never hurries to answer time.",
+  S109: "A lemon gently sliced, its clean scent bursting forth — sweet-sour sunlight lighting the way from tongue to heart.",
+  S110: "A mint leaf steeped in cool stream water; the chill spreads along the fingers, and summer turns transparent and light.",
+  S111: "The evening wind brushes the lavender field at dusk; faint floral scent floats in the air as far stars light up one by one.",
+  S112: "Sea fog wraps driftwood smoothed by tides; salty wind threads through fingers as the waves gently deliver news from afar.",
+  S113: "Glacial melt-water mirrors the morning sky, its cool sound flowing past the ears; inside the crystal light hides the promise that spring will arrive.",
+  S114: "The first ray of morning sun lands on the windowsill, warmth spreading slowly — the new day gains a bright undertone.",
+  S115: "Peeling a mandarin, sweetness bursting with the peel — even the wind picks up a little skip.",
+  S116: "Ripe wheat fields undulate in the wind; heavy ears bow low, brewing the waiting of four seasons into gold.",
+  S117: "Butter melting on hot toast — inside the soft sweetness hides the comfort of being well cared for.",
+  S118: "Amber slowly brewed in the depths of the honeycomb, a grounded sweetness that slows every breath.",
+  S119: "Moss grows quietly in stone crevices, damp green spreading under fingertips — life never fears a corner.",
+  S120: "Morning dew hangs on pine needles; the forest air is crisp, and footsteps turn light.",
+  S121: "A seed pushes through the soil, a curled sprout reaching for light — within frailty hides the whole spring.",
+  S122: "A quiet green rests at the lake's heart; ripples spread softly, pushing the clamour far away.",
+  S123: "Clover spreads a soft blanket over the meadow; with each gust, green waves run layer by layer toward the horizon.",
+  S124: "The noon sky is blue without a trace of hesitation; wind scatters the clouds, and the heart widens with them.",
+  S125: "The deep sea breathes in silence; light falls from very far away — even there, life is glowing.",
+  S126: "After rain, the lake mirrors clear sky; a cool moist wind brushes the lashes, washing worries clean away.",
+  S127: "Thin mist floats on the morning river; skylight seeps through little by little, and the world slowly wakes.",
+  S128: "A blueberry bursts between the teeth, sweet-sour juice spreading — even a small fruit holds full strength.",
+  S129: "Wisteria hangs by the old wall, strings of flower shadow swaying gently, rocking time into a slow poem.",
+  S130: "The streak of purple the sky keeps after sunset gently closes the day — and leaves a lamp lit for tomorrow.",
+  S131: "Lavender fields rise and fall in the wind, scent moving close along the skin — a restless heart grows light.",
+  S132: "Mulberries stain the palm deep purple, sweetness with a hint of tartness — summer's most earnest taste.",
+  S133: "Violets bloom by the window, fragrant in silence — some beauty never needs to be said aloud.",
+  S134: "Grey is the rest note of all colours — and the world's gentle breathing before dawn arrives.",
+};
+/* ===== 每一句诗的法文版（随语言系统同步） ===== */
+const SHADE_POEMS_FR = {
+  S001: "La première gorgée de lait tiède du matin glisse doucement sur la langue, tandis que le vent dehors tourne la première page d'un nouveau jour.",
+  S002: "Une rose embrassée par la rosée du matin — les doigts effleurent ses pétales frais, et même le silence prend une couleur tendre.",
+  S003: "Un feu paisible dans l'âtre, le parfum du bois et la chaleur se répandent doucement, nous rappelant qu'une lumière au cœur ne s'éteint jamais.",
+  S004: "Éplucher une orange mûre l'après-midi : une douceur fraîche jaillit, transformant la lumière du soleil en saveur que l'on peut goûter.",
+  S005: "Le vent du soir effleure les nuages rose pâle, une lumière douce se pose dans la paume — même la nuit cache un printemps encore inachevé.",
+  S006: "Le bois séché au soleil exhale une senteur sèche et chaude ; un léger toucher rappelle les étreintes que le temps a précieusement gardées.",
+  S007: "Après la pluie, la terre brun foncé, humide et paisible, porte en secret une graine encore en train de grandir.",
+  S008: "Le sirop d'érable fond dans le lait tiède, un parfum sucré s'élève doucement, et chaque matin ordinaire devient une promesse.",
+  S009: "Le dernier rayon abricot avant le coucher du soleil caresse la joue, réchauffant jusque dans le lointain.",
+  S010: "Un abricot mûr s'ouvre au soleil d'une fente sucrée, le parfum déborde, comme si tout l'été chantait doucement.",
+  S011: "Une casserole de thé aux épices qui mijote, sa chaleur généreuse enveloppe la maison, une lampe allumée pour celui qui rentre.",
+  S012: "Le rouge jailli quand le soleil couchant embrasse la terre — si ardent qu'on entend presque un battement de cœur, pressant chaque graine de pousser hardiment.",
+  S013: "Le rouge qui déborde quand la rose rencontre la baie — un parfum floral ourlé d'acidité, qui rend foi à l'abondance de la vie.",
+  S014: "Une pêche moelleuse réchauffée par le soleil, son duvet effleure les doigts, l'air est plein du souffle sucré de l'été.",
+  S015: "La mer corail accueille la première lumière du matin ; le vent salé frôle la joue, et le monde redevient plus clair.",
+  S016: "Dans le crépuscule, une fleur mauve pâle exhale son parfum en silence — la tendresse a sa force sans paroles.",
+  S017: "Un pétale rose tombe du cerisier, se pose doucement dans la paume — comme si le printemps venait tenir un rendez-vous.",
+  S018: "Un voile de brume matinale couleur lavande, fraîche sur la peau, tandis qu'un vent lointain apporte de nouvelles histoires.",
+  S019: "Les vieilles racines au fond de la forêt gardent l'odeur de la terre dans leur texture rugueuse, soutenant fermement chaque élan vers la lumière.",
+  S020: "Une fine brume sur les marches après la pluie, fraîche et apaisée, le monde ralentit un instant pour écouter son propre souffle.",
+  S021: "Croquer une pomme sauvage d'automne, le jus aigre-doux envahit la langue, tandis qu'un vent limpide traverse les branches.",
+  S022: "Une colombe rase le ciel rose, ses ailes soulèvent une brise légère, et quelqu'un, au loin, plie son manque en une lettre.",
+  S023: "Des baies de goji mûres à la branche — dans leur acidité sucrée pulse une vitalité vive, comme si chaque fruit luisait en secret.",
+  S024: "Une dahlia rouge profond se déploie au vent, pétales sur pétales ; quand le vent traverse le jardin, il apporte le courage de partir.",
+  S025: "Un rayon de soleil bondit près du récif corallien — la mer est fraîche, l'écume murmure, et même les poissons endormis se mettent à danser.",
+  S026: "Une baie rouge tombe dans le ruisseau du matin, sa couleur vive s'élargit sur l'onde, portant une petite joie vers le lointain.",
+  S027: "Les grains de grenade éclatent aigre-doux entre les lèvres ; dans leur jus éclatant se cache un vœu ardent.",
+  S028: "Les chrysanthèmes d'automne oscillent au vent ; dans leur léger parfum d'herbe habite une ténacité sans hâte.",
+  S029: "Une touche de rouge s'élève des fissures volcaniques, porte une chaleur brûlante et dit au monde que la vie ne manque jamais de force pour recommencer.",
+  S030: "Un carré de chocolat noir légèrement amer fond lentement sur la langue ; après l'arôme intense demeure une douceur chaude et prolongée.",
+  S031: "Le noir le plus profond du ciel nocturne enlace en silence des myriades d'étoiles, offrant à chaque rêve encore en route une place où se poser.",
+  S032: "Le sable fin éclairé par la lumière du matin — des grains frais glissent entre les doigts tandis que les vagues éveillent doucement le lointain.",
+  S033: "Une couverture de laine réchauffée par le soleil enveloppe doucement les épaules ; l'air sent le coton propre séché au soleil.",
+  S034: "La branche où se posent les oiseaux garde un parfum de bois posé ; quand les feuilles oscillent, un léger gazouillis traverse.",
+  S035: "Des dunes ondulent au crépuscule, une lumière fine scintille au bout des doigts — chaque grain de sable se souvient du passage du vent.",
+  S036: "Une pierre baignée par la rivière, tiède et paisible ; le bruit de l'eau la contourne et court vers l'immensité.",
+  S037: "Les gouttes de pluie tombent sur les tuiles sombres, frappant un rythme apaisant, laissant le cœur se déployer lentement dans la pluie.",
+  S038: "La crème de pêche fond sur la langue, une douceur légère, jusqu'à ce que l'air même devienne un rêve moelleux.",
+  S039: "L'abricot mûr que le soleil change en miel ; un parfum de fruit sur les doigts, et voici les longs après-midi d'été.",
+  S040: "Une rose sauvage dans la vallée, rougie par le vent, porteuse de l'odeur de la terre, qui fleurit pour le monde avec entêtement.",
+  S041: "Feuilles mortes et plumes dans la forêt d'automne ; sur la terre moelleuse, on entend la vie marcher doucement dans le silence.",
+  S042: "Le soleil couchant teinte le corail d'un orange chaud ; le vent marin salé arrive, et l'écume porte des nouvelles du large.",
+  S043: "Des baies violettes infusées dans un thé aux fruits parfumé — après la pointe d'acidité monte une douceur, comme un petit miracle caché dans la nuit.",
+  S044: "Un soda couleur pêche et abricot, un parfum de fruit sucré qui monte avec les fines bulles, le soleil brillant sur le rebord du verre.",
+  S045: "Une rose rose tendre à peine épanouie, pétales diaphanes, laissant un léger parfum sucré au passage de la brise.",
+  S046: "Des baies couleur vin mûrissent à la branche ; dans leur arôme profond se cache une tendresse que le temps a lentement brassée.",
+  S047: "Une poignée de sable d'or fin semée dans la lumière du matin — un léger mouvement, et la lumière des étoiles tombe, comme si la joie avait trouvé une voix.",
+  S048: "L'ombre d'un cerf glisse dans les fourrés brun chaud ; les herbes portent la rosée, et la forêt lointaine est calme et féconde.",
+  S049: "Là où la mer profonde rencontre la forêt vert émeraude, la marée respire à voix basse, et toute chose amasse sa force dans l'invisible.",
+  S050: "Le brun chaud de la coque de noix de pécan, riche d'un parfum de fruit sec, comme si la terre posait sa moisson doucement dans la paume.",
+  S051: "Une rose rose enveloppée d'une brume légère ; son parfum tendre se répand au matin, et même le temps ralentit le pas.",
+  S052: "Une rose et le corail échangent un baiser — le parfum floral mêlé au vent marin ajoute une pointe de clarté à chaque respiration.",
+  S053: "Des nuées ardentes au bout du canyon, le vent chaud effleure la paroi, et le ciel raconte à la terre l'histoire de sa journée.",
+  S054: "Des prunes mûres au bord du désert, leur parfum aigre-doux se tisse au vent sec — même la lande porte des fruits abondants.",
+  S055: "Une baie couverte de givre fin — sa pointe d'acidité éveille la langue, mais au plus profond dort une douceur tendre.",
+  S056: "Des toasts clairs à peine sortis du four, le parfum chaud du blé dans l'air — même un matin ordinaire a un goût qui mérite d'être attendu.",
+  S057: "Le caramel fond lentement dans la casserole tiède, sa douceur emplit la cuisine, rappelant que quelqu'un vous attend à la maison.",
+  S058: "Des fèves de cacao doucement broyées, un arôme velouté s'élève de la paume, portant une force posée et sereine.",
+  S059: "Le café corsé lâche sa dernière goutte parfumée ; l'amertume rencontre le sucré sur la langue, et le cœur lucide retrouve le courage de partir.",
+  S060: "Une rose ancienne qui se balance au vent, parfum paisible et prolongé — comme si la tendresse n'avait jamais besoin de crier.",
+  S061: "Le caramel tombe dans un café chaud, le sucré et l'amertume se fondent doucement ; les paumes réchauffées, les jours retrouvent leur douceur finale.",
+  S062: "L'abricot mûr et le vent du soir échangent un secret — le parfum à peine perceptible, et pourtant une fleur s'ouvre en silence dans le cœur.",
+  S063: "Une gaze rose attrape la lumière du couchant, effleure la joue comme une plume, et teinte le souffle d'une chaleur tendre.",
+  S064: "La douceur de la première fraise goûtée, le cœur qui s'emballe en silence — comme si le printemps germait dans la poitrine.",
+  S065: "Une tomate à peine cueillie au soleil, peau tendue et pleine, aigre-douce et fraîche, porteuse de l'odeur vivante de la terre du jardin.",
+  S066: "La lumière du matin se pose sur un nuage blanc abricot, éclaire doucement la peau — et les vœux du cœur encore non dits.",
+  S067: "Une feuille de papier blanc réchauffée par le soleil, propre et souple, qui attend que chaque nouvelle histoire commence.",
+  S068: "Le miel tombe dans le lait tiède, un parfum suave s'élève doucement — les jours ordinaires gagnent une chaleur dorée.",
+  S069: "La première fleur rose-abricot du matin se mire à l'eau ; la brise passe, son image oscille — la vie se déploie en silence.",
+  S070: "La crème d'amande fond sur la langue, fine et veloutée, comme si le monde vous recevait avec douceur.",
+  S071: "Blé et amandes séchés au soleil, un parfum de grain généreux, qui porte posément la vitalité de la terre.",
+  S072: "Le bois d'amandier exhale un léger parfum au soleil doux ; les doigts suivent le grain fin, comme si l'on touchait la texture tendre du temps.",
+  S073: "Une tasse de thé oolong à peine infusé, légèrement âpre, la vapeur effleure le visage — la saveur de la vie se déploie lentement entre les lèvres.",
+  S074: "Le thé Earl Grey rencontre le haricot rouge mûr — une pointe de sucré flotte dans l'arôme délicat, comme un bonbon tendu lors d'un long après-midi.",
+  S075: "Des pétales de rose tombent dans le thé noir tiède ; le parfum floral est posé, la saveur s'attarde — la tendresse prend une forme que l'on peut toucher.",
+  S076: "Une fleur rose froid dans la brume fine, la rosée glisse le long des pétales ; dans le vent frais subsiste un printemps qui refuse de faner.",
+  S077: "Une goutte de rosée cristalline sur l'appui de la fenêtre au matin — fraîche au toucher, miroitant de lumière du ciel, gardant l'espoir dans son scintillement transparent.",
+  S078: "Amandes et épis de blé réchauffés par le soleil ; dans leur parfum doux habitent la stabilité de la terre et la douceur des jours qui mûrissent lentement.",
+  S079: "Une tasse de porcelaine blanche d'eau tiède — la paume sent sa chaleur délicate ; même dans le silence, la vie a son écho.",
+  S080: "La lumière du matin couleur pêche se répand sur les rideaux blancs ; dans le clapotis d'ombre et de lumière, même l'air porte une chaleur sucrée.",
+  S081: "La mer nocturne reflète au loin la lumière bleue des étoiles ; le vent passe et les vagues murmurent, tandis que chaque étoile guide ceux qui voguent.",
+  S082: "Un filet de fumée violette s'élève dans le crépuscule, porteur de l'humidité d'un jardin après la pluie, confiant en silence au ciel les rêves inachevés.",
+  S083: "Un thé infusé sous l'olivier, les feuilles portent un parfum d'herbe à l'amertume nette ; la brise passe, et la forêt respire lentement.",
+  S084: "Des feuilles de menthe doucement froissées du bout des doigts, leur fraîcheur monte droit au nez — comme un ruisseau d'été qui traverse le cœur.",
+  S085: "Une noisette tombe dans le thé froid ; le parfum du fruit sec rencontre la limpidité de la feuille, donnant au calme une longue rémanence.",
+  S086: "Le caramel prend lentement couleur d'ambre dans la casserole, son parfum sucré enveloppe toute la cuisine — le bonheur peut donc être si concret.",
+  S087: "Des fleurs rouges épanouies près du mur de briques, réchauffées par le soleil ; leur parfum mêlé de terre garde la force de fleurir encore après les orages.",
+  S088: "Une orange à peine épluchée, le jus luit entre les doigts, le parfum frais emplit la chambre d'un coup — même l'humeur se met à danser.",
+  S089: "Les fleurs de cerisier tombent dans la paume du printemps, pétales tendres au parfum délicat ; un souffle de vent, et le monde entier s'allège.",
+  S090: "Une baie violette éclate doucement sur la langue, son jus aigre-doux illumine les papilles — un fruit sombre à l'âme lumineuse.",
+  S091: "Un festin brassé par la rose et la baie — parfum floral intense, fruit éclatant, chaque pétale vit avec sérieux.",
+  S092: "La mousse fine d'un cappuccino, le parfum de café velouté se répand, et le monde pressé s'arrête un instant dans une gorgée chaude.",
+  S093: "Une étoile filante dorée traverse le ciel brun chaud, scintillante — comme si chaque regard levé pouvait retrouver les étoiles.",
+  S094: "Un rêve violet se pose sur le lac de minuit, l'onde luit faiblement, et la lune lointaine confie ses secrets aux étoiles.",
+  S095: "Une poignée d'amandes tièdes au crépuscule, un léger parfum de grain, posé et doux — les mots « je suis là », doucement dits.",
+  S096: "La lune tombe dans le lac glacé et limpide, la fraîcheur effleure les doigts — au fond du lac demeure une lueur d'étoile, gardant une place à chaque rêve.",
+  S097: "Un café serré fume au matin, une douceur cachée dans son amertume légère, qui accompagne en silence chaque nouveau commencement.",
+  S098: "La voûte sans fin de la nuit profonde reçoit en silence le scintillement des étoiles, donnant à chaque vœu muet un endroit où revenir.",
+  S099: "Le cassis et la rose sombre se rencontrent au crépuscule — parfum de fruit profond, pétales tendres — comme si un cœur paisible pouvait fleurir un printemps ardent.",
+  S100: "Une pêche à peine cueillie de la branche, le duvet effleure les doigts ; dans son parfum sucré se cache la chaleur du soleil.",
+  S101: "Une fraise tombe dans le lait glacé, l'aigre-doux fond sur la langue ; dans le parfum frais, le printemps approche sur la pointe des pieds.",
+  S102: "Une brume mauve pâle flotte sur le jardin à l'aube, porteuse de la fraîcheur de la rosée, embrassant doucement chaque feuille à peine éveillée.",
+  S103: "Le feu d'automne teinte les cimes de rouge, le parfum du bois tourne dans l'air ; la chaude lueur invite la vie à se déployer sans retenue.",
+  S104: "L'écorce orange-brun des fruits mûrs d'automne laisse la chaleur du soleil au bout du doigt ; leur parfum écrit la moisson dans chaque jour ordinaire.",
+  S105: "Le couchant teinte la terre d'un brun chaud ; le vent rase les herbes dorées, emportant au loin le parfum mêlé d'herbe et de terre.",
+  S106: "Des amandes infusées dans la crème tiède, un léger parfum de fruit sec se déploie — comme si le monde tendait une lettre moelleuse.",
+  S107: "Une châtaigne roule entre les feuilles d'automne ; sa coque est rude et ferme — à l'intérieur, une fois ouverte, se cache une douceur tiède et moelleuse.",
+  S108: "L'ombre des feuilles d'un vieil olivier se pose sur la terre ; le vent dans les branches fait un bruissement fin — la vie verte ne se presse jamais de répondre au temps.",
+  S109: "Un citron à peine tranché, son parfum vif jaillit — un soleil aigre-doux qui éclaire le chemin de la langue jusqu'au cœur.",
+  S110: "Une feuille de menthe plongée dans l'eau claire du ruisseau ; la fraîcheur gagne les doigts, et l'été devient transparent et léger.",
+  S111: "Le vent du soir caresse le champ de lavande au crépuscule ; un léger parfum flotte dans l'air, tandis que les étoiles lointaines s'allument une à une.",
+  S112: "La brume marine enveloppe le bois poli par les marées ; le vent salé passe entre les doigts, et les vagues apportent doucement des nouvelles du large.",
+  S113: "L'eau de fonte du glacier reflète le ciel du matin, son bruit frais coule près de l'oreille ; dans la lumière cristalline se cache la promesse que le printemps viendra.",
+  S114: "Le premier rayon du matin se pose sur l'appui de la fenêtre, la chaleur s'étend doucement — le jour nouveau prend un fond lumineux.",
+  S115: "Éplucher une mandarine, la douceur jaillit avec l'écorce — même le vent prend un petit air sautillant.",
+  S116: "Les champs de blé mûr ondulent au vent ; les épis pesants s'inclinent, brassant l'attente des saisons en or.",
+  S117: "Du beurre fond sur le toast chaud — dans la douceur moelleuse se cache le réconfort d'être bien soigné.",
+  S118: "L'ambre lentement brassé au creux de la ruche, une douceur assurée qui ralentit chaque respiration.",
+  S119: "La mousse pousse en silence dans les fissures de la pierre, un vert humide s'étend sous les doigts — la vie ne craint jamais les recoins.",
+  S120: "La rosée du matin pend aux aiguilles de pin ; l'air de la forêt est vif, et les pas s'allègent.",
+  S121: "Une graine soulève la terre, le germe recroquevillé tend vers la lumière — dans sa fragilité se cache tout le printemps.",
+  S122: "Un vert paisible repose au cœur du lac ; l'onde s'élargit doucement, repoussant le tumulte au loin.",
+  S123: "Le trèfle étend une couverture moelleuse sur la prairie ; au passage du vent, des vagues vertes courent par couches vers l'horizon.",
+  S124: "Le ciel de midi est bleu sans la moindre hésitation ; le vent disperse les nuages, et le cœur s'élargit avec eux.",
+  S125: "La mer profonde respire dans le silence ; la lumière tombe de très loin — là aussi, la vie rayonne.",
+  S126: "Après la pluie, le lac reflète le ciel dégagé ; un vent frais et humide effleure les cils, lavant les soucis tout à fait.",
+  S127: "Une brume légère flotte sur la rivière au matin ; la lumière du ciel perce peu à peu, et le monde s'éveille doucement.",
+  S128: "Une myrtille éclate entre les dents, le jus aigre-doux se répand — même un petit fruit porte une force entière.",
+  S129: "La glycine retombe le long du vieux mur, les ombres des grappes oscillent doucement, berçant le temps en un poème lent.",
+  S130: "La touche de violet que le ciel garde après le couchant referme doucement la journée — et laisse une lampe allumée pour demain.",
+  S131: "Le champ de lavande ondule au vent, le parfum glisse le long de la peau — et le cœur agité s'allège.",
+  S132: "Les mûres teignent la paume d'un violet profond, la douceur avec une pointe d'âpreté — la saveur la plus sincère de l'été.",
+  S133: "Les violettes fleurissent près de la fenêtre, parfumant en silence — certaines beautés n'ont jamais besoin d'être dites à voix haute.",
+  S134: "Le gris est le silence suspendu de toutes les couleurs — et le souffle tendre du monde avant que l'aube n'arrive.",
+};
+/* 按当前语言取诗：zh 原文 / en 英译 / fr 法译，缺失时回退中文 */
+function poemFor(id){
+  const l = Store.get('lang','zh');
+  if(l === 'en' && SHADE_POEMS_EN[id]) return SHADE_POEMS_EN[id];
+  if(l === 'fr' && SHADE_POEMS_FR[id]) return SHADE_POEMS_FR[id];
+  return SHADE_POEMS[id] || '';
+}
 /* ===== 色系显式归类（Prompt 第 6 条：修正错乱的分类，优先于 HSV 自动归类） ===== */
 const SHADE_FAMILY_OVERRIDE = {
   S001: '橙',
@@ -2428,7 +2703,7 @@ function showShadeTip(s, anchor){
        esc(l.name || PT('tip_base')) + '</em></div>';
   if(s.finish) rows += '<div class="mood-tip-row"><span>' + PT('tip_finish') + '</span><em>' +
        esc(s.finish) + '</em></div>';
-  if(s.poem) rows += '<div class="mood-tip-poem"><i>' + PT('tip_poem') + '</i>' + esc(s.poem) + '</div>';
+  { const _pm = poemFor(s.id); if(_pm) rows += '<div class="mood-tip-poem"><i>' + PT('tip_poem') + '</i>' + esc(_pm) + '</div>'; }
   const thumb = s.img
     ? '<img class="mood-tip-img" src="' + esc(s.img) + '" alt="' + esc(s.name) + '" loading="lazy" onerror="this.style.display=\'none\'">'
     : '<span class="mood-tip-chip" style="background:' + esc(s.hex) + '"></span>';
@@ -3222,7 +3497,7 @@ function productModal(no){
     if(b && b.cn) rows.push('<p><b>' + esc(b.cn) + (b.en ? ' · ' + esc(b.en) : '') + '</b></p>');
     rows.push('<p class="muted">' + PT('tip_product') + '：' + esc(l.name || PT('tip_base')) + '</p>');
     if(s.finish) rows.push('<p class="muted">' + PT('tip_finish') + '：' + esc(s.finish) + '</p>');
-    if(s.poem) rows.push('<p class="mood-tip-poem" style="margin-top:8px"><i>' + PT('tip_poem') + '</i>' + esc(s.poem) + '</p>');
+    { const _pm = poemFor(s.id); if(_pm) rows.push('<p class="mood-tip-poem" style="margin-top:8px"><i>' + PT('tip_poem') + '</i>' + esc(_pm) + '</p>'); }
     openModal(PT('mod_product') + s.name,
       `<div style="display:flex;gap:16px;align-items:flex-start">
          <img src="${esc(s.img || '')}" alt="${esc(s.name)}" width="96" height="96"
@@ -3262,6 +3537,7 @@ function enterCanvas(){
   if(!painter){
     painter = createBrushEngine(pCanvas, {
       bg:'#ffffff',
+      baseScale: 800/640,
       onPaint(color){
         const no = nearestColorNo(color);
         if(!usedNos.includes(no)) usedNos.push(no);
