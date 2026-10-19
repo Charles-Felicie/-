@@ -1033,11 +1033,8 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
         <canvas id="patternCanvas" width="720" height="720" data-page-node-id="md8HFrSOh27fUAVAtCSDoX"></canvas>
         <div class="pat-tools" data-page-node-id="Y0A2djbDUUAQyo9T70DU0k">
           <button class="btn btn-sm" onclick="patScan()" data-page-node-id="fqxruh5jwqH16xq5c4qG6e" data-p="pat_scan">扫描作品</button>
-          <button class="btn btn-sm" onclick="patAddObject()" data-page-node-id="E1Q9V51wRSEGsQBixBOVQR" data-p="pat_add">添加纹样元件</button>
-          <button class="btn btn-sm" onclick="patDuplicate()" data-page-node-id="W8VHfBhg0XH0OCf7yh2cIv" data-p="pat_dup">复制选中</button>
           <button class="btn btn-sm" onclick="patSpread()" data-page-node-id="yVAmYxsulElgCIKXeexK2W" data-p="pat_spread">错落铺开</button>
           <button class="btn btn-sm" onclick="patBringTop()" data-page-node-id="sSCu5KTbFT1MJeifR0UEwv" data-p="pat_top">置顶</button>
-          <button class="btn btn-sm" onclick="patDelete()" data-page-node-id="DUPgkyucZ7GDBps2EW1Fs7" data-p="pat_del">删除选中</button>
           <button class="btn btn-sm" onclick="patUndo()" data-page-node-id="mC8nihbs6YXmirNohIyZkb" data-p="c_undo">↶ 撤销</button>
         </div>
         <div class="brush-hint" data-p="pat_hint" data-p-html="1"></div>
@@ -1094,32 +1091,12 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
             <canvas id="patternMockCanvas" width="420" height="420" style="width:100%;margin-top:10px;border:1px solid var(--line);background:#fff" data-page-node-id="EDX9BfSNe7UrEvof4iS4qm"></canvas>
           </div>
 
-          <div class="pat-sec" data-page-node-id="zHxv2RHoQMG8EEKjHtMsZx">
-            <h3 data-page-node-id="y0flZhHtG5WU5WbX23Mozk"><span class="n" data-page-node-id="mrmWez3m2dYjSfssOwnlnc">4</span><span data-p="pat_s4">选中元件</span></h3>
-            <div id="patSelBox" class="pat-sel-info" data-page-node-id="VnzfknMcHYpiVAlC5oEAZq" data-p="pat_sel_none">未选中元件 · 点击画布中的纹样元件</div>
-            <div class="pat-row" data-page-node-id="tt1h7TnnytGPptFSxjgg3q">
-              <label data-page-node-id="xPUGjvsO2sZaYzz6xKObHZ" data-p="pat_size">大小</label>
-              <input type="range" id="patScale" min="20" max="320" value="100" oninput="patSelScale(this.value)" data-page-node-id="FygQ07BlY8jEdFr7aVpUJz">
-              <span class="val" id="patScaleVal" data-page-node-id="PFXICZj9RAFoRxBQgNeWod">100%</span>
-            </div>
-            <div class="pat-row" data-page-node-id="bfziHLzA9BE27inGqFnnPI">
-              <label data-page-node-id="ethGsQZ7zaQ8Tcz7gUYULy" data-p="pat_angle">角度</label>
-              <input type="range" id="patRotate" min="0" max="360" value="0" oninput="patSelRotate(this.value)" data-page-node-id="1o8tNVZDuL9zPjFNgNeKPU">
-              <span class="val" id="patRotateVal" data-page-node-id="Gq7zIdA5U5nkUmy9deDGgS">0°</span>
-            </div>
-            <div class="pat-row" data-page-node-id="C0xXEHwFk1nYLJAg4FAB57">
-              <button class="btn btn-sm" onclick="patResetSel()" data-page-node-id="FFpGDIE9bN9dti4sQYiL8P" data-p="pat_reset">重置元件</button>
-              <button class="btn btn-sm" onclick="patDuplicate()" data-page-node-id="9DVfdJc02Od9FpQpo5siyG" data-p="pat_dup2">再复制一个</button>
-            </div>
-          </div>
-
           <div class="pat-sec" data-page-node-id="s10GEKv9Pi3z0HXHH0bZ2C">
-            <h3 data-page-node-id="dbDfJYCXitsa3SaUFTdL1b"><span class="n" data-page-node-id="AFcCAObEkGZLOBPfDBnc0Z">5</span><span data-p="pat_s5">导出与应用</span></h3>
+            <h3 data-page-node-id="dbDfJYCXitsa3SaUFTdL1b"><span class="n" data-page-node-id="AFcCAObEkGZLOBPfDBnc0Z">4</span><span data-p="pat_s5">导出与应用</span></h3>
             <div class="pat-row" data-page-node-id="0QTblZCW8PjmLNdHCa3FjP">
               <button class="btn btn-sm" onclick="patExport()" data-page-node-id="r3vK1zoZZAicCd0oA6U3XH" data-p="pat_export">导出纹样 PNG</button>
               <button class="btn btn-sm btn-outline" onclick="go('paint/canvas')" data-page-node-id="UrRGFITzalxQBWfjezpCfi" data-p="pat_back">‹ 回到画布</button>
             </div>
-            <button class="btn btn-primary btn-block" style="margin-top:10px" onclick="patApply()" data-page-node-id="O33EmXFJmg6pXvEnGgixIF" data-p="pat_apply">带着纹样去提交 ›</button>
           </div>
 
         </div>
@@ -4045,7 +4022,9 @@ function patSelRotate(v){
   patRender(); $('patRotateVal').textContent = v + '°';
 }
 function patSyncPanel(){
-  const box = $('patSelBox'), o = Pat.sel;
+  const box = $('patSelBox');
+  if(!box) return;
+  const o = Pat.sel;
   if(!o){
     box.innerHTML = '未选中元件 · 点击画布中的纹样元件';
     return;
