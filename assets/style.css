@@ -324,6 +324,7 @@ table.tbl th{background:var(--bg-soft);font-weight:600}
 .intro-section{border-radius:14px;padding:22px 24px;transition:font-size .25s,background .25s,box-shadow .25s}
 .intro-section:hover{background:#fff;font-size:1.14em;box-shadow:0 12px 28px rgba(91,66,50,.13)}
 .intro-section p{font-size:1em}
+.intro-section .intro-sub{color:#8B3A3A;font-size:17px;font-weight:700;margin:18px 0 6px;letter-spacing:.02em}
 
 /* auth title */
 .auth-title{font-size:26px;text-align:center}

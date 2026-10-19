@@ -401,18 +401,28 @@ canvas#patternCanvas{touch-action:none;cursor:default}
 .mini-tabs button.on{background:var(--primary);color:#fff;font-weight:600}
 
 /* ---------------- AI 纹样化工作台 ---------------- */
-.pattern-grid{display:grid;grid-template-columns:1.32fr 1fr;gap:24px;align-items:start}
-.pat-stage-wrap{position:relative;border:1px solid var(--line);background:var(--bg-soft);padding:14px}
-.pat-stage-wrap canvas{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line)}
-.pat-tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-.pat-panel .card{margin-top:0}
-.pat-sec{padding:14px 0;border-bottom:1px solid var(--line)}
-.pat-sec:first-child{padding-top:0}
-.pat-sec:last-child{border-bottom:none;padding-bottom:0}
-.pat-sec h3{font-size:14px;margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.pattern-grid{display:grid;grid-template-columns:1.7fr 1fr;gap:16px;align-items:start}
+#page-paint-pattern .container{padding:0 16px}
+.pat-stage-wrap{position:relative;padding:0}
+.pat-stage-wrap canvas{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:14px}
+.pat-tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.pat-panel{display:flex;flex-direction:column;gap:0}
+.pat-action-bar{margin-top:14px;padding-top:14px;border-top:1px solid #d8c6ae}
+.pat-sec{margin:0}
+.pat-sec > h3{
+  cursor:pointer;display:flex;align-items:center;gap:7px;
+  padding:11px 8px;margin:0;font-size:14px;font-weight:600;
+  background:transparent;border:none;border-radius:0;
+  border-bottom:1px solid #a98463;
+  transition:background .18s ease, border-radius .18s ease, border-color .18s ease;
+}
+.pat-sec > h3:hover{background:#fff;border-radius:12px;border-bottom-color:transparent}
+.pat-sec.open > h3{background:#fff;border-radius:12px 12px 0 0;border-bottom:1px solid var(--line)}
+.pat-sec-body{display:none;background:#fff;padding:6px 14px 16px;border-radius:0 0 12px 12px}
+.pat-sec.open .pat-sec-body{display:block}
 .pat-sec h3 .n{
   width:19px;height:19px;flex-shrink:0;background:var(--primary);color:#fff;
-  font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;
+  font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;border-radius:50%;
 }
 .pat-row{display:flex;align-items:center;gap:9px;margin-top:9px;flex-wrap:wrap}
 .pat-row label{font-size:12.5px;color:var(--ink-soft);min-width:52px}
@@ -771,7 +781,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 /* ① 色号卡：去黑框（纯白底，与面板融为一体） */
 .palette .shade-sw,.wheel-panel .shade-sw{background:#fff;border:none;box-shadow:none}
 /* ③ 画布/纹样页剩余卡其色格子 → 浅橙黄 + 白搭配 */
-.brush-opts,.brush-hint,.pat-stage-wrap{background:#fff;border:1px solid var(--primary)}
+.brush-opts,.brush-hint{background:#fff;border:1px solid var(--primary)}
 /* 作画页底部工具栏（扫描作品/添加纹样元件/复制选中…）去掉黄色外框 */
 .pat-tools{background:transparent;border:none}
 .pat-empty{border:1px dashed var(--primary);color:var(--primary-deep);background:#fff}
@@ -986,7 +996,6 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 <div class="page" id="page-paint-canvas" data-page-node-id="iRAstGsVHgo3dnrQKSdRlY">
   <div class="container" data-page-node-id="UfzUOyMK9AspNjSrqnzXfI">
     <div class="page-head" data-page-node-id="fAczX1eiG85UAgBc1gOpj0"><h1 data-page-node-id="KQE09SEEDkaiGiO0X6so2B" data-p="p_canvas">画布作画</h1><p class="muted" data-page-node-id="zqzzF66COArWkb5kLqEz11" data-p="c_sub">选择画笔与色号，在画布上自由创作</p><p class="muted" data-p="c_sub2">自由挑选“哑光口红”“水光唇釉”“粉雾腮红”“眼线液笔”“眼线胶笔”五种作画效果</p></div>
-    <div class="card" data-page-node-id="KlcQD8B7NyT6GHrYj02gle">
       <div class="paint-grid" data-page-node-id="2uH6uUFpkH6dKmkVpwNONY">
 
         <div class="studio" data-page-node-id="NWozWF3hPY58pBEunBQMQ8">
@@ -1019,7 +1028,6 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
         </div>
 
       </div>
-    </div>
   </div>
 </div>
 
@@ -1031,21 +1039,13 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 
       <div class="pat-stage-wrap" data-page-node-id="c8XYkSFrdBvP348ces605D">
         <canvas id="patternCanvas" width="720" height="720" data-page-node-id="md8HFrSOh27fUAVAtCSDoX"></canvas>
-        <div class="pat-tools" data-page-node-id="Y0A2djbDUUAQyo9T70DU0k">
-          <button class="btn btn-sm" onclick="patScan()" data-page-node-id="fqxruh5jwqH16xq5c4qG6e" data-p="pat_scan">扫描作品</button>
-          <button class="btn btn-sm" onclick="patSpread()" data-page-node-id="yVAmYxsulElgCIKXeexK2W" data-p="pat_spread">错落铺开</button>
-          <button class="btn btn-sm" onclick="patBringTop()" data-page-node-id="sSCu5KTbFT1MJeifR0UEwv" data-p="pat_top">置顶</button>
-          <button class="btn btn-sm" onclick="patUndo()" data-page-node-id="mC8nihbs6YXmirNohIyZkb" data-p="c_undo">↶ 撤销</button>
-        </div>
-        <div class="brush-hint" data-p="pat_hint" data-p-html="1"></div>
-        <div style="margin-top:14px"><button class="btn btn-primary btn-block btn-lg" onclick="go('paint/confirm')" data-p="pat_next">下一步：提交作品 ›</button></div>
       </div>
 
       <div class="pat-panel" data-page-node-id="zsjgeusCr2kpiJFaKKQBiz">
-        <div class="card" data-page-node-id="olK9dFD16jXZGUcUoFvzh7">
 
-          <div class="pat-sec" data-page-node-id="U03pj88mD7dAGMnBWPic5K">
-            <h3 data-page-node-id="OZHeC1OBtzDSRfJRYVRYjE"><span class="n" data-page-node-id="orNqCUxdnlfXPLqbFPEZfV">1</span><span data-p="pat_s1">扫描与抠图</span></h3>
+          <div class="pat-sec open" data-page-node-id="U03pj88mD7dAGMnBWPic5K">
+            <h3 onclick="togglePatSec(this)" data-page-node-id="OZHeC1OBtzDSRfJRYVRYjE"><span class="n" data-page-node-id="orNqCUxdnlfXPLqbFPEZfV">1</span><span data-p="pat_s1">扫描与抠图</span></h3>
+            <div class="pat-sec-body">
             <p class="muted" data-page-node-id="tNQqd6DQ5aWiZ5lkI6XHBS" data-p="pat_s1d">自动识别画布上的主体、去掉白色底，得到可重复排列的纹样元件。</p>
             <div id="patMotifBox" class="pat-empty" style="margin-top:10px" data-page-node-id="G93JcaB3X0H5nFHtb91C3E" data-p="pat_empty">尚未扫描 · 点击「扫描作品」</div>
             <div class="pat-row" data-page-node-id="AoDoOpB91Do9izlIiK0YLZ">
@@ -1053,10 +1053,12 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
               <input type="range" id="patThr" min="200" max="252" value="238" oninput="patRescan()" data-page-node-id="9mS6QBqV7mmzKWF6gCPSLk">
               <span class="val" id="patThrVal" data-page-node-id="5xFohCKPyQt6HhxanccL1B">238</span>
             </div>
+            </div>
           </div>
 
           <div class="pat-sec" data-page-node-id="QHiwOiFJNBuhjcKwdDifKT">
-            <h3 data-page-node-id="p5hY0y5aLAf0MFLBEnzOIn"><span class="n" data-page-node-id="32Dfx36qVXJFpOLB6imimP">2</span><span data-p="pat_s2">四方连续底纹</span></h3>
+            <h3 onclick="togglePatSec(this)" data-page-node-id="p5hY0y5aLAf0MFLBEnzOIn"><span class="n" data-page-node-id="32Dfx36qVXJFpOLB6imimP">2</span><span data-p="pat_s2">四方连续底纹</span></h3>
+            <div class="pat-sec-body">
             <div class="pat-row" data-page-node-id="ZuviXFtZpJRtDrcnHICz8P">
               <label data-page-node-id="FPa6pC4wbjKSFv0Ove3bcw" data-p="pat_arrange">排列</label>
               <div class="seg" id="patModeSeg" style="flex:1" data-page-node-id="gT57nG3ha8DgLDs0kE9tNm">
@@ -1079,27 +1081,42 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
               <button class="btn btn-sm" onclick="patBuildBg()" data-page-node-id="dKsEVLb1IguZjp98QKtSMS" data-p="pat_build">生成底纹</button>
               <button class="btn btn-sm" onclick="patClearBg()" data-page-node-id="0BZ0FLSeHSQHARmneSeNMm" data-p="pat_clearbg">清除底纹</button>
             </div>
+            </div>
           </div>
 
           <div class="pat-sec" data-page-node-id="JvM3QhTGqavxsOBiWeBkcn">
-            <h3 data-page-node-id="lquMr0QMrLa63ypUE8Gx4j"><span class="n" data-page-node-id="ZF9A6JID5jY419PJon4fdR">3</span><span data-p="pat_s3">面料预览</span></h3>
+            <h3 onclick="togglePatSec(this)" data-page-node-id="lquMr0QMrLa63ypUE8Gx4j"><span class="n" data-page-node-id="ZF9A6JID5jY419PJon4fdR">3</span><span data-p="pat_s3">面料预览</span></h3>
+            <div class="pat-sec-body">
             <div class="seg" id="patMockSeg" data-page-node-id="47unktjQVhzpbSBjqMcDVC">
               <button data-k="flat" class="on" onclick="patSetMock('flat')" data-page-node-id="gAsNRfy5CkP5pfgFLpHqeo" data-p="c_mock_flat">平铺</button>
               <button data-k="scarf" onclick="patSetMock('scarf')" data-page-node-id="Nd38bRZytNmfXf5DTCqxcF" data-p="c_mock_scarf">头巾</button>
               <button data-k="mask" onclick="patSetMock('mask')" data-page-node-id="NZPf9bDaT2zKyPbXac8bDg" data-p="c_mock_mask">口罩</button>
             </div>
             <canvas id="patternMockCanvas" width="420" height="420" style="width:100%;margin-top:10px;border:1px solid var(--line);background:#fff" data-page-node-id="EDX9BfSNe7UrEvof4iS4qm"></canvas>
+            </div>
           </div>
 
           <div class="pat-sec" data-page-node-id="s10GEKv9Pi3z0HXHH0bZ2C">
-            <h3 data-page-node-id="dbDfJYCXitsa3SaUFTdL1b"><span class="n" data-page-node-id="AFcCAObEkGZLOBPfDBnc0Z">4</span><span data-p="pat_s5">导出与应用</span></h3>
+            <h3 onclick="togglePatSec(this)" data-page-node-id="dbDfJYCXitsa3SaUFTdL1b"><span class="n" data-page-node-id="AFcCAObEkGZLOBPfDBnc0Z">4</span><span data-p="pat_s5">导出与应用</span></h3>
+            <div class="pat-sec-body">
             <div class="pat-row" data-page-node-id="0QTblZCW8PjmLNdHCa3FjP">
               <button class="btn btn-sm" onclick="patExport()" data-page-node-id="r3vK1zoZZAicCd0oA6U3XH" data-p="pat_export">导出纹样 PNG</button>
               <button class="btn btn-sm btn-outline" onclick="go('paint/canvas')" data-page-node-id="UrRGFITzalxQBWfjezpCfi" data-p="pat_back">‹ 回到画布</button>
             </div>
+            </div>
           </div>
 
-        </div>
+          <div class="pat-action-bar">
+            <div class="pat-tools" data-page-node-id="Y0A2djbDUUAQyo9T70DU0k">
+              <button class="btn btn-sm" onclick="patScan()" data-page-node-id="fqxruh5jwqH16xq5c4qG6e" data-p="pat_scan">扫描作品</button>
+              <button class="btn btn-sm" onclick="patSpread()" data-page-node-id="yVAmYxsulElgCIKXeexK2W" data-p="pat_spread">错落铺开</button>
+              <button class="btn btn-sm" onclick="patBringTop()" data-page-node-id="sSCu5KTbFT1MJeifR0UEwv" data-p="pat_top">置顶</button>
+              <button class="btn btn-sm" onclick="patUndo()" data-page-node-id="mC8nihbs6YXmirNohIyZkb" data-p="c_undo">↶ 撤销</button>
+            </div>
+            <div class="brush-hint" data-p="pat_hint" data-p-html="1"></div>
+            <div style="margin-top:12px"><button class="btn btn-primary btn-block btn-lg" onclick="go('paint/confirm')" data-p="pat_next">下一步：提交作品 ›</button></div>
+          </div>
+
       </div>
 
     </div>
@@ -3364,7 +3381,7 @@ const OPEN_POLYS = [
   'polygon(50% 48.3%, 77% 100%, 23% 100%)',             /* 兰蔻（下） */
   'polygon(0 47.2%, 50% 48.3%, 23% 100%, 0 100%)'       /* 美宝莲（左下） */
 ];
-let openTimers = [], wheelFam = '红', wheelLocked = '红';
+let openTimers = [], wheelFam = '红', wheelLocked = '红', returningToWheel = false;
 
 /* 极坐标 → 百分比坐标（色轮扇形 clip-path 用） */
 function hexPt(deg, r){
@@ -3393,9 +3410,27 @@ function typeLine(el, text, speed, done){
   })();
 }
 function enterOpening(){
+  /* 从画布「选择颜色」返回时，直接进入色轮，不重播开场 */
+  if(returningToWheel){
+    const os = $('openStage'), ws = $('wheelStage');
+    if(os){ os.style.transition='none'; os.style.display='none'; }
+    if(ws){ ws.style.transition='none'; }
+    finishOpening();
+    requestAnimationFrame(()=> requestAnimationFrame(()=>{
+      if(os){os.style.transition=''; os.style.display='';}
+      if(ws)ws.style.transition='';
+    }));
+    return;
+  }
+  const stage = $('openStage'), ws = $('wheelStage');
+  /* 色轮已展示过（正常返回），直接复用 */
+  if(stage && stage.classList.contains('done') && ws && ws.classList.contains('show')){
+    buildWheel(); setWheelFocus(wheelLocked || '红', false); renderWheelChosen();
+    return;
+  }
   buildOpening();
   openTimers.forEach(clearTimeout); openTimers = [];
-  const stage = $('openStage'), band = $('posterBand'), quote = $('openQuote');
+  const band = $('posterBand'), quote = $('openQuote');
   const q1 = $('quoteP1'), q2 = $('quoteP2');
   if(stage) stage.classList.remove('done');
   if(band) band.classList.remove('gone');
@@ -3715,8 +3750,9 @@ function saveDraft(){
 /* 返回上一个选色界面（命运色轮）继续挑选颜色；本次画作自动保存，返回后仍保留 */
 function moreColors(){
   if(pCanvas) saveDraft();
+  returningToWheel = true;
   go('paint/opening');
-  finishOpening();                 /* 跳过品牌开场，直接进入命运色轮选色 */
+  setTimeout(()=>{ returningToWheel = false; }, 300);
 }
 function loadDraft(){
   const d = Store.get('draft_' + currentUser, null);
@@ -3763,6 +3799,11 @@ function enterPattern(){
 function patPos(e){
   const c = $('patternCanvas'), r = c.getBoundingClientRect();
   return { x:(e.clientX - r.left) * (c.width / r.width), y:(e.clientY - r.top) * (c.height / r.height) };
+}
+/* 右侧栏目折叠/展开 */
+function togglePatSec(h){
+  const sec = h.closest('.pat-sec');
+  if(sec) sec.classList.toggle('open');
 }
 function patScan(silent){
   if(!pCanvas) return toast(PT('pat_nocanvas'));
