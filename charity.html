@@ -67,6 +67,8 @@
         <div class="banner-slide"><div class="headline" data-i18n="poster4_sub">Kind Donations · Free Charity Products</div></div>
       </div>
       <div class="banner-dots" id="bannerDots"><i class="on"></i><i></i><i></i><i></i></div>
+      <button class="banner-arrow prev" onclick="bannerGo(-1)" aria-label="上一张海报">‹</button>
+      <button class="banner-arrow next" onclick="bannerGo(1)" aria-label="下一张海报">›</button>
     </div>
     <div class="grid grid-3" style="margin-top:28px">
       <button class="home-card" onclick="location.href='paint.html#/paint/colors'">
@@ -486,11 +488,15 @@ function go(name){
 
 /* ================= Home banner ================= */
 let bannerIdx = 0;
+function bannerRender(){
+  $('bannerTrack').style.transform = `translateX(-${bannerIdx*100}%)`;
+  [...$('bannerDots').children].forEach((d,i) => d.classList.toggle('on', i === bannerIdx));
+}
+function bannerGo(dir){ bannerIdx = (bannerIdx + dir + 4) % 4; bannerRender(); }
 setInterval(() => {
   if(!$('page-me').classList.contains('active')) return;
   bannerIdx = (bannerIdx+1) % 4;
-  $('bannerTrack').style.transform = `translateX(-${bannerIdx*100}%)`;
-  [...$('bannerDots').children].forEach((d,i) => d.classList.toggle('on', i === bannerIdx));
+  bannerRender();
 }, 3500);
 
 /* ================= Paint ================= */

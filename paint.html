@@ -147,6 +147,14 @@ html[lang="en"] .f-bahn b,html[lang="fr"] .f-bahn b{font-family:"Britannic Bold"
 .banner-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:2}
 .banner-dots i{width:8px;height:8px;background:rgba(255,255,255,.5)}
 .banner-dots i.on{background:#fff}
+.banner-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+  width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.32);color:#fff;font-size:24px;line-height:1;padding-bottom:4px;
+  opacity:0;visibility:hidden;transition:opacity .25s ease,background .2s ease;cursor:pointer}
+.banner:hover .banner-arrow{opacity:1;visibility:visible}
+.banner-arrow:hover{background:rgba(0,0,0,.6)}
+.banner-arrow.prev{left:18px}
+.banner-arrow.next{right:18px}
 
 /* ---------------- Grids ---------------- */
 .grid{display:grid;gap:16px}
@@ -763,7 +771,9 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 /* ① 色号卡：去黑框（纯白底，与面板融为一体） */
 .palette .shade-sw,.wheel-panel .shade-sw{background:#fff;border:none;box-shadow:none}
 /* ③ 画布/纹样页剩余卡其色格子 → 浅橙黄 + 白搭配 */
-.brush-opts,.brush-hint,.pat-tools,.pat-stage-wrap{background:#fff;border:1px solid var(--primary)}
+.brush-opts,.brush-hint,.pat-stage-wrap{background:#fff;border:1px solid var(--primary)}
+/* 作画页底部工具栏（扫描作品/添加纹样元件/复制选中…）去掉黄色外框 */
+.pat-tools{background:transparent;border:none}
 .pat-empty{border:1px dashed var(--primary);color:var(--primary-deep);background:#fff}
 #page-paint-canvas .btn:not(.btn-primary):not(.btn-outline),
 #page-paint-pattern .btn:not(.btn-primary):not(.btn-outline),
@@ -772,6 +782,8 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
   background:#fff;border:1px solid var(--primary);color:var(--primary-deep)}
 /* ④ 笔刷图外框删除，与白底融合 */
 .brush-btn[data-brush] .bi{box-shadow:none}
+/* ⑤ 作画界面顶部小字「作画说明」字号调大 1–2 号 */
+#page-paint-canvas .page-head p,#page-paint-pattern .page-head p{font-size:15px;line-height:1.65}
 </style>
 <style>
   .banner{height:420px}
@@ -842,6 +854,8 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
         <div class="banner-slide" data-page-node-id="ZAvPI771xgBo8AeROxAqgl"><div class="headline" data-page-node-id="FPQN5uBJsIAimKJAceHjnX" data-p="home_bn4">爱心捐赠 · 公益产品领取</div></div>
       </div>
       <div class="banner-dots" id="bannerDots" data-page-node-id="dl6EM6PaejGZUsEME3XxbM"><i class="" data-page-node-id="HfEEo3KqESBAjp4nwybMh3"></i><i data-page-node-id="jTb8JEbisbizn9ieX8Cpuu" class="on"></i><i data-page-node-id="XYVxYONWYZRCW7lDpmNhnX" class=""></i><i data-page-node-id="hHL6P6gTEANLyqrp4OWJ28" class=""></i></div>
+      <button class="banner-arrow prev" onclick="bannerGo(-1)" aria-label="上一张海报">‹</button>
+      <button class="banner-arrow next" onclick="bannerGo(1)" aria-label="下一张海报">›</button>
     </div>
     <div class="grid grid-4" style="margin-top:28px" data-page-node-id="bOpipzvemblKQpy6Tob9gD">
       <button class="entry-card" onclick="go('paint/colors')" data-page-node-id="z8K7JTmvOCccfldcSLt2A5">
@@ -993,6 +1007,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
           <div class="brush-bar" id="brushBar" data-page-node-id="fy0E7xrancBSdB2j1IDI89"></div>
           <p class="muted" data-page-node-id="HEsaKdu8W8Mv5cF4fhVC32" data-p="c_used">本次使用色号（悬停色块可查看颜色寓意）：</p>
           <div class="palette" id="canvasPalette" style="grid-template-columns:repeat(4,1fr);margin-top:8px" data-page-node-id="gFEDCHp4VSZ9XavptQfLmW"></div>
+          <button class="btn btn-outline btn-block" style="margin-top:12px" onclick="moreColors()" data-page-node-id="MoreColorsBtn01" data-p="c_pickcolor">选择颜色 ›</button>
 
 
           <div style="display:flex;gap:10px;margin-top:16px" data-page-node-id="DQOcH6GAmqoGF1VctJCvbt">
@@ -2782,7 +2797,8 @@ const PAINT_I18N = {
     c_size:'笔刷大小', c_undo:'撤销', c_clear:'清空画布',
     c_mini:'AI 纹样预览', c_live:'实时', c_mock_flat:'平铺', c_mock_scarf:'头巾', c_mock_mask:'口罩',
     c_mini_desc:'作品将自动转为可印花的四方连续纹样，实时预览。',
-    c_expand:'展开工作台 ›', c_save:'保存草稿', c_load:'读取草稿', c_share:'分享',
+    c_expand:'展开工作台 ›', c_save:'保存草稿', c_load:'读取草稿', c_share:'分享', c_pickcolor:'选择颜色 ›',
+    cart_buy:'自购定制作品', cart_empty:'购物车为空',
     c_ai:'AI 纹样化', c_done:'完成 ›',
     brush_matte:'哑光口红', brush_gloss:'水光唇釉', brush_blush:'粉雾腮红',
     brush_liner:'眼线液笔', brush_glitter:'细闪高光', brush_eraser:'橡皮擦',
@@ -2878,7 +2894,8 @@ const PAINT_I18N = {
     c_size:'Brush size', c_undo:'Undo', c_clear:'Clear canvas',
     c_mini:'AI pattern preview', c_live:'live', c_mock_flat:'Flat', c_mock_scarf:'Scarf', c_mock_mask:'Mask',
     c_mini_desc:'Your artwork is automatically turned into a printable seamless pattern, previewed live.',
-    c_expand:'Open workbench ›', c_save:'Save draft', c_load:'Load draft', c_share:'Share',
+    c_expand:'Open workbench ›', c_save:'Save draft', c_load:'Load draft', c_share:'Share', c_pickcolor:'Choose color ›',
+    cart_buy:'Custom purchase', cart_empty:'Your cart is empty',
     c_ai:'AI Patternify', c_done:'Done ›',
     brush_matte:'Matte lipstick', brush_gloss:'Glossy lip tint', brush_blush:'Powder blush',
     brush_liner:'Liquid eyeliner', brush_glitter:'Fine shimmer', brush_eraser:'Eraser',
@@ -2966,7 +2983,8 @@ const PAINT_I18N = {
     c_size:'Taille du pinceau', c_undo:'Annuler', c_clear:'Effacer la toile',
     c_mini:'Aperçu du motif IA', c_live:'direct', c_mock_flat:'À plat', c_mock_scarf:'Foulard', c_mock_mask:'Masque',
     c_mini_desc:'Votre œuvre devient automatiquement un motif imprimable sans raccord, en aperçu direct.',
-    c_expand:'Ouvrir l’atelier ›', c_save:'Enregistrer', c_load:'Charger', c_share:'Partager',
+    c_expand:'Ouvrir l’atelier ›', c_save:'Enregistrer', c_load:'Charger', c_share:'Partager', c_pickcolor:'Choisir une couleur ›',
+    cart_buy:'Achat personnalisé', cart_empty:'Panier vide',
     c_ai:'Motif IA', c_done:'Terminer ›',
     brush_matte:'Rouge à lèvres mat', brush_gloss:'Brillant à lèvres', brush_blush:'Fard à joues poudré',
     brush_liner:'Eyeliner liquide', brush_glitter:'Enlumineur nacré', brush_eraser:'Gomme',
@@ -3204,12 +3222,16 @@ function navBack(){ navJump(navIdx - 1); }
 function navFwd(){  navJump(navIdx + 1); }
 
 /* ================= Home banner ================= */
-let bIdx = 0;
+let bIdx = 1;
+function bannerRender(){
+  $('bannerTrack').style.transform = `translateX(-${bIdx*100}%)`;
+  [...$('bannerDots').children].forEach((d,i) => d.classList.toggle('on', i === bIdx));
+}
+function bannerGo(dir){ bIdx = (bIdx + dir + 4) % 4; bannerRender(); }
 setInterval(() => {
   if(!$('page-home').classList.contains('active')) return;
   bIdx = (bIdx+1) % 4;
-  $('bannerTrack').style.transform = `translateX(-${bIdx*100}%)`;
-  [...$('bannerDots').children].forEach((d,i) => d.classList.toggle('on', i === bIdx));
+  bannerRender();
 }, 3500);
 
 /* ================= Paint: colors ================= */
@@ -3712,6 +3734,12 @@ function artworkMotif(thr){
 function saveDraft(){
   Store.set('draft_' + currentUser, {img:pCanvas.toDataURL(), colors:chosenColors, used:usedNos});
   toast(PT('c_saved'));
+}
+/* 返回上一个选色界面（命运色轮）继续挑选颜色；本次画作自动保存，返回后仍保留 */
+function moreColors(){
+  if(pCanvas) saveDraft();
+  go('paint/opening');
+  finishOpening();                 /* 跳过品牌开场，直接进入命运色轮选色 */
 }
 function loadDraft(){
   const d = Store.get('draft_' + currentUser, null);
@@ -4233,14 +4261,25 @@ function fallbackPattern(){
 }
 function submitWork(mode){
   const list = getWorks('n', currentUser);
-  list.unshift({
+  const work = {
     id:Date.now(), img:pCanvas.toDataURL(), colors:[...usedNos],
     time:nowText(), sel:'pending', gal:1, likes:0, mode
-  });
+  };
+  list.unshift(work);
   saveWorks('n', currentUser, list);
+  if(mode === 'buy') addToCart(work);          /* 选择购买而非认捐 → 加入个人中心购物车 */
   addRecord('n', currentUser, {icon:'🖼️', text:PT(mode === 'donate' ? 'sub_donate_t' : 'sub_buy_t')});
   toast(PT(mode === 'donate' ? 'sub_donate_ok' : 'sub_buy_ok'));
   go('me/works');
+}
+/* 把购买的作品加入当前用户（正常端）个人中心购物车 */
+function addToCart(w){
+  const users = getUsers('n');
+  const u = users[currentUser];
+  if(!u) return;
+  u.cart = u.cart || [];
+  u.cart.unshift({id:w.id, img:w.img, time:w.time || nowText(), colors:w.colors || [], mode:'buy'});
+  saveUsers('n', users);
 }
 
 /* ================= Try-on ================= */
@@ -4384,8 +4423,13 @@ function renderMyWorks(){
 function renderCart(){
   const cart = me().cart || [];
   $('cartList').innerHTML = cart.length
-    ? cart.map(x => `<div class="row-item">${x}</div>`).join('')
-    : '<div class="empty">购物车为空（购物功能暂未开放）</div>';
+    ? cart.map(x => (x && typeof x === 'object')
+        ? `<div class="row-item"><img class="thumb" src="${x.img}">
+             <div style="flex:1"><b>${PT('cart_buy')}</b>
+               <p class="muted" style="margin-top:5px">${x.time || ''} · ${(x.colors || []).join(', ') || '—'}</p>
+             </div></div>`
+        : `<div class="row-item">${x}</div>`).join('')
+    : `<div class="empty">${PT('cart_empty')}</div>`;
 }
 
 /* ================= Follows ================= */

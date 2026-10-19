@@ -63,6 +63,8 @@
         <div class="banner-slide"><div class="headline" data-i18n="poster4_sub">爱心捐赠 · 公益产品领取</div></div>
       </div>
       <div class="banner-dots" id="bannerDots"><i class="on"></i><i></i><i></i><i></i></div>
+      <button class="banner-arrow prev" onclick="bannerGo(-1)" aria-label="上一张海报">‹</button>
+      <button class="banner-arrow next" onclick="bannerGo(1)" aria-label="下一张海报">›</button>
     </div>
     <div class="grid grid-3" style="margin-top:28px">
       <button class="home-card" onclick="location.href='paint.html#/paint/colors'">
@@ -337,7 +339,7 @@ const I18N = {
     no_works:'还没有作品，去「作画」创作第一幅吧',
     badge_pending:'待评选',badge_selected:'已选中',badge_rejected:'未选中',
     mode_donate:'认捐',mode_buy:'自购',
-    cart_empty:'购物车为空（购物功能暂未开放）',follows_empty:'暂无关注',
+    cart_empty:'购物车为空',follows_empty:'暂无关注',
     charity_creator:'公益创作者',role_user:'用户',
     donations_intro:'我被选中了',donations_unit:'个作品',no_selected:'暂无被选中的作品',
     tab_liked:'我点赞的',tab_followed:'我关注的',no_likes:'还没有点赞记录',no_follows:'还没有关注记录',
@@ -397,7 +399,7 @@ const I18N = {
     no_works:'No artwork yet. Go to Paint and create your first piece.',
     badge_pending:'Pending',badge_selected:'Selected',badge_rejected:'Not selected',
     mode_donate:'Donation',mode_buy:'Purchase',
-    cart_empty:'Cart is empty (shopping not available yet)',follows_empty:'No follows yet',
+    cart_empty:'Your cart is empty',follows_empty:'No follows yet',
     charity_creator:'Charity creator',role_user:'User',
     donations_intro:'Works of mine selected:',donations_unit:'',no_selected:'No selected works yet',
     tab_liked:'My Likes',tab_followed:'My Follows',no_likes:'No likes yet',no_follows:'No follows yet',
@@ -457,7 +459,7 @@ const I18N = {
     no_works:'Aucune œuvre. Allez dans Peindre pour créer votre première pièce.',
     badge_pending:'En attente',badge_selected:'Sélectionnée',badge_rejected:'Non retenue',
     mode_donate:'Don',mode_buy:'Achat',
-    cart_empty:'Panier vide (achats non disponibles)',follows_empty:'Aucun abonnement',
+    cart_empty:'Panier vide',follows_empty:'Aucun abonnement',
     charity_creator:'Créateur caritatif',role_user:'Utilisateur',
     donations_intro:'Mes œuvres sélectionnées :',donations_unit:'',no_selected:'Aucune œuvre sélectionnée',
     tab_liked:'Mes j\'aime',tab_followed:'Mes abonnements',no_likes:'Pas encore de j\'aime',no_follows:'Pas encore d\'abonnements',
@@ -502,8 +504,8 @@ zh:`
     <p style="margin-top:10px">病床上的创作同样轻量。患者只需随手涂几笔，AI 就会生成专属纹样，定制成头巾或口罩送到医院。创作的疗愈发生在过程中，而戴着自己设计的作品的尊严感，持续每一天。</p>
     <p style="margin-top:10px">同时，我们还开发 AI 试妆功能，让在与疾病斗争的过程中略显疲惫的人们可以自由地借我们的产品，重现健康时自信形象，获得审美上的愉悦。健康的人们也可以通过这一项功能，体验我们的最新产品，做出明智的购物决策。</p>
     <div class="grid grid-2" style="margin-top:18px">
-      <div class="photo-ph">图片位置 1（头巾纹样效果）</div>
-      <div class="photo-ph">图片位置 2（口罩纹样效果）</div>
+      <img class="intro-img" src="纹样效果.png" alt="头巾纹样效果">
+      <img class="intro-img" src="口罩纹样.png" alt="口罩纹样效果">
     </div>
   </div>
   <div class="intro-section">
@@ -522,9 +524,9 @@ zh:`
     <div class="participate-step"><div class="n">3</div><div><b>分享一个故事：</b>当收到回传照片时，分享出去，让更多人看见美的连接；</div></div>
     <div class="participate-step"><div class="n">4</div><div><b>配捐一份“美的包裹”：</b>你每分享一幅作品，欧莱雅配捐一份“美的包裹”，让公益可持续。</div></div>
     <div class="grid grid-3" style="margin-top:18px">
-      <div class="photo-ph">图片位置 3</div>
-      <div class="photo-ph">图片位置 4</div>
-      <div class="photo-ph">图片位置 5</div>
+      <img class="intro-img r43" src="登陆页面3.png" alt="">
+      <img class="intro-img r43" src="登录页图4.png" alt="">
+      <img class="intro-img r43" src="登陆页面5.png" alt="">
     </div>
   </div>
   <div class="intro-section">
@@ -549,8 +551,8 @@ en:`
     <p style="margin-top:10px">Creating from a hospital bed is just as light. A patient only needs a few casual strokes; AI generates a personal pattern, made into a scarf or mask delivered to the hospital. The healing of creation happens in the process, while the dignity of wearing your own design lasts every day.</p>
     <p style="margin-top:10px">We also developed AI try-on, letting people wearied by their fight with illness freely borrow our products, rediscover their confident healthy look, and enjoy aesthetic pleasure. Healthy people can also use it to experience our latest products and make smart shopping decisions.</p>
     <div class="grid grid-2" style="margin-top:18px">
-      <div class="photo-ph">Image 1 (scarf pattern)</div>
-      <div class="photo-ph">Image 2 (mask pattern)</div>
+      <img class="intro-img" src="纹样效果.png" alt="Scarf pattern">
+      <img class="intro-img" src="口罩纹样.png" alt="Mask pattern">
     </div>
   </div>
   <div class="intro-section">
@@ -569,9 +571,9 @@ en:`
     <div class="participate-step"><div class="n">3</div><div><b>Share a story:</b> when you receive a photo back, share it so more people see the connection of beauty;</div></div>
     <div class="participate-step"><div class="n">4</div><div><b>Match a "Beauty Package":</b> for every work you share, L'Oréal donates one package, keeping charity sustainable.</div></div>
     <div class="grid grid-3" style="margin-top:18px">
-      <div class="photo-ph">Image 3</div>
-      <div class="photo-ph">Image 4</div>
-      <div class="photo-ph">Image 5</div>
+      <img class="intro-img r43" src="登陆页面3.png" alt="">
+      <img class="intro-img r43" src="登录页图4.png" alt="">
+      <img class="intro-img r43" src="登陆页面5.png" alt="">
     </div>
   </div>
   <div class="intro-section">
@@ -596,8 +598,8 @@ fr:`
     <p style="margin-top:10px">Créer depuis un lit d'hôpital est tout aussi léger. Quelques traits suffisent : l'IA génère un motif personnel, transformé en foulard ou masque livré à l'hôpital. La thérapie de la création agit pendant le processus, et la dignité de porter sa propre création dure chaque jour.</p>
     <p style="margin-top:10px">Nous avons aussi développé l'essai maquillage IA, permettant aux personnes fatiguées par la maladie d'emprunter librement nos produits, de retrouver leur image confiante et de goûter un plaisir esthétique. Les personnes en bonne santé peuvent aussi découvrir nos nouveautés et faire des choix d'achat éclairés.</p>
     <div class="grid grid-2" style="margin-top:18px">
-      <div class="photo-ph">Image 1 (motif foulard)</div>
-      <div class="photo-ph">Image 2 (motif masque)</div>
+      <img class="intro-img" src="纹样效果.png" alt="Motif foulard">
+      <img class="intro-img" src="口罩纹样.png" alt="Motif masque">
     </div>
   </div>
   <div class="intro-section">
@@ -616,9 +618,9 @@ fr:`
     <div class="participate-step"><div class="n">3</div><div><b>Partager une histoire :</b> quand vous recevez une photo en retour, partagez-la pour faire voir ce lien de beauté ;</div></div>
     <div class="participate-step"><div class="n">4</div><div><b>Offrir un « colis beauté » :</b> pour chaque œuvre partagée, L'Oréal offre un colis, pour une charité durable.</div></div>
     <div class="grid grid-3" style="margin-top:18px">
-      <div class="photo-ph">Image 3</div>
-      <div class="photo-ph">Image 4</div>
-      <div class="photo-ph">Image 5</div>
+      <img class="intro-img r43" src="登陆页面3.png" alt="">
+      <img class="intro-img r43" src="登录页图4.png" alt="">
+      <img class="intro-img r43" src="登陆页面5.png" alt="">
     </div>
   </div>
   <div class="intro-section">
@@ -720,11 +722,15 @@ window.addEventListener('hashchange', () => {
 
 /* ================= Home banner ================= */
 let bIdx = 0;
+function bannerRender(){
+  $('bannerTrack').style.transform = `translateX(-${bIdx*100}%)`;
+  [...$('bannerDots').children].forEach((d,i) => d.classList.toggle('on', i === bIdx));
+}
+function bannerGo(dir){ bIdx = (bIdx + dir + 4) % 4; bannerRender(); }
 setInterval(() => {
   if(!$('page-home').classList.contains('active')) return;
   bIdx = (bIdx+1) % 4;
-  $('bannerTrack').style.transform = `translateX(-${bIdx*100}%)`;
-  [...$('bannerDots').children].forEach((d,i) => d.classList.toggle('on', i === bIdx));
+  bannerRender();
 }, 3500);
 
 /* ================= Paint: colors ================= */
@@ -855,11 +861,18 @@ function renderConfirm(){
 }
 function submitWork(mode){
   const list = getWorks('n', currentUser);
-  list.unshift({
+  const work = {
     id:Date.now(), img:pCanvas.toDataURL(), colors:[...usedNos],
     time:nowText(), sel:'pending', gal:1, likes:0, mode
-  });
+  };
+  list.unshift(work);
   saveWorks('n', currentUser, list);
+  if(mode === 'buy'){                          /* 选择购买而非认捐 → 加入个人中心购物车 */
+    const users = getUsers('n'), u = users[currentUser];
+    u.cart = u.cart || [];
+    u.cart.unshift({id:work.id, img:work.img, time:work.time, colors:work.colors, mode:'buy'});
+    saveUsers('n', users);
+  }
   addRecord('n', currentUser, {icon:'🖼️', text:t(mode==='donate'?'rec_donate':'rec_buy')});
   toast(t(mode==='donate' ? 'toast_donate' : 'toast_buy'));
   go('me/works');
@@ -1008,7 +1021,11 @@ function renderMyWorks(){
 function renderCart(){
   const cart = me().cart || [];
   $('cartList').innerHTML = cart.length
-    ? cart.map(x => `<div class="row-item">${x}</div>`).join('')
+    ? cart.map(x => (x && typeof x === 'object')
+        ? `<div class="row-item"><img class="thumb" src="${x.img}">
+             <div style="flex:1"><b>${t('mode_buy')}</b>
+               <p class="muted" style="margin-top:5px">${x.time||''} · ${(x.colors||[]).join(', ')||'—'}</p></div></div>`
+        : `<div class="row-item">${x}</div>`).join('')
     : `<div class="empty">${t('cart_empty')}</div>`;
 }
 

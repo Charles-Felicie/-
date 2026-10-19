@@ -142,6 +142,14 @@ html[lang="en"] .f-bahn b,html[lang="fr"] .f-bahn b{font-family:"Britannic Bold"
 .banner-dots{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:2}
 .banner-dots i{width:8px;height:8px;background:rgba(255,255,255,.5)}
 .banner-dots i.on{background:#fff}
+.banner-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+  width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.32);color:#fff;font-size:24px;line-height:1;padding-bottom:4px;
+  opacity:0;visibility:hidden;transition:opacity .25s ease,background .2s ease;cursor:pointer}
+.banner:hover .banner-arrow{opacity:1;visibility:visible}
+.banner-arrow:hover{background:rgba(0,0,0,.6)}
+.banner-arrow.prev{left:18px}
+.banner-arrow.next{right:18px}
 
 /* ---------------- Grids ---------------- */
 .grid{display:grid;gap:16px}
@@ -238,6 +246,8 @@ table.tbl th{background:var(--bg-soft);font-weight:600}
 .intro-section .lead{font-size:16px}
 .quote-box{background:var(--bg-soft);border-left:4px solid var(--primary);padding:20px 24px;margin:20px 0;font-style:italic}
 .photo-ph{background:var(--bg-soft);border:1px dashed var(--ink-soft);color:var(--ink-soft);display:flex;align-items:center;justify-content:center;font-size:13px;min-height:200px}
+.intro-img{width:100%;height:auto;display:block;object-fit:cover;object-position:center;align-self:start;border-radius:14px;box-shadow:0 8px 22px rgba(91,66,50,.12)}
+.intro-img.r43{aspect-ratio:4 / 3}
 .participate-step{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--line)}
 .participate-step .n{width:34px;height:34px;flex-shrink:0;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
 .hero-slogan{font-size:clamp(26px,3.4vw,42px);font-weight:800;line-height:1.25}
