@@ -220,7 +220,7 @@
 <div class="page" id="page-me">
   <div class="container" style="max-width:820px">
     <div class="page-head"><h1 class="f-alt" data-i18n="me_title">个人中心</h1></div>
-    <div class="card" style="display:flex;gap:18px;align-items:center">
+    <div class="card profile-bar" style="display:flex;gap:18px;align-items:center">
       <div id="avatarBox"></div>
       <div style="flex:1">
         <div style="font-size:19px;font-weight:700" id="nickShow">—</div>
@@ -229,7 +229,7 @@
       <button class="btn" onclick="document.getElementById('avatarInput').click()" data-i18n="set_avatar">设置头像</button>
       <input type="file" id="avatarInput" accept="image/*" hidden onchange="setAvatar(this)">
     </div>
-    <div class="card">
+    <div class="menu-list">
       <button class="menu-row" onclick="go('me/works')"><span data-i18n="menu_works">我的作品</span><span class="arrow">›</span></button>
       <button class="menu-row" onclick="go('me/cart')"><span data-i18n="menu_cart">我的购物车</span><span class="arrow">›</span></button>
       <button class="menu-row" onclick="go('me/follows')"><span data-i18n="menu_follows">我的关注</span><span class="arrow">›</span></button>
@@ -237,7 +237,7 @@
       <button class="menu-row" onclick="go('me/history')"><span data-i18n="menu_history">我的浏览记录</span><span class="arrow">›</span></button>
       <button class="menu-row" onclick="go('me/messages')"><span data-i18n="menu_msgs">信息栏</span><span class="arrow">›</span></button>
     </div>
-    <div class="card">
+    <div class="menu-list">
       <button class="menu-row" style="color:var(--primary-deep)" onclick="logout()"><span data-i18n="log_out">退出登录</span><span class="arrow">›</span></button>
     </div>
   </div>
@@ -247,7 +247,7 @@
 <div class="page" id="page-me-works">
   <div class="container" style="max-width:860px">
     <div class="page-head"><h1 data-i18n="menu_works">我的作品</h1></div>
-    <div class="card" id="myWorksList"></div>
+    <div class="list" id="myWorksList"></div>
   </div>
 </div>
 
@@ -255,7 +255,7 @@
 <div class="page" id="page-me-cart">
   <div class="container" style="max-width:860px">
     <div class="page-head"><h1 data-i18n="menu_cart">我的购物车</h1></div>
-    <div class="card" id="cartList"></div>
+    <div class="list" id="cartList"></div>
   </div>
 </div>
 
@@ -263,7 +263,7 @@
 <div class="page" id="page-me-follows">
   <div class="container" style="max-width:860px">
     <div class="page-head"><h1 data-i18n="menu_follows">我的关注</h1></div>
-    <div class="card" id="followsList"></div>
+    <div class="list" id="followsList"></div>
   </div>
 </div>
 
@@ -274,7 +274,7 @@
     <div class="card">
       <p><span data-i18n="donations_intro">我被选中了</span> <b id="donCount" style="color:var(--primary);font-size:18px">0</b> <span data-i18n="donations_unit">个作品</span></p>
     </div>
-    <div class="card" id="donationsList"></div>
+    <div class="list" id="donationsList"></div>
   </div>
 </div>
 
@@ -286,7 +286,7 @@
       <button id="histLike" class="on" onclick="switchHist('liked')" data-i18n="tab_liked">我点赞的</button>
       <button id="histFollow" onclick="switchHist('followed')" data-i18n="tab_followed">我关注的</button>
     </div>
-    <div class="card" id="histList"></div>
+    <div class="list" id="histList"></div>
   </div>
 </div>
 
@@ -294,7 +294,7 @@
 <div class="page" id="page-me-messages">
   <div class="container" style="max-width:860px">
     <div class="page-head"><h1 data-i18n="menu_msgs">信息栏</h1><p class="muted" data-i18n="msgs_sub">来自病房的照片与感谢（不展示公益用户信息）</p></div>
-    <div class="card" id="msgsList"></div>
+    <div class="list" id="msgsList"></div>
   </div>
 </div>
 
@@ -981,15 +981,15 @@ function openWork(id){
      <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap">
        <span>🧡 <b id="wallLikeN">${w.likes||0}</b> ${t('likes_unit')}</span>
        <span class="muted">${esc(w.owner)}</span>
-       <span style="margin-left:auto;display:flex;gap:8px">
-         <button class="btn btn-sm" id="wallFollowBtn" onclick="toggleFollowOpen()">${isFollowing(w)?t('following'):t('follow')}</button>
-         <button class="btn btn-primary btn-sm" onclick="likeOpenWork()">${t('like')}</button>
+       <span style="margin-left:auto;display:flex;gap:8px;align-items:center">
+         <button class="chip-btn" id="wallFollowBtn" onclick="toggleFollowOpen()">${isFollowing(w)?t('following'):t('follow')}</button>
+         <button class="chip-btn round" onclick="likeOpenWork()" aria-label="${t('like')}">❤</button>
        </span>
      </div>
-     <div class="wall-comments" id="wallComments"></div>
+     <div class="comment-panel"><div class="wall-comments" id="wallComments"></div></div>
      <div class="chat-bar">
        <input id="wallChatInput" placeholder="${t('ph_chat')}">
-       <button class="btn btn-primary" onclick="sendWallChat()">${t('send')}</button>
+       <button class="send-btn" onclick="sendWallChat()">${t('send')}</button>
      </div>`);
   refreshOpenWork();
 }
@@ -1061,12 +1061,15 @@ function workBadge(w){
 function renderMyWorks(){
   const list = getWorks('n', currentUser);
   $('myWorksList').innerHTML = list.length
-    ? list.map(w => `<div class="row-item"><img class="thumb" src="${w.img}">
+    ? list.map(w => `<div class="row-item row-item-click" onclick="viewWork('${w.img}')"><img class="thumb" src="${w.img}">
         <div style="flex:1">${workBadge(w)}
           <p class="muted" style="margin-top:5px">${w.time} · ${w.mode==='donate'?t('mode_donate'):t('mode_buy')}</p>
           <p class="muted">🧡 ${w.likes||0} ${t('likes_unit')} · ${(w.colors||[]).join(', ')||'—'}</p>
         </div></div>`).join('')
     : `<div class="empty">${t('no_works')}</div>`;
+}
+function viewWork(img){
+  openModal(t('menu_works'), `<img class="wall-modal-img" src="${img}">`);
 }
 
 /* ================= Cart ================= */

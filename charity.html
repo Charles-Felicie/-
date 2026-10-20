@@ -162,8 +162,8 @@
       <button id="tabWorks" class="on" data-i18n="tab_myworks" onclick="switchWorksTab('works')">My Works</button>
       <button id="tabRecords" data-i18n="tab_records" onclick="switchWorksTab('records')">Likes & Comments</button>
     </div>
-    <div class="card" id="myWorksList"></div>
-    <div class="card" id="myRecordsList" style="display:none"></div>
+    <div class="list" id="myWorksList"></div>
+    <div class="list" id="myRecordsList" style="display:none"></div>
   </div>
 </div>
 
@@ -179,7 +179,7 @@
 <div class="page" id="page-profile">
   <div class="container" style="max-width:820px">
     <div class="page-head"><h1 class="f-alt" data-i18n="profile_title">My Profile</h1></div>
-    <div class="card" style="display:flex;gap:18px;align-items:center">
+    <div class="card profile-bar" style="display:flex;gap:18px;align-items:center">
       <div id="avatarBox"></div>
       <div style="flex:1">
         <div style="font-size:19px;font-weight:700" id="profileName">—</div>
@@ -188,12 +188,12 @@
       <button class="btn" data-i18n="set_avatar" onclick="document.getElementById('avatarInput').click()">Set Avatar</button>
       <input type="file" id="avatarInput" accept="image/*" hidden onchange="setAvatar(this)">
     </div>
-    <div class="card">
+    <div class="menu-list">
       <button class="menu-row" onclick="go('works')"><span data-i18n="menu_works">My Works</span><span class="arrow">›</span></button>
       <button class="menu-row" onclick="go('cr')"><span data-i18n="cr_menu">My Charity Records</span><span class="arrow">›</span></button>
       <button class="menu-row" onclick="go('msgs')"><span data-i18n="msgs_title">Messages</span><span class="arrow">›</span></button>
     </div>
-    <div class="card">
+    <div class="menu-list">
       <button class="menu-row" style="color:var(--primary-deep)" onclick="logout()"><span data-i18n="log_out">Log Out</span><span class="arrow">›</span></button>
     </div>
   </div>
@@ -203,7 +203,7 @@
 <div class="page" id="page-cr">
   <div class="container" style="max-width:860px">
     <div class="page-head"><h1 data-i18n="cr_menu">My Charity Records</h1></div>
-    <div class="card" id="crList"></div>
+    <div class="list" id="crList"></div>
   </div>
 </div>
 
@@ -211,7 +211,7 @@
 <div class="page" id="page-msgs">
   <div class="container" style="max-width:860px">
     <div class="page-head"><h1 data-i18n="msgs_title">Messages</h1></div>
-    <div class="card" id="msgList"></div>
+    <div class="list" id="msgList"></div>
   </div>
 </div>
 
@@ -244,6 +244,7 @@ const I18N = {
     no_works:'还没有作品，去「作画」创作第一幅吧',artwork_label:'作品 · ',
     likes_unit:'点赞',comments_unit:'评论',no_records:'暂无评论与点赞记录',
     like:'点赞',community:'互动区',ph_chat:'写下鼓励或评价…',send:'发送',
+    follow:'＋ 关注作者',following:'✓ 已关注',toast_followed:'已关注作者',toast_unfollowed:'已取消关注',
     gal_empty:'作品展示区（等待第一幅作品）',comments_title:'评论区',
     mood_happy:'开心',mood_calm:'平静',mood_tired:'疲惫',mood_anxious:'紧张',mood_excited:'期待',mood_low:'低落',
     look_happy:'为你匹配元气橘调妆容',look_calm:'为你匹配清透裸妆',look_tired:'为你匹配温柔提气妆容',
@@ -303,6 +304,7 @@ const I18N = {
     artwork_label:'Artwork · ',likes_unit:'likes',comments_unit:'comments',
     no_records:'No likes or comments yet.',
     like:'Like',community:'Community Chat',ph_chat:'Leave encouragement or a comment…',send:'Send',
+    follow:'+ Follow author',following:'✓ Following',toast_followed:'Author followed',toast_unfollowed:'Unfollowed',
     gal_empty:'Artwork wall (waiting for the first piece)',comments_title:'Comments',
     mood_happy:'Happy',mood_calm:'Calm',mood_tired:'Tired',mood_anxious:'Anxious',mood_excited:'Excited',mood_low:'Down',
     look_happy:'A vibrant orange look for you',look_calm:'A clear nude look for you',look_tired:'A gentle uplifting look for you',
@@ -371,6 +373,7 @@ const I18N = {
     no_records:"Aucun j'aime ou commentaire pour le moment.",
     like:"J'aime",community:"Espace d'échange",
     ph_chat:'Laissez un encouragement ou un commentaire…',send:'Envoyer',
+    follow:"+ Suivre l'auteur",following:'✓ Suivi',toast_followed:'Auteur suivi',toast_unfollowed:'Désabonné',
     gal_empty:"Mur d'œuvres (en attente de la première)",comments_title:'Commentaires',
     mood_happy:'Joyeuse',mood_calm:'Calme',mood_tired:'Fatiguée',mood_anxious:'Anxieuse',mood_excited:'Enjouée',mood_low:'Déprimée',
     look_happy:'Un look orange vitaminé pour vous',look_calm:'Un look nude lumineux pour vous',look_tired:'Un look doux et revitalisant pour vous',
@@ -592,15 +595,15 @@ function switchWorksTab(tab){
   worksTab = tab;
   $('tabWorks').classList.toggle('on', tab==='works');
   $('tabRecords').classList.toggle('on', tab==='records');
-  $('myWorksList').style.display = tab==='works' ? 'block' : 'none';
-  $('myRecordsList').style.display = tab==='records' ? 'block' : 'none';
+  $('myWorksList').style.display = tab==='works' ? 'flex' : 'none';
+  $('myRecordsList').style.display = tab==='records' ? 'flex' : 'none';
 }
 function renderWorks(){
   const list = getWorks('c', currentUser);
   $('statLikes').textContent = list.reduce((s,w) => s+(w.likes||0),0);
   $('statComments').textContent = getComments().filter(c => !c.del && c.type==='c' && c.user===currentUser).length;
   $('myWorksList').innerHTML = list.length
-    ? list.map(w => `<div class="row-item"><img class="thumb" src="${w.img}">
+    ? list.map(w => `<div class="row-item row-item-click" onclick="viewWork('${w.img}')"><img class="thumb" src="${w.img}">
         <div><b>${t('artwork_label')}${w.time}</b>
         <p class="muted" style="margin-top:4px">🧡 ${w.likes||0} ${t('likes_unit')}</p></div></div>`).join('')
     : `<div class="empty">${t('no_works')}</div>`;
@@ -608,6 +611,9 @@ function renderWorks(){
   $('myRecordsList').innerHTML = records.length
     ? records.map(r => `<div class="row-item" style="display:block">${r.icon} ${r.text}<div class="muted">${r.time}</div></div>`).join('')
     : `<div class="empty">${t('no_records')}</div>`;
+}
+function viewWork(img){
+  openModal(t('menu_works'), `<img class="wall-modal-img" src="${img}">`);
 }
 
 /* ================= Gallery wall ================= */
@@ -633,6 +639,10 @@ function renderGallery(){
 }
 function findWork(id){ return gWorks.find(w => w.id === id); }
 function workComments(id){ return getComments().filter(c => !c.del && c.workId === id); }
+function isFollowing(w){
+  const u = getUsers('c')[currentUser];
+  return (u.follows||[]).some(f => f.type === w.type && f.name === w.owner);
+}
 function openWork(id){
   const w = findWork(id);
   if(!w) return;
@@ -640,24 +650,28 @@ function openWork(id){
   const cs = workComments(id);
   openModal(t('comments_title'),
     `<img class="wall-modal-img" src="${w.img}">
-     <div style="display:flex;align-items:center;gap:12px;margin-top:12px">
+     <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap">
        <span>🧡 <b id="wallLikeN">${w.likes||0}</b> ${t('likes_unit')}</span>
        <span class="muted">${esc(w.owner)}</span>
-       <button class="btn btn-primary btn-sm" style="margin-left:auto" onclick="likeOpenWork()">${t('like')}</button>
+       <span style="margin-left:auto;display:flex;gap:8px;align-items:center">
+         <button class="chip-btn" id="wallFollowBtn" onclick="toggleFollowOpen()">${isFollowing(w)?t('following'):t('follow')}</button>
+         <button class="chip-btn round" onclick="likeOpenWork()" aria-label="${t('like')}">❤</button>
+       </span>
      </div>
-     <div class="wall-comments" id="wallComments">
+     <div class="comment-panel"><div class="wall-comments" id="wallComments">
        ${cs.length ? cs.map(c => `<div class="chat-item"><div><b style="font-size:13px">${esc(c.user)}</b>
          <div>${esc(c.text)}</div><div class="muted">${c.time}</div></div></div>`).join('')
        : `<div class="empty">${t('no_records')}</div>`}
-     </div>
+     </div></div>
      <div class="chat-bar">
        <input id="wallChatInput" placeholder="${t('ph_chat')}">
-       <button class="btn btn-primary" onclick="sendWallChat()">${t('send')}</button>
+       <button class="send-btn" onclick="sendWallChat()">${t('send')}</button>
      </div>`);
 }
 function refreshOpenWork(){
   const w = findWork(openWorkId);
   if(w && $('wallLikeN')) $('wallLikeN').textContent = w.likes||0;
+  if($('wallFollowBtn')) $('wallFollowBtn').textContent = isFollowing(w)?t('following'):t('follow');
   if($('wallComments')){
     const cs = workComments(openWorkId);
     $('wallComments').innerHTML = cs.length
@@ -665,6 +679,17 @@ function refreshOpenWork(){
           <div>${esc(c.text)}</div><div class="muted">${c.time}</div></div></div>`).join('')
       : `<div class="empty">${t('no_records')}</div>`;
   }
+}
+function toggleFollowOpen(){
+  const w = findWork(openWorkId);
+  if(!w) return;
+  const users = getUsers('c'), u = users[currentUser];
+  u.follows = u.follows || [];
+  const i = u.follows.findIndex(f => f.type === w.type && f.name === w.owner);
+  if(i >= 0){ u.follows.splice(i,1); toast(t('toast_unfollowed')); }
+  else{ u.follows.push({type:w.type, name:w.owner}); toast(t('toast_followed')); }
+  saveUsers('c', users);
+  refreshOpenWork();
 }
 function likeOpenWork(){
   const w = findWork(openWorkId);
