@@ -765,27 +765,38 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 
 
 /* 【Prompt 2026-10-15】所有卡其色格子 → 白底黑框 */
-.palette .shade-sw,.wheel-panel .shade-sw,.mini-tabs button,.pat-tabs button,.brush-btn{
+.palette .shade-sw,.wheel-panel .shade-sw,.mini-tabs button,.pat-tabs button{
   background:#fff;border:1px solid #17130E;color:#17130E}
 .palette .shade-sw b,.wheel-panel .shade-sw b,.mini-tabs button b{color:#17130E}
 .palette .shade-sw span,.wheel-panel .shade-sw span{color:#4a4a4a}
-.brush-btn.on{border-color:var(--primary-deep);box-shadow:inset 0 0 0 1px var(--primary)}
+.brush-btn{
+  background:rgba(255,255,255,0.3);border:none;border-radius:14px;
+  color:var(--ink);opacity:.3;transition:background .12s,opacity .12s}
+.brush-btn:hover{background:#fff;color:var(--ink);opacity:1}
+.brush-btn.on{background:#fff;color:var(--ink);opacity:1;border:none;box-shadow:inset 0 0 0 2px var(--primary)}
+.brush-btn.on .bn{color:var(--ink);font-weight:600}
 
 /* =========================================================================
    【微调 2026-10-15 傍晚】
    ========================================================================= */
 /* ① 色号卡：去黑框（纯白底，与面板融为一体） */
 .palette .shade-sw,.wheel-panel .shade-sw{background:#fff;border:none;box-shadow:none}
-/* ③ 画布/纹样页剩余卡其色格子 → 浅橙黄 + 白搭配 */
-.brush-opts,.brush-hint{background:#fff;border:1px solid var(--primary)}
+/* ③ 画布/纹样页笔刷栏：半透明圆角矩形（70%），去白底黄框 */
+.brush-opts,.brush-hint{background:rgba(255,255,255,0.7);border:none;border-radius:14px;padding:11px 16px}
+.brush-opts input[type=range]{width:200px}
 /* 作画页底部工具栏（扫描作品/添加纹样元件/复制选中…）去掉黄色外框 */
 .pat-tools{background:transparent;border:none}
-.pat-empty{border:1px dashed var(--primary);color:var(--primary-deep);background:#fff}
-#page-paint-canvas .btn:not(.btn-primary):not(.btn-outline),
-#page-paint-pattern .btn:not(.btn-primary):not(.btn-outline),
-#page-paint-confirm .btn:not(.btn-primary):not(.btn-outline),
-#page-paint-colors .btn:not(.btn-primary):not(.btn-outline){
-  background:#fff;border:1px solid var(--primary);color:var(--primary-deep)}
+.pat-empty{border:1px dashed var(--primary);color:var(--primary-deep);background:rgba(255,255,255,0.7);border-radius:14px}
+#page-paint-canvas .btn:not(.btn-primary),
+#page-paint-pattern .btn:not(.btn-primary),
+#page-paint-confirm .btn:not(.btn-primary),
+#page-paint-colors .btn:not(.btn-primary){
+  background:rgba(255,255,255,0.7);border:none;color:var(--ink);border-radius:14px;opacity:.7}
+#page-paint-canvas .btn:not(.btn-primary):hover,
+#page-paint-pattern .btn:not(.btn-primary):hover,
+#page-paint-confirm .btn:not(.btn-primary):hover,
+#page-paint-colors .btn:not(.btn-primary):hover{
+  background:#fff;color:var(--ink);opacity:1}
 /* ④ 笔刷图外框删除，与白底融合 */
 .brush-btn[data-brush] .bi{box-shadow:none}
 /* ⑤ 作画界面顶部小字「作画说明」字号调大 1–2 号 */
@@ -798,11 +809,31 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 #page-paint-pattern .pat-tools .btn{
   background:transparent !important;border:none !important;
   color:var(--ink) !important;font-size:12px !important;
-  padding:5px 11px !important;border-radius:9px !important;
+  padding:5px 11px !important;border-radius:9px !important;opacity:1 !important;
   transition:background .16s ease,color .16s ease,border-radius .16s ease;
 }
 #page-paint-pattern .pat-tools .btn:hover,
 #page-paint-pattern .pat-tools .btn.is-active{
+  background:var(--primary) !important;color:#fff !important;border-radius:999px !important;
+}
+/* ⑦ AI 纹样页：所有白底区域 → 70% 透明圆角矩形 */
+#page-paint-pattern .pat-sec-body{background:rgba(255,255,255,0.7);border-radius:0 0 14px 14px}
+#page-paint-pattern .pat-sec > h3{background:transparent;border-bottom-color:var(--line)}
+#page-paint-pattern .pat-sec > h3:hover{background:rgba(255,255,255,0.7);border-radius:12px}
+#page-paint-pattern .pat-sec.open > h3{background:rgba(255,255,255,0.7);border-radius:12px 12px 0 0}
+#page-paint-pattern .pat-motif-prev{background:rgba(255,255,255,0.7);border:none;border-radius:14px}
+#page-paint-pattern .seg{background:rgba(255,255,255,0.7);border:none;border-radius:14px;overflow:hidden}
+#page-paint-pattern .seg button{background:transparent;color:var(--ink-soft);border-radius:14px}
+#page-paint-pattern .seg button.on{background:var(--primary);color:#fff}
+/* ⑧ 确认页样式预览按钮同纹样页工具样式 */
+#page-paint-confirm .pat-tools .btn{
+  background:transparent !important;border:none !important;
+  color:var(--ink) !important;font-size:12px !important;
+  padding:5px 11px !important;border-radius:9px !important;opacity:1 !important;
+  transition:background .16s ease,color .16s ease,border-radius .16s ease;
+}
+#page-paint-confirm .pat-tools .btn:hover,
+#page-paint-confirm .pat-tools .btn.on{
   background:var(--primary) !important;color:#fff !important;border-radius:999px !important;
 }
 </style>
@@ -1028,7 +1059,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
           <p class="muted" data-page-node-id="HEsaKdu8W8Mv5cF4fhVC32" data-p="c_used">本次使用色号（悬停色块可查看颜色寓意）：</p>
           <div class="palette" id="canvasPalette" style="grid-template-columns:repeat(4,1fr);margin-top:8px" data-page-node-id="gFEDCHp4VSZ9XavptQfLmW"></div>
           <button class="btn btn-outline btn-block" style="margin-top:12px" onclick="moreColors()" data-page-node-id="MoreColorsBtn01" data-p="c_pickcolor">选择颜色 ›</button>
-
+          <button class="btn btn-outline btn-block" style="margin-top:10px" onclick="pickBgColor()" data-page-node-id="BgColorBtn01">背景颜色选择 ›</button>
 
           <div style="display:flex;gap:10px;margin-top:16px" data-page-node-id="DQOcH6GAmqoGF1VctJCvbt">
             <button class="btn" onclick="saveDraft()" data-page-node-id="JfZU9AB4OtVoCLorNLtBEq" data-p="c_save">保存草稿</button>
@@ -1137,7 +1168,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 <div class="page" id="page-paint-confirm" data-page-node-id="MTKB6GQ3HgE4h1kt9agOJr">
   <div class="container" style="max-width:900px" data-page-node-id="EKP7USIwBiCH1GLN7KR4BG">
     <div class="page-head" data-page-node-id="gPFGY7j9njgAmJ2xzooutO"><h1 data-page-node-id="hOshV6gkxXHBjiBnWAHN4u" data-p="cf_title">提交确认</h1></div>
-    <div class="card" style="display:grid;grid-template-columns:1.2fr 1fr;gap:24px" data-page-node-id="YyudNgvIKpq1MLC88BYD7j">
+    <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:24px" data-page-node-id="YyudNgvIKpq1MLC88BYD7j">
       <canvas id="confirmCanvas" width="640" height="640" style="width:100%;border:1px solid var(--line)" data-page-node-id="AG8tzBRrPhdo3O02k2tnK4"></canvas>
       <div data-page-node-id="kBbtsMXyG2pyFeP3GKPdqM">
         <p class="muted" data-page-node-id="seQbAOnTgovDTZXxFybt9w" data-p="cf_pick">请选择作品去向：</p>
@@ -1150,17 +1181,22 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
       </div>
     </div>
 
-    <div class="card" data-page-node-id="eNLUnun3HuerBzp7SrFQOc">
-      <h2 data-page-node-id="uapLKwNh2ZZJ0CcO08JkDG" data-p="cf_pv">印花效果预览</h2>
-      <p class="muted" data-page-node-id="2CeYKk4CBR37YNvGl1NlTr" data-p="cf_pvd">作品经 AI 纹样化后，印在头巾 / 口罩上的效果</p>
-      <div class="seg" id="cfMockSeg" style="max-width:280px;margin-top:12px" data-page-node-id="ZhNILgKzzroPqifZKxXk2F">
-        <button data-k="scarf" class="on" onclick="cfSetMock('scarf')" data-page-node-id="oEt1kimu4sQxjGMFZq9aUt" data-p="c_mock_scarf">头巾</button>
-        <button data-k="mask" onclick="cfSetMock('mask')" data-page-node-id="40yTW3DMECeAsv5GwSmGGF" data-p="c_mock_mask">口罩</button>
-        <button data-k="flat" onclick="cfSetMock('flat')" data-page-node-id="NVO4KtHs13tOWWBmJbTqwi" data-p="c_mock_flat">平铺</button>
+    <div data-page-node-id="eNLUnun3HuerBzp7SrFQOc" style="margin-top:18px">
+      <div style="display:flex;align-items:baseline;gap:12px">
+        <h2 style="margin:0" data-page-node-id="uapLKwNh2ZZJ0CcO08JkDG" data-p="cf_pv">印花效果预览</h2>
+        <button id="cfPreviewToggle" onclick="toggleCfPreview()" style="background:none;border:none;padding:0;margin:0;font-family:'Heiti SC','SimHei','Microsoft YaHei',sans-serif;font-weight:300;font-size:14px;color:var(--ink-soft);cursor:pointer;letter-spacing:1px">展开</button>
       </div>
-      <canvas id="confirmPattern" width="560" height="560" style="width:100%;max-width:520px;margin-top:14px;border:1px solid var(--line);background:#fff" data-page-node-id="uAfY1J6AA5ahbxNsYPSkFH"></canvas>
-      <div style="margin-top:12px" data-page-node-id="dqBmyeACUSmwsbidKn7gLZ">
-        <button class="btn btn-sm" onclick="go('paint/pattern')" data-page-node-id="s24q2LQbvmeG2NBPeggvJT" data-p="cf_redo">重新调整纹样 ›</button>
+      <div id="cfPreviewBody" style="display:none;margin-top:8px">
+        <p class="muted" data-page-node-id="2CeYKk4CBR37YNvGl1NlTr" data-p="cf_pvd">作品经 AI 纹样化后，印在头巾 / 口罩上的效果</p>
+        <div class="pat-tools" id="cfMockSeg" style="max-width:320px;margin-top:12px" data-page-node-id="ZhNILgKzzroPqifZKxXk2F">
+          <button class="btn on" data-k="flat" onclick="cfSetMock('flat')" data-page-node-id="NVO4KtHs13tOWWBmJbTqwi" data-p="c_mock_flat">平铺</button>
+          <button class="btn" data-k="scarf" onclick="cfSetMock('scarf')" data-page-node-id="oEt1kimu4sQxjGMFZq9aUt" data-p="c_mock_scarf">头巾</button>
+          <button class="btn" data-k="mask" onclick="cfSetMock('mask')" data-page-node-id="40yTW3DMECeAsv5GwSmGGF" data-p="c_mock_mask">口罩</button>
+        </div>
+        <canvas id="confirmPattern" width="560" height="560" style="width:100%;max-width:520px;margin-top:14px;border:1px solid var(--line);background:#fff" data-page-node-id="uAfY1J6AA5ahbxNsYPSkFH"></canvas>
+        <div style="margin-top:12px" data-page-node-id="dqBmyeACUSmwsbidKn7gLZ">
+          <button class="btn btn-sm" onclick="go('paint/pattern')" data-page-node-id="s24q2LQbvmeG2NBPeggvJT" data-p="cf_redo">重新调整纹样 ›</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1934,7 +1970,12 @@ function createBrushEngine(canvas, opts){
       return true;
     },
     clear(){ snapshot(); fillBg(); S.onStrokeEnd(); },
-    reset(){ S.undo.length = 0; fillBg(); S.onStrokeEnd(); }
+    reset(){ S.undo.length = 0; fillBg(); S.onStrokeEnd(); },
+    setBg(hex){
+      S.bg = hex;
+      canvas.style.backgroundColor = hex;
+      S.onStrokeEnd();
+    }
   };
 }
 
@@ -3391,7 +3432,7 @@ const OPEN_POLYS = [
   'polygon(50% 48.3%, 77% 100%, 23% 100%)',             /* 兰蔻（下） */
   'polygon(0 47.2%, 50% 48.3%, 23% 100%, 0 100%)'       /* 美宝莲（左下） */
 ];
-let openTimers = [], wheelFam = '红', wheelLocked = '红', returningToWheel = false;
+let openTimers = [], wheelFam = '红', wheelLocked = '红', returningToWheel = false, pickingBgColor = false;
 
 /* 极坐标 → 百分比坐标（色轮扇形 clip-path 用） */
 function hexPt(deg, r){
@@ -3517,6 +3558,15 @@ function renderWheelPanel(f){
   }).join('') || '<div class="muted" style="font-size:13px">' + PT('wheel_empty') + '</div>';
 }
 function wheelPick(no){
+  if(pickingBgColor){
+    pickingBgColor = false;
+    const hex = colorName(no);
+    if(painter) painter.setBg(hex);
+    else { if(!pCanvas) enterCanvas(); if(painter) painter.setBg(hex); }
+    toast('画布背景已填充');
+    go('paint/canvas');
+    return;
+  }
   toggleChosen(no);
   renderWheelPanel(wheelFam);
   renderWheelChosen();
@@ -3571,6 +3621,7 @@ let _motifCache = { ver:-1, thr:-1, canvas:null };
 let _miniTimer = null;
 
 function enterCanvas(){
+  pickingBgColor = false;
   pCanvas = $('paintCanvas'); pCtx = pCanvas.getContext('2d');
   const palette = chosenColors.length ? chosenColors.map(no => [no, colorName(no)]) : COLORS;
   pCurColor = palette[0][1];
@@ -3580,7 +3631,7 @@ function enterCanvas(){
   renderBrushBar();
   if(!painter){
     painter = createBrushEngine(pCanvas, {
-      bg:'#ffffff',
+      bg:'transparent',
       baseScale: 800/640,
       onPaint(color){
         const no = nearestColorNo(color);
@@ -3719,6 +3770,8 @@ function extractMotif(src, thr, soft){
   const p = img.data;
   let minX = W, minY = H, maxX = -1, maxY = -1;
   for(let i = 0; i < p.length; i += 4){
+    /* 透明像素（画布背景）直接视为背景 */
+    if(p[i+3] < 14){ p[i+3] = 0; continue; }
     const lum = p[i]*0.299 + p[i+1]*0.587 + p[i+2]*0.114;
     let a;
     if(lum >= thr) a = 0;
@@ -3761,6 +3814,14 @@ function saveDraft(){
 function moreColors(){
   if(pCanvas) saveDraft();
   returningToWheel = true;
+  go('paint/opening');
+  setTimeout(()=>{ returningToWheel = false; }, 300);
+}
+/* 选择画布背景色：进入色轮，选一个颜色后直接填充画布背景并返回 */
+function pickBgColor(){
+  if(pCanvas) saveDraft();
+  returningToWheel = true;
+  pickingBgColor = true;
   go('paint/opening');
   setTimeout(()=>{ returningToWheel = false; }, 300);
 }
@@ -4227,7 +4288,15 @@ function patApply(){
 }
 
 /* ================= Paint: confirm ================= */
-let cfMock = 'scarf';
+let cfMock = 'flat';
+function toggleCfPreview(){
+  const body = $('cfPreviewBody');
+  const btn = $('cfPreviewToggle');
+  if(!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  if(btn) btn.textContent = open ? '展开' : '收起';
+}
 function cfSetMock(k){
   cfMock = k;
   document.querySelectorAll('#cfMockSeg button').forEach(b => b.classList.toggle('on', b.dataset.k === k));
@@ -4236,7 +4305,10 @@ function cfSetMock(k){
 function renderConfirm(){
   const cc = $('confirmCanvas');
   cc.width = pCanvas.width; cc.height = pCanvas.height;
-  cc.getContext('2d').drawImage(pCanvas, 0, 0);
+  const cctx = cc.getContext('2d');
+  cctx.fillStyle = pCanvas.style.backgroundColor || '#fff';
+  cctx.fillRect(0, 0, cc.width, cc.height);
+  cctx.drawImage(pCanvas, 0, 0);
   $('usedColorRow').innerHTML = usedNos.map(no =>
     `<span class="color-chip" data-no="${no}" onclick="productModal('${no}')"><i style="background:${colorName(no)}"></i>${no}</span>`).join('');
   renderConfirmPattern();

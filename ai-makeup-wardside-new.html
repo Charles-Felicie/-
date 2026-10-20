@@ -141,12 +141,13 @@
 
 
   /* ===== 使用说明页 ===== */
-  #page-guide{flex-direction:column; background:var(--bg);}
+  #page-guide{flex-direction:column; background:linear-gradient(160deg,#FDF6EE 0%,#FAEDE0 30%,#F6D9C0 62%,#EFB38A 100%);}
   .guide-scroll{flex:1; overflow-y:auto; width:100%;}
   .guide-inner{max-width:880px; margin:0 auto; padding:56px 36px 72px; display:flex; flex-direction:column; gap:30px;}
-  .guide-title{font-size:34px; letter-spacing:8px; text-align:center; color:var(--ink); font-weight:600;}
-  .guide-sub{text-align:center; color:var(--ink-soft); font-size:15px; letter-spacing:2px; margin-top:-14px;}
-  .guide-text{font-size:16px; line-height:2.1; color:var(--ink); background:var(--card); padding:22px 28px; border-radius:14px;}
+  .guide-title{font-size:21px; letter-spacing:4px; text-align:center; color:var(--ink); font-weight:700;}
+  .guide-sub{text-align:center; color:#8B3A3A; font-size:17px; font-weight:700; letter-spacing:.02em; margin:4px 0 6px;}
+  .guide-text{font-size:16px; line-height:2.1; color:var(--ink); background:transparent; padding:22px 28px; border-radius:14px; transition:background .25s,box-shadow .25s;}
+  .guide-text:hover{background:#fff; box-shadow:0 12px 28px rgba(91,66,50,.13);}
   .guide-fig{display:flex; flex-direction:column; gap:12px; margin:0;}
   .guide-fig img{width:100%; border-radius:16px; box-shadow:0 8px 28px rgba(91,66,50,.12); display:block;}
   .guide-fig figcaption{font-size:14px; color:var(--ink-soft); line-height:1.9; letter-spacing:1px;}
