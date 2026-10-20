@@ -915,7 +915,7 @@ function submitWork(mode){
   const list = getWorks('n', currentUser);
   const work = {
     id:Date.now(), img:pCanvas.toDataURL(), colors:[...usedNos],
-    time:nowText(), sel:'pending', gal:1, likes:0, mode
+    time:nowText(), sel:'pending', gal:1, likes:0, mode, bg:'#ffffff'
   };
   list.unshift(work);
   saveWorks('n', currentUser, list);
@@ -948,7 +948,8 @@ function runTryon(){
 /* ================= Gallery wall ================= */
 let gWorks = [], openWorkId = null;
 function wallItemHTML(w){
-  return `<button class="wall-item" onclick="openWork(${w.id})">
+  const bg = w.bg || '#ffffff';
+  return `<button class="wall-item" style="background:${bg};border-color:rgba(0,0,0,.06)" onclick="openWork(${w.id})">
     <img src="${w.img}" alt="">
     <div class="wall-meta"><span>🧡 <b>${w.likes||0}</b></span><span>${esc(w.owner)}</span></div>
   </button>`;
@@ -1061,11 +1062,20 @@ function workBadge(w){
 function renderMyWorks(){
   const list = getWorks('n', currentUser);
   $('myWorksList').innerHTML = list.length
-    ? list.map(w => `<div class="row-item row-item-click" onclick="viewWork('${w.img}')"><img class="thumb" src="${w.img}">
+    ? list.map(w => {
+        const cs = workComments(w.id);
+        const commentsHtml = cs.length
+          ? `<div class="muted" style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--line)">
+              <span>💬 ${cs.length} ${t('comments_unit')}</span>
+              ${cs.slice(-2).map(c => `<span style="margin-left:8px">· ${esc(c.user)}：${esc(c.text).slice(0,28)}</span>`).join('')}
+            </div>` : '';
+        return `<div class="row-item row-item-click" onclick="viewWork('${w.img}')"><img class="thumb" src="${w.img}">
         <div style="flex:1">${workBadge(w)}
           <p class="muted" style="margin-top:5px">${w.time} · ${w.mode==='donate'?t('mode_donate'):t('mode_buy')}</p>
           <p class="muted">🧡 ${w.likes||0} ${t('likes_unit')} · ${(w.colors||[]).join(', ')||'—'}</p>
-        </div></div>`).join('')
+          ${commentsHtml}
+        </div></div>`;
+      }).join('')
     : `<div class="empty">${t('no_works')}</div>`;
 }
 function viewWork(img){
