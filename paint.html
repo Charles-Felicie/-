@@ -1059,7 +1059,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
           <p class="muted" data-page-node-id="HEsaKdu8W8Mv5cF4fhVC32" data-p="c_used">本次使用色号（悬停色块可查看颜色寓意）：</p>
           <div class="palette" id="canvasPalette" style="grid-template-columns:repeat(4,1fr);margin-top:8px" data-page-node-id="gFEDCHp4VSZ9XavptQfLmW"></div>
           <button class="btn btn-outline btn-block" style="margin-top:12px" onclick="moreColors()" data-page-node-id="MoreColorsBtn01" data-p="c_pickcolor">选择颜色 ›</button>
-          <button class="btn btn-outline btn-block" style="margin-top:10px" onclick="pickBgColor()" data-page-node-id="BgColorBtn01">背景颜色选择 ›</button>
+          <button class="btn btn-outline btn-block" style="margin-top:10px" onclick="pickBgColor()" data-page-node-id="BgColorBtn01" data-p="c_pickbg">背景颜色选择 ›</button>
 
           <div style="display:flex;gap:10px;margin-top:16px" data-page-node-id="DQOcH6GAmqoGF1VctJCvbt">
             <button class="btn" onclick="saveDraft()" data-page-node-id="JfZU9AB4OtVoCLorNLtBEq" data-p="c_save">保存草稿</button>
@@ -2842,13 +2842,13 @@ const PAINT_I18N = {
     c_size:'笔刷大小', c_undo:'撤销', c_clear:'清空画布',
     c_mini:'AI 纹样预览', c_live:'实时', c_mock_flat:'平铺', c_mock_scarf:'头巾', c_mock_mask:'口罩',
     c_mini_desc:'作品将自动转为可印花的四方连续纹样，实时预览。',
-    c_expand:'展开工作台 ›', c_save:'保存草稿', c_load:'读取草稿', c_share:'分享', c_pickcolor:'选择颜色 ›',
+    c_expand:'展开工作台 ›', c_save:'保存草稿', c_load:'读取草稿', c_share:'分享', c_pickcolor:'选择颜色 ›', c_pickbg:'背景颜色选择 ›',
     cart_buy:'自购定制作品', cart_empty:'购物车为空',
     c_ai:'AI 纹样化', c_done:'完成 ›',
     brush_matte:'哑光口红', brush_gloss:'水光唇釉', brush_blush:'粉雾腮红',
     brush_liner:'眼线液笔', brush_glitter:'细闪高光', brush_eraser:'橡皮擦',
     c_undo1:'已撤销一步', c_undo0:'没有可撤销的操作', c_cleared:'画布已清空',
-    c_saved:'草稿已保存', c_nodraft:'暂无草稿', c_loaded:'草稿已读取',
+    c_saved:'草稿已保存', c_nodraft:'暂无草稿', c_loaded:'草稿已读取', c_bgfill:'画布背景已填充',
     share_title:'1:1 配捐提示', share_body:'您每分享一幅作品，<b>欧莱雅配捐一份“美的包裹”</b>，让公益可持续。',
     share_sub:'分享后作品将进入画作展示页，被更多人看见。', share_later:'稍后再说', share_now:'立即分享',
     share_title:'1:1 matching donation', share_body:'For every work you share, <b>L’Oréal matches with a “Beauty Parcel”</b> to keep the programme going.',
@@ -2939,13 +2939,13 @@ const PAINT_I18N = {
     c_size:'Brush size', c_undo:'Undo', c_clear:'Clear canvas',
     c_mini:'AI pattern preview', c_live:'live', c_mock_flat:'Flat', c_mock_scarf:'Scarf', c_mock_mask:'Mask',
     c_mini_desc:'Your artwork is automatically turned into a printable seamless pattern, previewed live.',
-    c_expand:'Open workbench ›', c_save:'Save draft', c_load:'Load draft', c_share:'Share', c_pickcolor:'Choose color ›',
+    c_expand:'Open workbench ›', c_save:'Save draft', c_load:'Load draft', c_share:'Share', c_pickcolor:'Choose color ›', c_pickbg:'Choose background ›',
     cart_buy:'Custom purchase', cart_empty:'Your cart is empty',
     c_ai:'AI Patternify', c_done:'Done ›',
     brush_matte:'Matte lipstick', brush_gloss:'Glossy lip tint', brush_blush:'Powder blush',
     brush_liner:'Liquid eyeliner', brush_glitter:'Fine shimmer', brush_eraser:'Eraser',
     c_undo1:'Undone one step', c_undo0:'Nothing to undo', c_cleared:'Canvas cleared',
-    c_saved:'Draft saved', c_nodraft:'No draft yet', c_loaded:'Draft loaded',
+    c_saved:'Draft saved', c_nodraft:'No draft yet', c_loaded:'Draft loaded', c_bgfill:'Background filled',
     c_shared:'Shared — thank you for the matching donation', c_share_t:'1:1 matching donation',
     pat_title:'AI Patternify', pat_sub:'Scan your artwork into a printable seamless pattern for scarves and masks',
     pat_scan:'Scan artwork', pat_add:'Add motif', pat_dup:'Duplicate', pat_spread:'Scatter',
@@ -3028,13 +3028,13 @@ const PAINT_I18N = {
     c_size:'Taille du pinceau', c_undo:'Annuler', c_clear:'Effacer la toile',
     c_mini:'Aperçu du motif IA', c_live:'direct', c_mock_flat:'À plat', c_mock_scarf:'Foulard', c_mock_mask:'Masque',
     c_mini_desc:'Votre œuvre devient automatiquement un motif imprimable sans raccord, en aperçu direct.',
-    c_expand:'Ouvrir l’atelier ›', c_save:'Enregistrer', c_load:'Charger', c_share:'Partager', c_pickcolor:'Choisir une couleur ›',
+    c_expand:'Ouvrir l’atelier ›', c_save:'Enregistrer', c_load:'Charger', c_share:'Partager', c_pickcolor:'Choisir une couleur ›', c_pickbg:'Choisir un fond ›',
     cart_buy:'Achat personnalisé', cart_empty:'Panier vide',
     c_ai:'Motif IA', c_done:'Terminer ›',
     brush_matte:'Rouge à lèvres mat', brush_gloss:'Brillant à lèvres', brush_blush:'Fard à joues poudré',
     brush_liner:'Eyeliner liquide', brush_glitter:'Enlumineur nacré', brush_eraser:'Gomme',
     c_undo1:'Une étape annulée', c_undo0:'Rien à annuler', c_cleared:'Toile effacée',
-    c_saved:'Brouillon enregistré', c_nodraft:'Aucun brouillon', c_loaded:'Brouillon chargé',
+    c_saved:'Brouillon enregistré', c_nodraft:'Aucun brouillon', c_loaded:'Brouillon chargé', c_bgfill:'Fond appliqué',
     c_shared:'Partagé — merci pour le don doublé', c_share_t:'Don doublé 1:1',
     pat_title:'Motif IA', pat_sub:'Scannez votre œuvre en motif imprimable sans raccord, pour foulards et masques',
     pat_scan:'Scanner l’œuvre', pat_add:'Ajouter un motif', pat_dup:'Dupliquer', pat_spread:'Disperser',
@@ -3563,7 +3563,7 @@ function wheelPick(no){
     const hex = colorName(no);
     if(painter) painter.setBg(hex);
     else { if(!pCanvas) enterCanvas(); if(painter) painter.setBg(hex); }
-    toast('画布背景已填充');
+    toast(PT('c_bgfill'));
     go('paint/canvas');
     return;
   }
