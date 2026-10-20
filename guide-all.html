@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>作画指南 · 戴上春天</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  /* 作画指南 · 单页滚动版：黑体 + 收紧行距 + 项目介绍同款悬停效果 */
+  body{
+    font-family:"SimHei","黑体","Heiti SC","STHeiti","Microsoft YaHei",Arial,sans-serif;
+    line-height:1.5;
+  }
+  .ga-nav{
+    position:sticky;top:0;z-index:50;height:58px;
+    background:rgba(255,255,255,.72);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .ga-nav .container{display:flex;align-items:center;gap:10px;height:100%}
+  .ga-brand{font-size:15px;font-weight:700;letter-spacing:.04em;color:var(--ink)}
+  .ga-brand small{margin-left:8px;font-size:12px;font-weight:400;color:var(--ink-soft);letter-spacing:.12em}
+  .ga-nav .spacer{flex:1}
+  .ga-wrap{max-width:960px;margin:0 auto;padding:0 24px 72px}
+  .ga-hero{padding:54px 0 10px;text-align:center}
+  .ga-kicker{
+    font-size:12px;font-weight:700;letter-spacing:.32em;color:var(--primary-deep);
+    text-transform:uppercase;
+  }
+  .ga-hero h1{
+    font-size:clamp(27px,3.5vw,40px);line-height:1.32;font-weight:700;
+    margin:12px auto 12px;max-width:760px;
+  }
+  .ga-hero .ga-lead{font-size:16px;color:var(--ink-soft);max-width:640px;margin:0 auto}
+  .ga-hero .ga-meta{font-size:12px;color:var(--ink-soft);letter-spacing:.06em;margin-top:12px}
+  .ga-cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+
+  .ga-step{margin:22px 0}
+  .ga-step-head{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+  .ga-num{
+    font-size:.87em;font-weight:700;letter-spacing:.14em;color:var(--primary-deep);
+    flex-shrink:0;
+  }
+  .ga-step-head h2{font-size:1.47em;line-height:1.35;font-weight:700;margin:0}
+  .ga-body{display:grid;grid-template-columns:1.06fr .94fr;gap:26px;align-items:start}
+  .ga-body.no-media{grid-template-columns:1fr}
+  .ga-media{margin:0}
+  .ga-media img{
+    display:block;width:100%;border-radius:14px;background:#fff;
+    border:1px solid var(--line);box-shadow:0 8px 22px rgba(91,66,50,.12);
+  }
+  .ga-media img.ga-sub{max-width:86%;margin-top:12px}
+  .ga-text p{font-size:1.07em;line-height:1.5;margin:0 0 10px}
+  .ga-text p:last-child{margin-bottom:0}
+  .ga-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+  .ga-trio figure{margin:0}
+  .ga-trio img{
+    display:block;width:100%;border-radius:12px;background:#fff;
+    border:1px solid var(--line);box-shadow:0 6px 16px rgba(91,66,50,.10);
+  }
+  .ga-trio figcaption{text-align:center;font-size:13px;color:var(--ink-soft);margin-top:7px}
+  .ga-end{text-align:center;margin-top:30px}
+  .ga-end h2{font-size:22px;margin-bottom:8px}
+  .ga-end .ga-lead{font-size:15px;color:var(--ink-soft)}
+  .ga-foot{text-align:center;font-size:12px;color:var(--ink-soft);margin-top:30px}
+
+  @media (max-width:820px){
+    .ga-body{grid-template-columns:1fr;gap:18px}
+    .ga-step-head h2{font-size:1.27em}
+    .ga-text p{font-size:1em}
+    .ga-trio{grid-template-columns:1fr;gap:12px}
+    .ga-trio figure{display:flex;align-items:center;gap:12px}
+    .ga-trio img{width:64%}
+    .ga-trio figcaption{margin-top:0;text-align:left}
+    .ga-wrap{padding:0 18px 56px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="ga-nav">
+  <div class="container">
+    <span class="ga-brand" id="gaBrand">戴上春天<small>作画指南</small></span>
+    <span class="spacer"></span>
+    <button class="btn btn-sm" id="gaBack" onclick="backOut()">‹ 返回</button>
+  </div>
+</nav>
+
+<main class="ga-wrap">
+  <header class="ga-hero">
+    <div class="ga-kicker" id="gaKicker">PAINTING GUIDE</div>
+    <h1 id="gaTitle">从一抹颜色，到一件戴在身上的作品</h1>
+    <p class="ga-lead" id="gaLead">七个步骤，一页读完。向下滑动查看完整流程。</p>
+    <p class="ga-meta" id="gaMeta">约 2 分钟阅读 · 简体中文 / English / Français</p>
+    <div class="ga-cta-row">
+      <a class="btn btn-pill btn-lg" id="gaStart" href="paint.html#/paint/colors">开始作画 ›</a>
+      <a class="btn btn-outline btn-lg" id="gaStepBtn" href="guide1.html">分步图解 ›</a>
+    </div>
+  </header>
+
+  <div id="gaSteps"></div>
+
+  <section class="intro-section ga-end">
+    <h2 id="gaEndTitle">准备好了吗？</h2>
+    <p class="ga-lead" id="gaEndText">选一个喜欢的色号，剩下的交给 AI。</p>
+    <div class="ga-cta-row">
+      <a class="btn btn-pill btn-lg" id="gaStart2" href="paint.html#/paint/colors">开始作画 ›</a>
+      <a class="btn btn-outline btn-lg" id="gaStepBtn2" href="guide1.html">分步图解 ›</a>
+    </div>
+  </section>
+
+  <p class="ga-foot" id="gaFoot">病房美学计划 · 戴上春天</p>
+</main>
+
+<script>
+const GUIDE = {
+  zh: {
+    docTitle: '作画指南 · 戴上春天',
+    brand: '戴上春天', brandSub: '作画指南',
+    back: '‹ 返回',
+    kicker: 'PAINTING GUIDE',
+    title: '从一抹颜色，到一件戴在身上的作品',
+    lead: '七个步骤，一页读完。向下滑动查看完整流程。',
+    meta: '语言自动跟随系统 · 简体中文 / English / Français',
+    start: '开始作画 ›',
+    stepBtn: '分步图解 ›',
+    endTitle: '准备好了吗？',
+    endText: '选一个喜欢的色号，剩下的交给 AI。',
+    foot: '病房美学计划 · 戴上春天',
+    steps: [
+      {n:'01', title:'进入选色页面', media:[{src:'guide-wheel.png', alt:'选色转盘'}], text:[
+        '把鼠标放在色轮上可以自由选择喜欢的色系。',
+        '色系中的每一个色号对应欧莱雅旗下的一种美妆产品。'
+      ]},
+      {n:'02', title:'认识色号卡片', media:[{src:'guide-shade-card.png', alt:'色号产品卡片'}], text:[
+        '将鼠标放在色号上，会出现产品的介绍以及官网商品页，对产品有兴趣可以点击链接。',
+        '每个色号附赠一句「关于生命的诗」——这是关于颜色的感官表达。'
+      ]},
+      {n:'03', title:'开始作画', media:[
+        {src:'guide-canvas.png', alt:'画布作画与五种笔刷'},
+        {src:'guide-toolbar.png', alt:'笔刷大小 · 撤销 · 清空画布', sub:true}
+      ], text:[
+        '选择好颜色后进入作画页面。一共有五种笔刷效果：哑光口红、水光唇釉、粉雾腮红、眼线液笔和眼线胶笔。',
+        '若中途想要增加颜色，可点击「选择颜色」重返选色页面。',
+        '往下拖可以调整笔刷大小、撤销操作和清空画布。'
+      ]},
+      {n:'04', title:'AI 纹样化', media:[
+        {src:'guide-pattern.png', alt:'AI 纹样化工作台'},
+        {src:'guide-subject.png', alt:'仅保留主体', sub:true}
+      ], text:[
+        '进入 AI 纹样化页面后，版面会同时保留底纹和主体。',
+        '若只想要一个图案（即保留主体），可选择「清除底纹」。'
+      ]},
+      {n:'05', title:'保留底纹 · 三种效果', text:[
+        '若想保留底纹，则直接点击键盘上的删除键删除主体。',
+        '底纹有「网格」「半错位」「镜像」三种效果。'
+      ], trio:[
+        {src:'guide-grid.png', label:'网格'},
+        {src:'guide-half.png', label:'半错位'},
+        {src:'guide-mirror.png', label:'镜像'}
+      ]},
+      {n:'06', title:'面料预览', media:[{src:'guide-fabric.png', alt:'面料预览'}], text:[
+        '选择好纹样之后，可以在「面料预览」中查看你的画作平铺，以及印在头巾、口罩上的状态。'
+      ]},
+      {n:'07', title:'提交作品', media:[{src:'guide-confirm-user.png', alt:'提交确认 · 认捐或购买'}], text:[
+        '提交作品后，可以选择把画作捐给合作医院，或者购买印有自己画作的产品。',
+        '审核通过后，我们将向您发放优惠券。'
+      ]}
+    ]
+  },
+  en: {
+    docTitle: 'Painting Guide · Wear the Spring',
+    brand: 'Wear the Spring', brandSub: 'Painting Guide',
+    back: '‹ Back',
+    kicker: 'PAINTING GUIDE',
+    title: 'From a stroke of colour to something you can wear',
+    lead: 'Seven steps, one page. Scroll down for the whole flow.',
+    meta: 'Language follows your system · 简体中文 / English / Français',
+    start: 'Start painting ›',
+    stepBtn: 'Step-by-step guide ›',
+    endTitle: 'Ready?',
+    endText: 'Pick a shade you love — the AI takes care of the rest.',
+    foot: 'Ward Aesthetics Programme · Wear the Spring',
+    steps: [
+      {n:'01', title:'Choose your colours', media:[{src:'guide-wheel.png', alt:'Colour wheel'}], text:[
+        'Move your cursor over the colour wheel to pick any shade family you like.',
+        'Every shade corresponds to a L’Oréal beauty product.'
+      ]},
+      {n:'02', title:'Meet the shade card', media:[{src:'guide-shade-card.png', alt:'Shade product card'}], text:[
+        'Hover over a shade to see its product description and official page. Click the link if it interests you.',
+        'Each shade comes with a “poem about life” — a sensory expression of colour.'
+      ]},
+      {n:'03', title:'Start painting', media:[
+        {src:'guide-canvas.png', alt:'Canvas and five brushes'},
+        {src:'guide-toolbar.png', alt:'Brush size · Undo · Clear canvas', sub:true}
+      ], text:[
+        'Once your colours are chosen, enter the canvas. There are five brush effects: matte lipstick, glossy lip tint, powder blush, liquid eyeliner and gel eyeliner.',
+        'To add more colours mid-way, click “Choose colours” to return to the palette.',
+        'Scroll down to adjust brush size, undo an action, or clear the canvas.'
+      ]},
+      {n:'04', title:'AI pattern', media:[
+        {src:'guide-pattern.png', alt:'AI pattern studio'},
+        {src:'guide-subject.png', alt:'Subject only', sub:true}
+      ], text:[
+        'On the AI pattern page, both the background pattern and the subject are kept.',
+        'If you want a single motif (keep the subject), choose “Clear background”.'
+      ]},
+      {n:'05', title:'Keep the pattern · three effects', text:[
+        'To keep the background pattern, press Delete to remove the subject.',
+        'Three effects are available: Grid, Half-offset and Mirror.'
+      ], trio:[
+        {src:'guide-grid.png', label:'Grid'},
+        {src:'guide-half.png', label:'Half-offset'},
+        {src:'guide-mirror.png', label:'Mirror'}
+      ]},
+      {n:'06', title:'Fabric preview', media:[{src:'guide-fabric.png', alt:'Fabric preview'}], text:[
+        'Once your pattern is chosen, “Fabric preview” shows your artwork tiled and printed on a scarf and a mask.'
+      ]},
+      {n:'07', title:'Submit your work', media:[{src:'guide-confirm-user.png', alt:'Submit · donate or buy'}], text:[
+        'After submitting, you can donate your artwork to a partner hospital or buy products printed with your design.',
+        'Once approved, we will issue you a coupon.'
+      ]}
+    ]
+  },
+  fr: {
+    docTitle: 'Guide de création · Porter le printemps',
+    brand: 'Porter le printemps', brandSub: 'Guide de création',
+    back: '‹ Retour',
+    kicker: 'GUIDE DE CRÉATION',
+    title: 'D’une touche de couleur à une œuvre à porter',
+    lead: 'Sept étapes, une seule page. Faites défiler pour voir tout le parcours.',
+    meta: 'Langue automatiquement selon votre système · 简体中文 / English / Français',
+    start: 'Commencer à peindre ›',
+    stepBtn: 'Guide pas à pas ›',
+    endTitle: 'Prêt·e ?',
+    endText: 'Choisissez une teinte qui vous plaît, l’IA s’occupe du reste.',
+    foot: 'Programme d’esthétique hospitalière · Porter le printemps',
+    steps: [
+      {n:'01', title:'Choisir ses couleurs', media:[{src:'guide-wheel.png', alt:'Roue chromatique'}], text:[
+        'Faites glisser la souris sur la roue chromatique pour choisir la famille de teintes qui vous plaît.',
+        'Chaque teinte correspond à un produit de beauté L’Oréal.'
+      ]},
+      {n:'02', title:'La carte de teinte', media:[{src:'guide-shade-card.png', alt:'Carte produit'}], text:[
+        'Survolez une teinte pour voir la description du produit et sa page officielle. Cliquez sur le lien si elle vous intéresse.',
+        'Chaque teinte s’accompagne d’un « poème sur la vie » — une expression sensorielle de la couleur.'
+      ]},
+      {n:'03', title:'Commencer à peindre', media:[
+        {src:'guide-canvas.png', alt:'Toile et cinq pinceaux'},
+        {src:'guide-toolbar.png', alt:'Taille du pinceau · Annuler · Effacer', sub:true}
+      ], text:[
+        'Une fois les couleurs choisies, entrez sur la toile. Cinq effets de pinceau : rouge à lèvres mat, brillant à lèvres, blush poudré, eyeliner liquide et eyeliner gel.',
+        'Pour ajouter des couleurs en cours de route, cliquez sur « Choisir les couleurs ».',
+        'Faites défiler vers le bas pour régler la taille du pinceau, annuler ou effacer la toile.'
+      ]},
+      {n:'04', title:'Motif IA', media:[
+        {src:'guide-pattern.png', alt:'Atelier de motif IA'},
+        {src:'guide-subject.png', alt:'Sujet seul', sub:true}
+      ], text:[
+        'Sur la page de motif IA, le fond et le sujet sont conservés.',
+        'Pour ne garder qu’un motif (le sujet), choisissez « Effacer le fond ».'
+      ]},
+      {n:'05', title:'Conserver le fond · trois effets', text:[
+        'Pour garder le fond, appuyez sur la touche Suppr pour retirer le sujet.',
+        'Trois effets sont disponibles : Grille, Demi-décalage et Miroir.'
+      ], trio:[
+        {src:'guide-grid.png', label:'Grille'},
+        {src:'guide-half.png', label:'Demi-décalage'},
+        {src:'guide-mirror.png', label:'Miroir'}
+      ]},
+      {n:'06', title:'Aperçu tissu', media:[{src:'guide-fabric.png', alt:'Aperçu tissu'}], text:[
+        'Une fois le motif choisi, « Aperçu tissu » montre votre œuvre en répétition et imprimée sur un foulard et un masque.'
+      ]},
+      {n:'07', title:'Soumettre l’œuvre', media:[{src:'guide-confirm-user.png', alt:'Confirmer · donner ou acheter'}], text:[
+        'Après l’envoi, vous pouvez faire don de votre œuvre à un hôpital partenaire ou acheter des produits imprimés avec votre création.',
+        'Après validation, un bon d’achat vous sera envoyé.'
+      ]}
+    ]
+  }
+};
+
+function detectLang(){
+  const list = (navigator.languages && navigator.languages.length
+    ? navigator.languages : [navigator.language || '']).map(v => String(v).toLowerCase());
+  for(const l of list){
+    if(l.indexOf('zh') === 0) return 'zh';
+    if(l.indexOf('fr') === 0) return 'fr';
+    if(l.indexOf('en') === 0) return 'en';
+  }
+  let saved = null;
+  try{ saved = JSON.parse(localStorage.getItem('wa_lang') || 'null'); }catch(e){}
+  return (saved === 'zh' || saved === 'en' || saved === 'fr') ? saved : 'zh';
+}
+
+function render(lang){
+  const d = GUIDE[lang] || GUIDE.zh;
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+  document.title = d.docTitle;
+
+  document.getElementById('gaBrand').innerHTML =
+    d.brand + '<small>' + d.brandSub + '</small>';
+  document.getElementById('gaBack').textContent = d.back;
+  document.getElementById('gaKicker').textContent = d.kicker;
+  document.getElementById('gaTitle').textContent = d.title;
+  document.getElementById('gaLead').textContent = d.lead;
+  document.getElementById('gaMeta').textContent = d.meta;
+  document.getElementById('gaStart').textContent = d.start;
+  document.getElementById('gaStart2').textContent = d.start;
+  document.getElementById('gaStepBtn').textContent = d.stepBtn;
+  document.getElementById('gaStepBtn2').textContent = d.stepBtn;
+  document.getElementById('gaEndTitle').textContent = d.endTitle;
+  document.getElementById('gaEndText').textContent = d.endText;
+  document.getElementById('gaFoot').textContent = d.foot;
+
+  document.getElementById('gaSteps').innerHTML = d.steps.map(function(s){
+    const media = s.media ? '<figure class="ga-media">' + s.media.map(function(m){
+      return '<img' + (m.sub ? ' class="ga-sub"' : '') + ' src="' + m.src + '" alt="' + m.alt + '">';
+    }).join('') + '</figure>' : '';
+    const text = '<div class="ga-text">' + s.text.map(function(t){
+      return '<p>' + t + '</p>';
+    }).join('') + '</div>';
+    const trio = s.trio ? '<div class="ga-trio">' + s.trio.map(function(t){
+      return '<figure><img src="' + t.src + '" alt="' + t.label + '"><figcaption>' + t.label + '</figcaption></figure>';
+    }).join('') + '</div>' : '';
+    return '<section class="intro-section ga-step">' +
+      '<div class="ga-step-head"><span class="ga-num">' + s.n + '</span><h2>' + s.title + '</h2></div>' +
+      '<div class="ga-body' + (s.media ? '' : ' no-media') + '">' + media + text + '</div>' +
+      trio + '</section>';
+  }).join('');
+}
+
+function backOut(){
+  if(window.history.length > 1) window.history.back();
+  else location.href = 'index.html';
+}
+
+let currentLang = detectLang();
+render(currentLang);
+window.addEventListener('languagechange', function(){
+  currentLang = detectLang();
+  render(currentLang);
+});
+</script>
+</body>
+</html>
