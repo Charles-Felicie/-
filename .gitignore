@@ -17,3 +17,4 @@ Desktop.ini
 # ---------- Node (not used, kept for safety) ----------
 node_modules/
 .vercel
+.uploads/

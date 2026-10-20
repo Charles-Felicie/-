@@ -1027,7 +1027,6 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
           <p class="muted" style="margin:14px 0 6px" data-p="wheel_chosen">已选色号（点击可移除）：</p>
           <div class="chosen-row" id="wheelChosen"></div>
           <button class="btn btn-primary btn-block btn-lg" style="margin-top:16px" onclick="confirmColors()"<span data-p="wheel_go">用已选色号开始作画 ›</span></button>
-          <button class="btn btn-outline btn-block" style="margin-top:10px" onclick="go('paint/colors')" data-p="wheel_back">返回完整色号库</button>
         </div>
       </div>
     </div>
@@ -1974,6 +1973,8 @@ function createBrushEngine(canvas, opts){
     setBg(hex){
       S.bg = hex;
       canvas.style.backgroundColor = hex;
+      snapshot();
+      fillBg();
       S.onStrokeEnd();
     }
   };
@@ -3940,7 +3941,8 @@ function patCompose(ctx, W, H, withSel){
   ctx.scale(k, k);
   ctx.globalAlpha = 1;
   ctx.globalCompositeOperation = 'source-over';
-  ctx.fillStyle = '#ffffff';
+  const bgHex = (painter && painter.S && painter.S.bg && painter.S.bg !== 'transparent') ? painter.S.bg : '#ffffff';
+  ctx.fillStyle = bgHex;
   ctx.fillRect(0, 0, PAT_W, PAT_H);
   if(Pat.bg) ctx.drawImage(Pat.bg, 0, 0, PAT_W, PAT_H);
   Pat.objects.forEach(o => {
@@ -4375,7 +4377,8 @@ function submitWork(mode){
   const list = getWorks('n', currentUser);
   const work = {
     id:Date.now(), img:pCanvas.toDataURL(), colors:[...usedNos],
-    time:nowText(), sel:'pending', gal:1, likes:0, mode
+    time:nowText(), sel:'pending', gal:1, likes:0, mode,
+    bg:(painter && painter.S && painter.S.bg && painter.S.bg !== 'transparent') ? painter.S.bg : '#ffffff'
   };
   list.unshift(work);
   saveWorks('n', currentUser, list);
