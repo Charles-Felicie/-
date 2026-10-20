@@ -119,4 +119,13 @@
   }else{
     apply();
   }
+
+  /* 浏览器后退（bfcache 恢复）时按全局 wa_lang 重新对齐，避免停留在旧语言 */
+  window.addEventListener('pageshow', function(e){
+    if(!e.persisted) return;
+    try{
+      var v = JSON.parse(localStorage.getItem(KEY) || '"zh"');
+      if(STR[v] && v !== cur){ cur = v; apply(); }
+    }catch(err){}
+  });
 })();

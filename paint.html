@@ -3239,12 +3239,16 @@ function navLabel(p){
 let lang = Store.get('lang', 'zh') || 'zh';
 function brushName(b){ return PT('brush_' + b.id); }
 function brushTip(b){ return PT('bt_' + b.id); }
-function setLang(l){
+function setLang(l, silent){
   lang = (PAINT_I18N[l] ? l : 'zh');
   Store.set('lang', lang);
   applyI18n();
-  toast(lang === 'zh' ? '语言已切换为简体中文' : (lang === 'en' ? 'Language: English' : 'Langue : Français'));
+  if(!silent) toast(lang === 'zh' ? '语言已切换为简体中文' : (lang === 'en' ? 'Language: English' : 'Langue : Français'));
 }
+/* 浏览器后退（bfcache 恢复）时按全局语言重新对齐，避免停留在旧语言 */
+window.addEventListener('pageshow', function(e){
+  if(e.persisted){ const l = Store.get('lang', 'zh') || 'zh'; if(l !== lang) setLang(l, true); }
+});
 function applyI18n(){
   document.documentElement.lang = (lang === 'zh') ? 'zh-CN' : lang;
   document.querySelectorAll('.lang-btn').forEach(b => { const on = b.dataset.l === lang; b.classList.toggle('on', on); b.classList.toggle('sel', on); });

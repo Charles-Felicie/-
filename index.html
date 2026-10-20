@@ -161,6 +161,7 @@ function applyI18n(){
   if(sel) sel.value = lang;
 }
 function setLang(l){ lang = l; Store.set('lang', l); applyI18n(); }
+onLangRestore(function(l){ if(l !== lang) setLang(l); });
 applyI18n();
 
 /* Elastic hero: wheel down reveals the full image, wheel up restores it */

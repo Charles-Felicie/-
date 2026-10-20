@@ -408,9 +408,9 @@ const I18N = {
     typing:'est en train d’écrire…',cr_confirm_reject:'Confirmer ne pas retenir cette œuvre ?'
   }
 };
-let lang = Store.get('lang','en');
+let lang = Store.get('lang','zh');
 const t = k => (I18N[lang] && I18N[lang][k] != null) ? I18N[lang][k]
-             : (I18N.en[k] != null ? I18N.en[k] : k);
+             : (I18N.zh[k] != null ? I18N.zh[k] : k);
 function nowText(){
   return new Date().toLocaleString({zh:'zh-CN',en:'en-US',fr:'fr-FR'}[lang], {hour12:false});
 }
@@ -423,7 +423,7 @@ function applyI18n(){
   $('authTip').textContent = t(authMode === 'login' ? 'no_account' : 'have_account');
   $('authSwitch').textContent = t(authMode === 'login' ? 'register_now' : 'login_now');
 }
-function setLang(l){
+function setLang(l, silent){
   lang = l; Store.set('lang', l); applyI18n();
   renderGoods(); renderMoods();
   if(currentUser){
@@ -431,8 +431,9 @@ function setLang(l){
     if($('page-cr').classList.contains('active')) renderCR();
     if($('page-msgs').classList.contains('active')) renderMsgs();
   }
-  toast(t('toast_lang'));
+  if(!silent) toast(t('toast_lang'));
 }
+onLangRestore(function(l){ if(l !== lang) setLang(l, true); });
 
 /* ================= Auth ================= */
 let authMode = 'login';

@@ -229,3 +229,14 @@ const Router = {
     window.scrollTo(0,0);
   }
 };
+
+/* ---------------- Language: re-apply after back/forward cache ----------------
+   Pages that localise their UI register via onLangRestore(fn). When the
+   browser restores this page from its back/forward cache (e.g. browser Back),
+   fn is called with the globally stored language, so the page never shows a
+   stale language. Keeps every page in sync with the single 'wa_lang' setting. */
+const LangRestore = { handler: null };
+function onLangRestore(fn){ LangRestore.handler = fn; }
+window.addEventListener('pageshow', function(e){
+  if(e.persisted && LangRestore.handler) LangRestore.handler(Store.get('lang', 'zh'));
+});

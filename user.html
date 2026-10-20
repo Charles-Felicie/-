@@ -694,7 +694,7 @@ function applyI18n(){
   $('authSwitch').textContent = t(authMode === 'login' ? 'register_now' : 'login_now');
   renderIntro();
 }
-function setLang(l){
+function setLang(l, silent){
   lang = l; Store.set('lang', l); applyI18n();
   if(currentUser){
     renderMeMain(); renderMyWorks(); renderGallery();
@@ -705,8 +705,9 @@ function setLang(l){
     if($('page-me-messages').classList.contains('active')) renderMsgs();
     if($('page-tryon-select').classList.contains('active')) renderTryMoods();
   }
-  toast(t('toast_lang'));
+  if(!silent) toast(t('toast_lang'));
 }
+onLangRestore(function(l){ if(l !== lang) setLang(l, true); });
 function renderIntro(){ $('introBody').innerHTML = INTRO[lang] || INTRO.zh; }
 
 /* ================= Auth ================= */
