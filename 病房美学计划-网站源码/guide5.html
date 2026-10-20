@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>作画规则 · 第 5 页 / 共 7 页</title>
+<style>
+:root{
+  --bg:#FDF6EE; --bg-soft:#FAEDE0; --card:#FFFFFF;
+  --ink:#5B4232; --ink-soft:#8A6F5C;
+  --primary:#F2A93B; --primary-deep:#D98A1F; --secondary:#F7C873; --accent:#FBE3B5;
+  --line:#F0DFCE; --content-w:900px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:var(--bg) url('bg.jpg') center/cover no-repeat fixed;
+  color:var(--ink);
+  font-family:"Segoe UI","PingFang SC","Microsoft YaHei",Helvetica,Arial,sans-serif;
+  font-size:15px;line-height:1.6;min-height:100vh;
+}
+img{display:block;max-width:100%}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+.container{width:100%;max-width:1000px;margin:0 auto;padding:0 24px}
+.btn{
+  display:inline-block;padding:11px 22px;font-size:14px;font-weight:600;
+  background:var(--bg-soft);color:var(--ink);border:1px solid var(--line);
+  text-align:center;transition:background .12s;border-radius:14px;
+}
+.btn:hover{background:var(--line)}
+.btn-primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+.btn-primary:hover{background:var(--primary-deep)}
+.btn-outline{background:#fff;color:var(--primary-deep);border-color:var(--primary)}
+.btn-outline:hover{background:var(--bg)}
+
+/* 作画指南：步骤标题＝初号(42pt≈56px)黑体，正文＝小二(18pt≈24px)宋体 */
+.guide-wrap{max-width:900px;margin:0 auto;padding:34px 0 60px}
+.guide-kicker{
+  font-family:SimSun,'宋体','Songti SC',serif;font-size:24px;color:var(--ink-soft);
+  letter-spacing:.35em;margin-bottom:6px}
+.guide-step{
+  font-family:SimHei,'黑体','Heiti SC','Microsoft YaHei',sans-serif;
+  font-size:56px;line-height:1.35;font-weight:700;color:var(--ink);margin:8px 0 24px}
+.guide-text{
+  font-family:SimSun,'宋体','Songti SC',serif;font-size:24px;line-height:1.9;
+  color:var(--ink);margin:16px 0}
+.guide-shot{
+  background:#fff;border:1px solid var(--primary);border-radius:16px;
+  padding:14px;margin:18px 0;box-shadow:0 6px 18px rgba(217,138,31,.10)}
+.guide-shot img{display:block;width:100%;border-radius:10px}
+.guide-shot-sm img{max-height:180px;width:auto;max-width:100%;margin:0 auto}
+.guide-row{display:flex;gap:14px;align-items:flex-start}
+.guide-row .guide-shot{flex:1;margin:18px 0}
+.guide-nav{display:flex;align-items:center;gap:12px;margin-top:28px}
+.guide-page-no{
+  margin-left:auto;margin-right:auto;
+  font-family:SimSun,'宋体',serif;font-size:24px;color:var(--ink-soft);letter-spacing:.1em}
+@media (max-width:760px){
+  .guide-step{font-size:34px}
+  .guide-text,.guide-kicker,.guide-page-no{font-size:18px}
+  .guide-row{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="page is-active" id="page-paint-guide5">
+  <div class="container guide-wrap">
+    <p class="guide-kicker" data-p="gd_kicker">作画规则</p>
+    <p class="guide-text" data-p="gd5_t1">若想保留底纹，则直接点击键盘上的删除键删除主体。</p>
+    <p class="guide-text" data-p="gd5_t2">底纹有“网格”“半错位”“镜像”三种效果。</p>
+    <div class="guide-row">
+      <div class="guide-shot"><img src="guide-grid.png" alt="网格底纹"></div>
+      <div class="guide-shot"><img src="guide-half.png" alt="半错位底纹"></div>
+      <div class="guide-shot"><img src="guide-mirror.png" alt="镜像底纹"></div>
+    </div>
+    <div class="guide-nav">
+      <button class="btn btn-outline" onclick="go('paint/guide4')" data-p="gd_prev">‹ 上一页</button>
+      <span class="guide-page-no">5 / 7</span>
+      <button class="btn btn-primary" onclick="go('paint/guide6')" data-p="gd_next">下一页 ›</button>
+    </div>
+  </div>
+</div>
+<script>
+function go(p){
+  if(p === 'paint/colors'){ location.href = 'user.html#/paint/colors'; return; }
+  var m = /^paint\/guide(\d+)$/.exec(p);
+  if(m){ location.href = 'guide' + m[1] + '.html'; return; }
+  location.href = 'user.html#/' + p;
+}
+document.addEventListener('keydown', function(e){
+  if(e.key === 'ArrowRight'){ var b=document.querySelector('.guide-nav .btn-primary'); if(b) b.click(); }
+  if(e.key === 'ArrowLeft'){ var a=document.querySelector('.guide-nav .btn-outline'); if(a) a.click(); }
+});
+</script>
+</body>
+</html>

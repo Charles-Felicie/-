@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>戴上春天 · 正常用户端</title>
+<link rel="stylesheet" href="assets/style.css">
+<style>
+  .banner-slide:nth-child(1){background-image:url('poster1.jpg');background-position:50% 32%}
+  .banner-slide:nth-child(2){background-image:url('poster2.jpg');background-position:42% 40%}
+  .banner-slide:nth-child(3){background-image:url('poster3.jpg');background-position:50% 35%}
+  .banner-slide:nth-child(4){background-image:url('poster4.jpg');background-position:50% 45%}
+  .banner-slide .headline{text-shadow:0 2px 8px rgba(0,0,0,.7)}
+  .auth-wrap{max-width:440px;margin:80px auto}
+  .lp-timer{user-select:none}
+  .rule-card{border-left:4px solid var(--primary);padding-left:18px;margin:18px 0}
+</style>
+</head>
+<body>
+
+<nav class="topnav" id="topnav" style="display:none">
+  <div class="container">
+    <img src="商标.jpg" class="brand-logo" alt="logo">
+    <div class="nav-links">
+      <button data-route="home" onclick="go('home')" data-i18n="nav_home">首页</button>
+      <button data-route="gallery" onclick="go('gallery')" data-i18n="nav_gallery">画作展示</button>
+      <button data-route="me" onclick="go('me')" data-i18n="nav_me">个人中心</button>
+      <select id="langSel" class="lang-sel" onchange="setLang(this.value)" aria-label="language">
+        <option value="zh">简体中文</option>
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+      </select>
+      <button class="btn btn-sm" onclick="location.href='index.html'">‹ <span data-i18n="portal">门户</span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== Auth ===== -->
+<div class="page" id="page-auth">
+  <div class="container auth-wrap">
+    <div class="card">
+      <h2 class="f-brand auth-title" data-i18n="auth_title">戴上春天 · 用户登记</h2>
+      <p class="muted" style="text-align:center;margin-bottom:20px" data-i18n="auth_sub">用创作与善意，把美送到病房</p>
+      <div class="field"><label data-i18n="username">用户名</label><input id="authUser" data-i18n-ph="ph_username" placeholder="请输入用户名"></div>
+      <div class="field"><label data-i18n="password">密码</label><input id="authPass" type="password" data-i18n-ph="ph_password" placeholder="请输入密码"></div>
+      <button class="btn btn-pill btn-block btn-lg" id="authBtn" onclick="doAuth()">登 录</button>
+      <p class="muted" style="text-align:center;margin-top:14px">
+        <span id="authTip">还没有账号？</span>
+        <a href="#" id="authSwitch" onclick="toggleAuthMode();return false;">立即登记</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Home ===== -->
+<div class="page" id="page-home">
+  <div class="container">
+    <div class="banner">
+      <div class="banner-track" id="bannerTrack">
+        <div class="banner-slide"><div class="headline" data-i18n="poster1_sub">公益画展 · 让爱被看见</div></div>
+        <div class="banner-slide"><div class="headline" data-i18n="poster2_sub">AI 试妆 · 遇见更好的自己</div></div>
+        <div class="banner-slide"><div class="headline" data-i18n="poster3_sub">色彩疗愈 · 病房美学课堂</div></div>
+        <div class="banner-slide"><div class="headline" data-i18n="poster4_sub">爱心捐赠 · 公益产品领取</div></div>
+      </div>
+      <div class="banner-dots" id="bannerDots"><i class="on"></i><i></i><i></i><i></i></div>
+      <button class="banner-arrow prev" onclick="bannerGo(-1)" aria-label="上一张海报">‹</button>
+      <button class="banner-arrow next" onclick="bannerGo(1)" aria-label="下一张海报">›</button>
+    </div>
+    <div class="grid grid-3" style="margin-top:28px">
+      <button class="home-card" onclick="location.href='guide-all.html'">
+        <img class="card-img" src="作画.png" alt="">
+        <div class="home-hover">
+          <p class="home-desc" data-i18n="entry_paint_desc">选择色号自由创作，可捐赠或自购定制头巾口罩</p>
+          <span class="btn btn-pill enter-pill" data-i18n="enter_btn">进入</span>
+        </div>
+        <h3 class="f-entry" data-i18n="entry_paint">作画</h3>
+      </button>
+      <button class="home-card" onclick="location.href='ai-makeup-normalside-new.html'">
+        <img class="card-img" src="AI试妆.png" alt="">
+        <div class="home-hover">
+          <p class="home-desc" data-i18n="entry_tryon_desc">情绪智能匹配妆容，体验最新产品</p>
+          <span class="btn btn-pill enter-pill" data-i18n="enter_btn">进入</span>
+        </div>
+        <h3 class="f-entry" data-i18n="entry_tryon">AI 试妆</h3>
+      </button>
+      <button class="home-card" onclick="go('me/works')">
+        <img class="card-img" src="我的作品.png" alt="">
+        <div class="home-hover">
+          <p class="home-desc" data-i18n="entry_works_desc">作品历史、评选状态与捐赠记录</p>
+          <span class="btn btn-pill enter-pill" data-i18n="enter_btn">进入</span>
+        </div>
+        <h3 class="f-entry" data-i18n="entry_works">我的作品</h3>
+      </button>
+    </div>
+    <div style="margin-top:16px">
+      <button class="intro-card" onclick="go('intro')">
+        <img class="card-img" src="项目介绍.png" alt="">
+        <div class="home-hover">
+          <p class="home-desc" data-i18n="entry_intro_desc">了解“戴上春天”的故事与参与方式</p>
+          <span class="btn btn-pill enter-pill" data-i18n="enter_btn">进入</span>
+        </div>
+        <h3 class="f-brand" data-i18n="entry_intro">项目介绍</h3>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Intro ===== -->
+<div class="page" id="page-intro">
+  <div class="container f-bahn" style="max-width:900px" id="introBody"></div>
+</div>
+
+<!-- ===== Paint: rules ===== -->
+<div class="page" id="page-paint-rules">
+  <div class="container" style="max-width:820px">
+    <div class="page-head"><h1 data-i18n="rules_title">作画规则</h1></div>
+    <div class="card">
+      <div class="rule-card"><p><b data-i18n="rule1_b">① 选色</b><span data-i18n="rule1">：从欧莱雅产品色号库中挑选“颜料”，色号即颜料，无商品链接强制跳转。</span></p></div>
+      <div class="rule-card"><p><b data-i18n="rule2_b">② 创作</b><span data-i18n="rule2">：在画布上自由作画，可保存草稿；AI 会将作品转为可印花的四方连续纹样。</span></p></div>
+      <div class="rule-card"><p><b data-i18n="rule3_b">③ 提交</b><span data-i18n="rule3">：选择认捐（一键捐赠实物）或自己购买定制产品；作品进入审核。</span></p></div>
+      <button class="btn btn-primary btn-block btn-lg" style="margin-top:18px" onclick="go('paint/colors')" data-i18n="pick_colors">选择颜色 ›</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Paint: colors ===== -->
+<div class="page" id="page-paint-colors">
+  <div class="container" style="max-width:1000px">
+    <div class="page-head"><h1 data-i18n="colors_title">选择色号</h1><p class="muted" data-i18n="colors_hint">点击选择，长按查看商品介绍</p></div>
+    <div class="card">
+      <div class="palette" id="colorsPalette" style="grid-template-columns:repeat(6,1fr)"></div>
+      <div class="divider"></div>
+      <p class="muted" data-i18n="rec_colors">推荐颜色：</p>
+      <div id="recommendRow" style="display:flex;gap:10px;margin-top:8px"></div>
+      <button class="btn btn-primary btn-block btn-lg" style="margin-top:20px" onclick="confirmColors()" data-i18n="confirm">确认 ›</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Paint: canvas ===== -->
+<div class="page" id="page-paint-canvas">
+  <div class="container">
+    <div class="page-head"><h1 data-i18n="canvas_title">画布作画</h1></div>
+    <div class="card" style="display:grid;grid-template-columns:1.5fr 1fr;gap:24px;align-items:start">
+      <canvas id="paintCanvas" width="640" height="640"></canvas>
+      <div>
+        <p class="muted" data-i18n="used_colors">本次使用色号：</p>
+        <div class="palette" id="canvasPalette" style="grid-template-columns:repeat(4,1fr);margin-top:8px"></div>
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <button class="btn" onclick="saveDraft()" data-i18n="save_draft">保存草稿</button>
+          <button class="btn" onclick="loadDraft()" data-i18n="load_draft">读取草稿</button>
+          <button class="btn" onclick="clearCanvas2()" data-i18n="clear">清空</button>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:10px">
+          <button class="btn btn-outline" onclick="shareWork()" data-i18n="share">分享</button>
+          <button class="btn btn-primary" style="flex:1" onclick="go('paint/confirm')" data-i18n="done">完成 ›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Paint: confirm ===== -->
+<div class="page" id="page-paint-confirm">
+  <div class="container" style="max-width:900px">
+    <div class="page-head"><h1 data-i18n="confirm_title">提交确认</h1></div>
+    <div class="card" style="display:grid;grid-template-columns:1.2fr 1fr;gap:24px">
+      <canvas id="confirmCanvas" width="640" height="640" style="width:100%;border:1px solid var(--line);border-radius:12px"></canvas>
+      <div>
+        <p class="muted" data-i18n="choose_dest">请选择作品去向：</p>
+        <button class="btn btn-primary btn-block btn-lg" style="margin-top:12px" onclick="submitWork('donate')" data-i18n="donate_btn">认捐（一键捐赠实物）</button>
+        <button class="btn btn-outline btn-block btn-lg" style="margin-top:10px" onclick="submitWork('buy')" data-i18n="buy_btn">自己购买（C2M 定制）</button>
+        <div class="divider"></div>
+        <p class="muted" data-i18n="used_colors_intro">所用颜色介绍，戳我了解：</p>
+        <div id="usedColorRow" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px"></div>
+        <p class="muted" style="margin-top:14px" data-i18n="confirm_note">作品提交后进入审核，审核通过将发放优惠券，可在信息栏查看。</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Try-on: select ===== -->
+<div class="page" id="page-tryon-select">
+  <div class="container" style="max-width:900px">
+    <div class="page-head"><h1 data-i18n="tryon_title">AI 试妆</h1></div>
+    <div class="card">
+      <p class="muted" data-i18n="select_mood">选择当前情绪：</p>
+      <div class="grid" id="tryMoodGrid" style="grid-template-columns:repeat(6,1fr);margin-top:10px"></div>
+      <button class="btn btn-primary btn-block btn-lg" style="margin-top:18px" onclick="runTryon()" data-i18n="start_tryon">开始试妆 ›</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Try-on: result ===== -->
+<div class="page" id="page-tryon-result">
+  <div class="container" style="max-width:900px">
+    <div class="page-head"><h1 data-i18n="result_title">试妆效果</h1></div>
+    <div class="card">
+      <div class="stage" style="height:300px">
+        <div style="font-size:110px" id="tryFace">🙂</div>
+      </div>
+      <p id="tryLook" class="muted" style="margin-top:12px"></p>
+      <div style="display:flex;gap:10px;margin-top:14px">
+        <button class="btn btn-primary" style="flex:1" onclick="toast(t('toast_tryon_saved'))" data-i18n="save_share">保存 / 分享</button>
+        <button class="btn btn-outline" onclick="productModal()" data-i18n="learn_more">多了解以下吧 ›</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Gallery ===== -->
+<div class="page" id="page-gallery">
+  <div class="container">
+    <div class="page-head"><h1 class="f-alt" data-i18n="nav_gallery">画作展示</h1></div>
+    <div class="gallery-wall"><div class="wall-track" id="wallTrack"></div></div>
+  </div>
+</div>
+
+<!-- ===== Me: main ===== -->
+<div class="page" id="page-me">
+  <div class="container" style="max-width:820px">
+    <div class="page-head"><h1 class="f-alt" data-i18n="me_title">个人中心</h1></div>
+    <div class="card profile-bar" style="display:flex;gap:18px;align-items:center">
+      <div id="avatarBox"></div>
+      <div style="flex:1">
+        <div style="font-size:19px;font-weight:700" id="nickShow">—</div>
+        <p class="muted"><span data-i18n="username">用户名</span>：<span id="nameShow"></span></p>
+      </div>
+      <button class="btn" onclick="document.getElementById('avatarInput').click()" data-i18n="set_avatar">设置头像</button>
+      <input type="file" id="avatarInput" accept="image/*" hidden onchange="setAvatar(this)">
+    </div>
+    <div class="menu-list">
+      <button class="menu-row" onclick="go('me/works')"><span data-i18n="menu_works">我的作品</span><span class="arrow">›</span></button>
+      <button class="menu-row" onclick="go('me/cart')"><span data-i18n="menu_cart">我的购物车</span><span class="arrow">›</span></button>
+      <button class="menu-row" onclick="go('me/follows')"><span data-i18n="menu_follows">我的关注</span><span class="arrow">›</span></button>
+      <button class="menu-row" onclick="go('me/donations')"><span data-i18n="menu_donations">我的捐赠记录</span><span class="arrow">›</span></button>
+      <button class="menu-row" onclick="go('me/history')"><span data-i18n="menu_history">我的浏览记录</span><span class="arrow">›</span></button>
+      <button class="menu-row" onclick="go('me/messages')"><span data-i18n="menu_msgs">信息栏</span><span class="arrow">›</span></button>
+    </div>
+    <div class="menu-list">
+      <button class="menu-row" style="color:var(--primary-deep)" onclick="logout()"><span data-i18n="log_out">退出登录</span><span class="arrow">›</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Me: works ===== -->
+<div class="page" id="page-me-works">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1 data-i18n="menu_works">我的作品</h1></div>
+    <div class="list" id="myWorksList"></div>
+  </div>
+</div>
+
+<!-- ===== Me: cart ===== -->
+<div class="page" id="page-me-cart">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1 data-i18n="menu_cart">我的购物车</h1></div>
+    <div class="list" id="cartList"></div>
+  </div>
+</div>
+
+<!-- ===== Me: follows ===== -->
+<div class="page" id="page-me-follows">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1 data-i18n="menu_follows">我的关注</h1></div>
+    <div class="list" id="followsList"></div>
+  </div>
+</div>
+
+<!-- ===== Me: donations ===== -->
+<div class="page" id="page-me-donations">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1 data-i18n="menu_donations">我的捐赠记录</h1></div>
+    <div class="card">
+      <p><span data-i18n="donations_intro">我被选中了</span> <b id="donCount" style="color:var(--primary);font-size:18px">0</b> <span data-i18n="donations_unit">个作品</span></p>
+    </div>
+    <div class="list" id="donationsList"></div>
+  </div>
+</div>
+
+<!-- ===== Me: history ===== -->
+<div class="page" id="page-me-history">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1 data-i18n="menu_history">我的浏览记录</h1></div>
+    <div class="sub-tabs">
+      <button id="histLike" class="on" onclick="switchHist('liked')" data-i18n="tab_liked">我点赞的</button>
+      <button id="histFollow" onclick="switchHist('followed')" data-i18n="tab_followed">我关注的</button>
+    </div>
+    <div class="list" id="histList"></div>
+  </div>
+</div>
+
+<!-- ===== Me: messages ===== -->
+<div class="page" id="page-me-messages">
+  <div class="container" style="max-width:860px">
+    <div class="page-head"><h1 data-i18n="menu_msgs">信息栏</h1><p class="muted" data-i18n="msgs_sub">来自病房的照片与感谢（不展示公益用户信息）</p></div>
+    <div class="list" id="msgsList"></div>
+  </div>
+</div>
+
+<script src="assets/common.js"></script>
+<script>
+/* ================= i18n ================= */
+const I18N = {
+  zh:{
+    nav_home:'首页',nav_gallery:'画作展示',nav_me:'个人中心',portal:'门户',
+    auth_title:'戴上春天 · 用户登记',auth_sub:'用创作与善意，把美送到病房',
+    username:'用户名',password:'密码',ph_username:'请输入用户名',ph_password:'请输入密码',
+    login:'登 录',register:'登 记',no_account:'还没有账号？',have_account:'已有账号？',
+    register_now:'立即登记',login_now:'去登录',
+    poster1_sub:'公益画展 · 让爱被看见',poster2_sub:'AI 试妆 · 遇见更好的自己',
+    poster3_sub:'色彩疗愈 · 病房美学课堂',poster4_sub:'爱心捐赠 · 公益产品领取',
+    entry_paint:'作画',entry_paint_desc:'选择色号自由创作，可捐赠或自购定制头巾口罩',
+    entry_tryon:'AI 试妆',entry_tryon_desc:'情绪智能匹配妆容，体验最新产品',
+    entry_works:'我的作品',entry_works_desc:'作品历史、评选状态与捐赠记录',
+    entry_intro:'项目介绍',entry_intro_desc:'了解“戴上春天”的故事与参与方式',
+    enter_btn:'进入',
+    rules_title:'作画规则',
+    rule1_b:'① 选色',rule1:'：从欧莱雅产品色号库中挑选“颜料”，色号即颜料，无商品链接强制跳转。',
+    rule2_b:'② 创作',rule2:'：在画布上自由作画，可保存草稿；AI 会将作品转为可印花的四方连续纹样。',
+    rule3_b:'③ 提交',rule3:'：选择认捐（一键捐赠实物）或自己购买定制产品；作品进入审核。',
+    pick_colors:'选择颜色 ›',colors_title:'选择色号',colors_hint:'点击选择，长按查看商品介绍',
+    rec_colors:'推荐颜色：',confirm:'确认 ›',canvas_title:'画布作画',used_colors:'本次使用色号：',
+    save_draft:'保存草稿',load_draft:'读取草稿',clear:'清空',share:'分享',done:'完成 ›',
+    confirm_title:'提交确认',choose_dest:'请选择作品去向：',
+    donate_btn:'认捐（一键捐赠实物）',buy_btn:'自己购买（C2M 定制）',
+    used_colors_intro:'所用颜色介绍，戳我了解：',
+    confirm_note:'作品提交后进入审核，审核通过将发放优惠券，可在信息栏查看。',
+    tryon_title:'AI 试妆',select_mood:'选择当前情绪：',start_tryon:'开始试妆 ›',
+    result_title:'试妆效果',save_share:'保存 / 分享',learn_more:'多了解以下吧 ›',
+    mood_happy:'开心',mood_calm:'平静',mood_tired:'疲惫',mood_anxious:'紧张',mood_excited:'期待',mood_low:'低落',
+    look_happy:'为你匹配元气橘调妆容',look_calm:'为你匹配清透裸妆',look_tired:'为你匹配温柔提气妆容',
+    look_anxious:'为你匹配舒缓大地色妆容',look_excited:'为你匹配闪耀派对妆',look_low:'为你匹配暖色治愈妆',
+    gal_empty:'作品展示区（等待第一幅作品）',comments_title:'评论区',ph_chat:'写下鼓励或评价…',send:'发送',
+    like:'点赞',likes_unit:'点赞',follow:'＋ 关注作者',following:'✓ 已关注',no_records:'暂无评论',
+    me_title:'个人中心',set_avatar:'设置头像',
+    menu_works:'我的作品',menu_cart:'我的购物车',menu_follows:'我的关注',
+    menu_donations:'我的捐赠记录',menu_history:'我的浏览记录',menu_msgs:'信息栏',log_out:'退出登录',
+    no_works:'还没有作品，去「作画」创作第一幅吧',
+    badge_pending:'待评选',badge_selected:'已选中',badge_rejected:'未选中',
+    mode_donate:'认捐',mode_buy:'自购',
+    cart_empty:'购物车为空',follows_empty:'暂无关注',
+    charity_creator:'公益创作者',role_user:'用户',
+    donations_intro:'我被选中了',donations_unit:'个作品',no_selected:'暂无被选中的作品',
+    tab_liked:'我点赞的',tab_followed:'我关注的',no_likes:'还没有点赞记录',no_follows:'还没有关注记录',
+    followed_patient:'关注的病患用户',
+    msgs_sub:'来自病房的照片与感谢（不展示公益用户信息）',msgs_empty:'暂无消息',
+    notice:'通知',reply_ph:'回复感谢（匿名发送）',
+    product_intro:'商品介绍 · ',product_no:'产品号：',product_desc:'欧莱雅旗下产品 · 色号即颜料',
+    product_note:'公益演示版：商品详情与购物车功能暂未开放。',close:'关闭',go_product:'前往商品页',
+    share_title:'1:1 配捐提示',share_p1:'您每分享一幅作品，<b>欧莱雅配捐一份“美的包裹”</b>，让公益可持续。',
+    share_p2:'分享后作品将进入画作展示页，被更多人看见。',later:'稍后再说',share_now:'立即分享',
+    rec_tag:'推荐',
+    toast_need_credentials:'请输入用户名和密码',toast_user_taken:'该用户名已被登记',
+    toast_reg_ok:'登记成功，请登录。',toast_auth_fail:'用户名或密码错误',
+    toast_need_color:'请至少选择一个色号',toast_draft_saved:'草稿已保存',toast_no_draft:'暂无草稿',
+    toast_draft_loaded:'草稿已读取',toast_shared:'已分享，感谢配捐 🧡',
+    toast_donate:'认捐作品已提交，等待审核 🧡',toast_buy:'定制订单已提交（C2M）',
+    toast_select_mood:'请先选择当前情绪',toast_tryon_saved:'试妆结果已保存并分享 🧡',
+    toast_liked:'已点赞 🧡',toast_unfollowed:'已取消关注',toast_followed:'已关注作者',
+    toast_avatar:'头像已更新',toast_lang:'语言已切换',toast_enter_reply:'请输入感谢内容',
+    toast_thanks_sent:'感谢已匿名发送 🧡',toast_cart_closed:'购物车功能暂未开放',
+    rec_donate:'提交认捐作品',rec_buy:'提交自购定制作品',rec_liked:'点赞了作品',rec_comment:'评论：'
+  },
+  en:{
+    nav_home:'Home',nav_gallery:'Gallery',nav_me:'Profile',portal:'Portal',
+    auth_title:'Wear the Spring · Sign In',auth_sub:'Bringing beauty to hospital wards through creativity and kindness',
+    username:'Username',password:'Password',ph_username:'Enter your username',ph_password:'Enter your password',
+    login:'Log In',register:'Register',no_account:"Don't have an account?",have_account:'Already have an account?',
+    register_now:'Register now',login_now:'Log in',
+    poster1_sub:'Charity Art Exhibition · Let Love Be Seen',poster2_sub:'AI Try-On · Meet a Brighter You',
+    poster3_sub:'Color Therapy · Ward Aesthetics Workshop',poster4_sub:'Kind Donations · Free Charity Products',
+    entry_paint:'Paint',entry_paint_desc:'Create freely with product shades; donate or buy custom scarves & masks',
+    entry_tryon:'AI Try-On',entry_tryon_desc:'Mood-matched makeup, experience the latest products',
+    entry_works:'My Works',entry_works_desc:'Work history, selection status and donation records',
+    entry_intro:'About the Project',entry_intro_desc:'The story of "Wear the Spring" and how to join',
+    enter_btn:'Enter',
+    rules_title:'Painting Rules',
+    rule1_b:'1. Pick colors',rule1:': choose "pigments" from the L\'Oréal shade library. Shades are pigments; no forced product links.',
+    rule2_b:'2. Create',rule2:': paint freely on the canvas, save drafts; AI turns your work into a printable seamless pattern.',
+    rule3_b:'3. Submit',rule3:': choose donation (one-tap gift of a real product) or buy your custom product; the work enters review.',
+    pick_colors:'Pick Colors ›',colors_title:'Pick Shades',colors_hint:'Click to select, long-press for product intro',
+    rec_colors:'Recommended:',confirm:'Confirm ›',canvas_title:'Canvas',used_colors:'Shades used this time:',
+    save_draft:'Save Draft',load_draft:'Load Draft',clear:'Clear',share:'Share',done:'Done ›',
+    confirm_title:'Confirm Submission',choose_dest:'Choose where your work goes:',
+    donate_btn:'Donate (gift a real product)',buy_btn:'Buy for myself (C2M custom)',
+    used_colors_intro:'About the shades used, tap to learn:',
+    confirm_note:'Submitted works enter review; coupons are issued after approval — check Messages.',
+    tryon_title:'AI Try-On',select_mood:'Select your current mood:',start_tryon:'Start Try-On ›',
+    result_title:'Try-On Result',save_share:'Save / Share',learn_more:'Learn more ›',
+    mood_happy:'Happy',mood_calm:'Calm',mood_tired:'Tired',mood_anxious:'Anxious',mood_excited:'Excited',mood_low:'Down',
+    look_happy:'A vibrant orange look for you',look_calm:'A clear nude look for you',look_tired:'A gentle uplifting look for you',
+    look_anxious:'A soothing earth-tone look for you',look_excited:'A sparkling party look for you',look_low:'A warm healing look for you',
+    gal_empty:'Artwork wall (waiting for the first piece)',comments_title:'Comments',ph_chat:'Leave encouragement or a comment…',send:'Send',
+    like:'Like',likes_unit:'likes',follow:'+ Follow author',following:'✓ Following',no_records:'No comments yet',
+    me_title:'My Profile',set_avatar:'Set Avatar',
+    menu_works:'My Works',menu_cart:'My Cart',menu_follows:'My Follows',
+    menu_donations:'My Donations',menu_history:'Browsing History',menu_msgs:'Messages',log_out:'Log Out',
+    no_works:'No artwork yet. Go to Paint and create your first piece.',
+    badge_pending:'Pending',badge_selected:'Selected',badge_rejected:'Not selected',
+    mode_donate:'Donation',mode_buy:'Purchase',
+    cart_empty:'Your cart is empty',follows_empty:'No follows yet',
+    charity_creator:'Charity creator',role_user:'User',
+    donations_intro:'Works of mine selected:',donations_unit:'',no_selected:'No selected works yet',
+    tab_liked:'My Likes',tab_followed:'My Follows',no_likes:'No likes yet',no_follows:'No follows yet',
+    followed_patient:'Followed patient user',
+    msgs_sub:'Photos and thanks from the wards (charity user info hidden)',msgs_empty:'No messages',
+    notice:'Notice',reply_ph:'Reply with thanks (sent anonymously)',
+    product_intro:'Product Intro · ',product_no:'Product No.:',product_desc:'L\'Oréal product · shade as pigment',
+    product_note:'Charity demo: product details and cart are not available yet.',close:'Close',go_product:'Go to product',
+    share_title:'1:1 Matching Donation',share_p1:'For every work you share, <b>L\'Oréal donates a "Beauty Package"</b> to keep charity sustainable.',
+    share_p2:'Shared works appear on the gallery wall and get seen by more people.',later:'Maybe later',share_now:'Share now',
+    rec_tag:'Rec',
+    toast_need_credentials:'Please enter username and password',toast_user_taken:'Username already registered',
+    toast_reg_ok:'Registered. Please log in.',toast_auth_fail:'Wrong username or password',
+    toast_need_color:'Please select at least one shade',toast_draft_saved:'Draft saved',toast_no_draft:'No draft yet',
+    toast_draft_loaded:'Draft loaded',toast_shared:'Shared — thanks for the matching donation 🧡',
+    toast_donate:'Donation submitted, awaiting review 🧡',toast_buy:'Custom order submitted (C2M)',
+    toast_select_mood:'Please select a mood first',toast_tryon_saved:'Try-on saved and shared 🧡',
+    toast_liked:'Liked 🧡',toast_unfollowed:'Unfollowed',toast_followed:'Author followed',
+    toast_avatar:'Avatar updated',toast_lang:'Language switched',toast_enter_reply:'Please enter your thanks',
+    toast_thanks_sent:'Thanks sent anonymously 🧡',toast_cart_closed:'Cart not available yet',
+    rec_donate:'Submitted a donation work',rec_buy:'Submitted a custom order',rec_liked:'Liked a work',rec_comment:'Comment: '
+  },
+  fr:{
+    nav_home:'Accueil',nav_gallery:'Galerie',nav_me:'Profil',portal:'Portail',
+    auth_title:'Porter le printemps · Inscription',auth_sub:'Apporter la beauté aux chambres d’hôpital par la création et la bienveillance',
+    username:"Nom d'utilisateur",password:'Mot de passe',ph_username:"Entrez votre nom d'utilisateur",ph_password:'Entrez votre mot de passe',
+    login:'Connexion',register:'Inscription',no_account:"Pas encore de compte ?",have_account:'Déjà un compte ?',
+    register_now:"S'inscrire",login_now:'Se connecter',
+    poster1_sub:"Exposition caritative · Que l'amour soit vu",poster2_sub:'Essai IA · Révélez votre éclat',
+    poster3_sub:"Colorothérapie · Atelier d'esthétique hospitalière",poster4_sub:'Dons généreux · Produits caritatifs offerts',
+    entry_paint:'Peindre',entry_paint_desc:'Créez librement avec les teintes ; donnez ou achetez foulards et masques personnalisés',
+    entry_tryon:'Essai IA',entry_tryon_desc:'Maquillage adapté à votre humeur, découvrez les nouveautés',
+    entry_works:'Mes œuvres',entry_works_desc:'Historique, statut de sélection et dons',
+    entry_intro:'À propos du projet',entry_intro_desc:'L’histoire de « Porter le printemps » et comment participer',
+    enter_btn:'Entrer',
+    rules_title:'Règles de peinture',
+    rule1_b:'1. Choisir les couleurs',rule1:' : choisissez des « pigments » dans la bibliothèque de teintes L\'Oréal. Aucun lien produit forcé.',
+    rule2_b:'2. Créer',rule2:' : peignez librement, enregistrez des brouillons ; l\'IA transforme l\'œuvre en motif imprimable.',
+    rule3_b:'3. Soumettre',rule3:' : don (envoi d\'un produit réel) ou achat personnalisé ; l\'œuvre passe en révision.',
+    pick_colors:'Choisir les couleurs ›',colors_title:'Choisir les teintes',colors_hint:'Cliquez pour sélectionner, appui long pour l\'intro produit',
+    rec_colors:'Recommandées :',confirm:'Confirmer ›',canvas_title:'Toile',used_colors:'Teintes utilisées :',
+    save_draft:'Enregistrer',load_draft:'Charger',clear:'Effacer',share:'Partager',done:'Terminer ›',
+    confirm_title:'Confirmer l\'envoi',choose_dest:'Choisissez la destination de l\'œuvre :',
+    donate_btn:'Don (offrir un produit réel)',buy_btn:'Acheter (sur mesure C2M)',
+    used_colors_intro:'À propos des teintes utilisées :',
+    confirm_note:'Les œuvres soumises passent en révision ; des coupons sont offerts après approbation — voir Messages.',
+    tryon_title:'Essai maquillage IA',select_mood:'Sélectionnez votre humeur :',start_tryon:'Lancer l\'essai ›',
+    result_title:'Résultat de l\'essai',save_share:'Enregistrer / Partager',learn_more:'En savoir plus ›',
+    mood_happy:'Joyeuse',mood_calm:'Calme',mood_tired:'Fatiguée',mood_anxious:'Anxieuse',mood_excited:'Enjouée',mood_low:'Déprimée',
+    look_happy:'Un look orange vitaminé pour vous',look_calm:'Un look nude lumineux pour vous',look_tired:'Un look doux et revitalisant pour vous',
+    look_anxious:'Un look apaisant aux tons terreux',look_excited:'Un look de fête étincelant',look_low:'Un look chaud et réconfortant',
+    gal_empty:'Mur d\'œuvres (en attente de la première)',comments_title:'Commentaires',ph_chat:'Laissez un encouragement ou un commentaire…',send:'Envoyer',
+    like:'J\'aime',likes_unit:'j\'aime',follow:'+ Suivre l\'auteur',following:'✓ Suivi',no_records:'Pas encore de commentaires',
+    me_title:'Mon profil',set_avatar:'Changer la photo',
+    menu_works:'Mes œuvres',menu_cart:'Mon panier',menu_follows:'Mes abonnements',
+    menu_donations:'Mes dons',menu_history:'Historique',menu_msgs:'Messages',log_out:'Se déconnecter',
+    no_works:'Aucune œuvre. Allez dans Peindre pour créer votre première pièce.',
+    badge_pending:'En attente',badge_selected:'Sélectionnée',badge_rejected:'Non retenue',
+    mode_donate:'Don',mode_buy:'Achat',
+    cart_empty:'Panier vide',follows_empty:'Aucun abonnement',
+    charity_creator:'Créateur caritatif',role_user:'Utilisateur',
+    donations_intro:'Mes œuvres sélectionnées :',donations_unit:'',no_selected:'Aucune œuvre sélectionnée',
+    tab_liked:'Mes j\'aime',tab_followed:'Mes abonnements',no_likes:'Pas encore de j\'aime',no_follows:'Pas encore d\'abonnements',
+    followed_patient:'Patient suivi',
+    msgs_sub:'Photos et remerciements des chambres (infos caritatives masquées)',msgs_empty:'Aucun message',
+    notice:'Notification',reply_ph:'Répondre avec des remerciements (anonyme)',
+    product_intro:'Produit · ',product_no:'N° produit :',product_desc:'Produit L\'Oréal · teinte comme pigment',
+    product_note:'Démo caritative : détails produit et panier indisponibles.',close:'Fermer',go_product:'Voir le produit',
+    share_title:'Don jumelé 1:1',share_p1:'Pour chaque œuvre partagée, <b>L\'Oréal offre un « colis beauté »</b> pour une charité durable.',
+    share_p2:'Les œuvres partagées apparaissent sur le mur et touchent plus de monde.',later:'Plus tard',share_now:'Partager',
+    rec_tag:'Rec',
+    toast_need_credentials:'Veuillez saisir nom et mot de passe',toast_user_taken:'Nom déjà enregistré',
+    toast_reg_ok:'Inscription réussie. Connectez-vous.',toast_auth_fail:'Nom ou mot de passe incorrect',
+    toast_need_color:'Sélectionnez au moins une teinte',toast_draft_saved:'Brouillon enregistré',toast_no_draft:'Aucun brouillon',
+    toast_draft_loaded:'Brouillon chargé',toast_shared:'Partagé — merci pour le don jumelé 🧡',
+    toast_donate:'Don soumis, en attente de révision 🧡',toast_buy:'Commande personnalisée soumise (C2M)',
+    toast_select_mood:'Sélectionnez d\'abord une humeur',toast_tryon_saved:'Essai enregistré et partagé 🧡',
+    toast_liked:'Aimé 🧡',toast_unfollowed:'Désabonné',toast_followed:'Auteur suivi',
+    toast_avatar:'Photo mise à jour',toast_lang:'Langue changée',toast_enter_reply:'Veuillez saisir vos remerciements',
+    toast_thanks_sent:'Remerciements envoyés anonymement 🧡',toast_cart_closed:'Panier indisponible',
+    rec_donate:'Œuvre de don soumise',rec_buy:'Commande personnalisée soumise',rec_liked:'Œuvre aimée',rec_comment:'Commentaire : '
+  }
+};
+
+/* intro page content per language (bold passages per font prompt) */
+const INTRO = {
+zh:`
+  <div class="intro-section" style="text-align:center;padding-top:48px">
+    <div class="hero-slogan f-brand">戴上春天</div>
+    <div class="hero-en hero-slogan" style="font-size:clamp(20px,2.4vw,30px)">Beauty Belongs to Every Bed</div>
+    <p style="margin-top:18px">让长期住院的女性和儿童，把本来就必须戴的头巾和口罩，变成自己创作的艺术品。</p>
+    <button class="btn btn-pill btn-lg" style="margin-top:26px" onclick="location.href='paint.html#/paint/colors'">开始作画 ›</button>
+  </div>
+  <div class="intro-section">
+    <div class="quote-box">“住院那段日子，我觉得自己很丑，很无聊。”<div style="margin-top:8px">——某青少年时期癌症康复者（已授权匿名引用）</div></div>
+    <p>长期住院的女性与儿童，包括化疗脱发患者、免疫力低下者、长期卧床者，她们面对的是双重剥夺：化疗导致脱发，免疫力要求佩戴口罩，她们照镜子的时候，会有失望的感觉。同时，病房被白墙、病号服和消毒水定义，美与色彩被排除在外。现有公益几乎全部集中在“捐善款”的抽象援助，没有人解决“病房里的日常审美需求”。<b>美不是虚荣，是尊严。</b>作为致力于向人们提供美的一家企业，我们感到有责任行动。</p>
+  </div>
+  <div class="intro-section">
+    <h2>1. 我们做什么</h2>
+    <p>化疗脱发的患者本来就要戴头巾，免疫力低下的患者本来就要戴口罩。<b>我们不讨论“病人能不能化妆”，而是把他们本来就必须佩戴的用品变成画布。</b></p>
+    <p style="margin-top:10px">在“戴上春天”平台上，每个人都可以用欧莱雅旗下产品的色号作为“颜料”，自由创作数字油画或书法。AI 会将作品自动转化为可印花的四方连续纹样，实时预览在头巾、口罩上的效果。你可以选择自己购买这件独一无二的定制产品，也可以一键捐赠。<b>您的作品在审核通过后将转化为实物，经医院社工送到病房里的女性与儿童手中。</b></p>
+    <p style="margin-top:10px">病床上的创作同样轻量。患者只需随手涂几笔，AI 就会生成专属纹样，定制成头巾或口罩送到医院。创作的疗愈发生在过程中，而戴着自己设计的作品的尊严感，持续每一天。</p>
+    <p style="margin-top:10px">同时，我们还开发 AI 试妆功能，让在与疾病斗争的过程中略显疲惫的人们可以自由地借我们的产品，重现健康时自信形象，获得审美上的愉悦。健康的人们也可以通过这一项功能，体验我们的最新产品，做出明智的购物决策。</p>
+    <div class="grid grid-2" style="margin-top:18px">
+      <img class="intro-img" src="纹样效果.png" alt="头巾纹样效果">
+      <img class="intro-img" src="口罩纹样.png" alt="口罩纹样效果">
+    </div>
+  </div>
+  <div class="intro-section">
+    <h2>故事回传墙：让捐赠有回音</h2>
+    <p><b>获赠患者（经本人或监护人授权）戴着作品的照片会回传给原作者。你看到自己画的那条头巾，戴在一个真实的、笑着的女孩头上。</b>这让捐赠不再是单向的输出，而是有回音的连接。平台公益页滚动展示这些故事，让每一次创作都被看见。</p>
+  </div>
+  <div class="intro-section">
+    <h2>为什么这件事值得做</h2>
+    <p><b>美不是健康的特权。</b> 技术应该有温度。AI 在这里不做惊世骇俗的事，只是把一抹颜色，送到一张白色的病床上。</p>
+    <p style="margin-top:10px">我们相信，公益不只是捐钱捐物，更是让被帮助的人重新成为创造者。当一位长期住院的女孩戴上自己设计的头巾，她不再只是“病人”，而是“创作者”。</p>
+  </div>
+  <div class="intro-section">
+    <h2>如何参与</h2>
+    <div class="participate-step"><div class="n">1</div><div><b>创作一幅作品：</b>用你喜欢的色号，在平台上画一幅画，AI 会把它变成可印花的纹样；</div></div>
+    <div class="participate-step"><div class="n">2</div><div><b>捐赠一件实物：</b>一键捐赠，让作品变成头巾或口罩，送到病房里的她手中；</div></div>
+    <div class="participate-step"><div class="n">3</div><div><b>分享一个故事：</b>当收到回传照片时，分享出去，让更多人看见美的连接；</div></div>
+    <div class="participate-step"><div class="n">4</div><div><b>配捐一份“美的包裹”：</b>你每分享一幅作品，欧莱雅配捐一份“美的包裹”，让公益可持续。</div></div>
+    <div class="grid grid-3" style="margin-top:18px">
+      <img class="intro-img r43" src="登陆页面3.png" alt="">
+      <img class="intro-img r43" src="登录页图4.png" alt="">
+      <img class="intro-img r43" src="登陆页面5.png" alt="">
+    </div>
+  </div>
+  <div class="intro-section">
+    <h2>两条通道，两心相连</h2>
+    <div class="intro-sub">健康用户端</div>
+    <p>这是属于每一个普通用户的创作入口。<b>你只需要选一个喜欢的色号，带着真心完成每一张画作，剩下的交给AI。</b></p>
+    <p style="margin-top:10px"><b>1. 作画</b></p>
+    <p>在作画界面，<b>你可以选择化妆品色号，以色号为颜料自由创作</b>：口红、眼影、腮红色号均可作为"颜料"，在平台上创作数字油画或书法；同时，我们提供这些化妆品色号的相关品牌网站链接，您可以进一步登录相关品牌网站探索我们的产品。</p>
+    <p>在AI自动纹样化界面，画作将一键转化为可印花的四方连续纹样，并实时预览在头巾、口罩上的效果；自己购买或一键捐赠你的作品：喜欢就买下这件独一无二的定制产品（C2M按需生产），或一键捐赠，让作品变成实物送到病房；</p>
+    <p>同时，您可以收到故事回传。<b>获赠患者授权后，你将看到自己的作品如何温暖一位与疾病抗争的人</b>。</p>
+    <p style="margin-top:10px"><b>2. AI试妆：</b></p>
+    <p>我们提供了一系列经典产品，您可以通过点击试妆，作为您的购物参考。</p>
+    <div class="intro-sub">患者端</div>
+    <p>这是专为病床上的女性与儿童设计的轻量入口。<b>创作不必费力，美却可以每天相伴。</b></p>
+    <p style="margin-top:10px"><b>1. 作画：</b></p>
+    <p>和普通用户一样，在AI作画界面，你依然可以进行轻量化的创作，用鲜艳的色彩抵御病痛的侵蚀；定制成实物：纹样自动适配头巾或口罩，定制完成后送到医院；零门槛参与：不需要绘画基础，不需要长时间操作，病床上也能轻松完成；</p>
+    <p style="margin-top:10px"><b>2. AI试妆</b></p>
+    <p>我们希望在病床上的女性和儿童，能够通过试妆功能，为生活增添一抹亮色，<b>从"我原来很美"的惊艳中保持对生活的信心和对康复的希望。</b></p>
+  </div>
+  <div class="intro-section">
+    <h2>合规与尊严</h2>
+    <p>头巾和口罩是生活必需品的美学升级，不涉及化妆品直接接触治疗期患者。分发全程走医院社工渠道，密封包装，感染科可控。<b>患者照片回传须主动授权，展示时以“创作者”而非“病人”身份呈现。服务对象是共创者，而非素材。</b></p>
+  </div>`,
+en:`
+  <div class="intro-section" style="text-align:center;padding-top:48px">
+    <div class="hero-slogan f-brand">Wear the Spring</div>
+    <div class="hero-en hero-slogan" style="font-size:clamp(20px,2.4vw,30px)">Beauty Belongs to Every Bed</div>
+    <p style="margin-top:18px">Women and children in long-term hospital care turn the headscarves and masks they must wear into artworks of their own.</p>
+    <button class="btn btn-pill btn-lg" style="margin-top:26px" onclick="location.href='paint.html#/paint/colors'">Start Painting ›</button>
+  </div>
+  <div class="intro-section">
+    <div class="quote-box">"During my hospital stay, I felt ugly and bored."<div style="margin-top:8px">— A cancer survivor in her teens (anonymous, quoted with consent)</div></div>
+    <p>Women and children in long-term hospital care — chemotherapy patients with hair loss, the immunocompromised, the bedridden — face a double deprivation: chemotherapy takes their hair, immunity rules require masks, and they feel disappointed when they look in the mirror. Meanwhile, wards are defined by white walls, patient gowns and disinfectant; beauty and color are excluded. Existing charity focuses almost entirely on abstract aid — "donating money" — while no one addresses everyday aesthetic needs in the ward. <b>Beauty is not vanity — it is dignity.</b> As a company devoted to bringing beauty to people, we feel responsible to act.</p>
+  </div>
+  <div class="intro-section">
+    <h2>1. What we do</h2>
+    <p>Patients losing hair to chemotherapy already wear headscarves; immunocompromised patients already wear masks. <b>We don't debate "whether patients should wear makeup" — we turn the supplies they must wear into canvases.</b></p>
+    <p style="margin-top:10px">On the "Wear the Spring" platform, everyone can use the shades of L'Oréal products as "pigments" to freely create digital paintings or calligraphy. AI automatically turns each work into a printable seamless pattern, previewed in real time on scarves and masks. You can buy this one-of-a-kind custom product, or donate it with one tap. <b>Once approved, your work is turned into a real product, delivered by hospital social workers to women and children in the wards.</b></p>
+    <p style="margin-top:10px">Creating from a hospital bed is just as light. A patient only needs a few casual strokes; AI generates a personal pattern, made into a scarf or mask delivered to the hospital. The healing of creation happens in the process, while the dignity of wearing your own design lasts every day.</p>
+    <p style="margin-top:10px">We also developed AI try-on, letting people wearied by their fight with illness freely borrow our products, rediscover their confident healthy look, and enjoy aesthetic pleasure. Healthy people can also use it to experience our latest products and make smart shopping decisions.</p>
+    <div class="grid grid-2" style="margin-top:18px">
+      <img class="intro-img" src="纹样效果.png" alt="Scarf pattern">
+      <img class="intro-img" src="口罩纹样.png" alt="Mask pattern">
+    </div>
+  </div>
+  <div class="intro-section">
+    <h2>The Story Wall: donations with an echo</h2>
+    <p><b>Recipient patients (with consent from themselves or guardians) send back photos of themselves wearing the works to the original creators. You see the scarf you painted on the head of a real, smiling girl.</b> This makes donation no longer a one-way output, but a connection with an echo. These stories scroll on the charity page, so every creation is seen.</p>
+  </div>
+  <div class="intro-section">
+    <h2>Why it matters</h2>
+    <p><b>Beauty is not a privilege of the healthy.</b> Technology should be warm. AI does nothing sensational here — it simply carries a touch of color to a white hospital bed.</p>
+    <p style="margin-top:10px">We believe charity is not just money or goods, but letting the helped become creators again. When a girl in long-term care wears a scarf she designed herself, she is no longer just a "patient" — she is a "creator".</p>
+  </div>
+  <div class="intro-section">
+    <h2>How to join</h2>
+    <div class="participate-step"><div class="n">1</div><div><b>Create a work:</b> paint with your favorite shades; AI turns it into a printable pattern;</div></div>
+    <div class="participate-step"><div class="n">2</div><div><b>Donate a product:</b> one tap turns your work into a scarf or mask delivered to her ward;</div></div>
+    <div class="participate-step"><div class="n">3</div><div><b>Share a story:</b> when you receive a photo back, share it so more people see the connection of beauty;</div></div>
+    <div class="participate-step"><div class="n">4</div><div><b>Match a "Beauty Package":</b> for every work you share, L'Oréal donates one package, keeping charity sustainable.</div></div>
+    <div class="grid grid-3" style="margin-top:18px">
+      <img class="intro-img r43" src="登陆页面3.png" alt="">
+      <img class="intro-img r43" src="登录页图4.png" alt="">
+      <img class="intro-img r43" src="登陆页面5.png" alt="">
+    </div>
+  </div>
+  <div class="intro-section">
+    <h2>Two Paths, One Connection</h2>
+    <div class="intro-sub">For Healthy Users</div>
+    <p>This is the creative entrance for every ordinary user. <b>You only need to pick a shade you love, complete each work with sincerity, and leave the rest to AI.</b></p>
+    <p style="margin-top:10px"><b>1. Painting</b></p>
+    <p>In the painting interface, <b>you can select cosmetic shades and use them as pigments to create freely</b>: lipstick, eyeshadow and blush shades can all be used as "pigments" to create digital paintings or calligraphy on the platform. Meanwhile, we provide links to the brand websites associated with these cosmetic shades, so you can log in to explore our products further.</p>
+    <p>In the AI auto-patterning interface, your work is converted into a printable seamless pattern with one tap, and previewed in real time on scarves and masks. Buy it yourself or donate your work with one tap: if you like it, purchase this one-of-a-kind custom product (C2M on-demand production), or donate with one tap so the work becomes a real product delivered to the ward.</p>
+    <p>You can also receive story feedback. <b>With the consent of the recipient patient, you will see how your work warms someone fighting against illness.</b></p>
+    <p style="margin-top:10px"><b>2. AI Try-on:</b></p>
+    <p>We offer a series of classic products. You can tap try-on as a reference for your shopping.</p>
+    <div class="intro-sub">For Patients</div>
+    <p>This is a lightweight entrance designed specifically for women and children in hospital beds. <b>Creating takes no effort, yet beauty can accompany you every day.</b></p>
+    <p style="margin-top:10px"><b>1. Painting:</b></p>
+    <p>Just like ordinary users, in the AI painting interface you can still create in a lightweight way, using bright colors to resist the erosion of illness. Customized into physical products: the pattern automatically adapts to scarves or masks, and is delivered to the hospital after customization. Zero-threshold participation: no painting foundation required, no long operations needed — it can be done easily from a hospital bed.</p>
+    <p style="margin-top:10px"><b>2. AI Try-on</b></p>
+    <p>We hope that women and children in hospital beds can add a touch of color to life through the try-on feature, <b>keeping their confidence in life and hope for recovery from the amazement of "I am still beautiful".</b></p>
+  </div>
+  <div class="intro-section">
+    <h2>Compliance & dignity</h2>
+    <p>Scarves and masks are an aesthetic upgrade of daily necessities; no cosmetics touch patients in treatment. Distribution goes entirely through hospital social workers, sealed packaging, infection-control approved. <b>Patient photo returns require active consent, and are presented under the identity of "creator", not "patient". Those we serve are co-creators, not material.</b></p>
+  </div>`,
+fr:`
+  <div class="intro-section" style="text-align:center;padding-top:48px">
+    <div class="hero-slogan f-brand">Porter le printemps</div>
+    <div class="hero-en hero-slogan" style="font-size:clamp(20px,2.4vw,30px)">Beauty Belongs to Every Bed</div>
+    <p style="margin-top:18px">Les femmes et les enfants hospitalisés longtemps transforment les foulards et masques qu'ils doivent porter en œuvres d'art.</p>
+    <button class="btn btn-pill btn-lg" style="margin-top:26px" onclick="location.href='paint.html#/paint/colors'">Commencer ›</button>
+  </div>
+  <div class="intro-section">
+    <div class="quote-box">« Pendant mon séjour à l'hôpital, je me trouvais laide et je m'ennuyais. »<div style="margin-top:8px">— Une ancienne patiente adolescente (anonyme, citée avec accord)</div></div>
+    <p>Les femmes et les enfants en hospitalisation longue — patientes en chimiothérapie, immunodéprimés, alités — font face à une double privation : la chimio fait perdre les cheveux, l'immunité impose le masque, et le miroir devient une déception. La chambre est définie par les murs blancs, les blouses et le désinfectant ; la beauté et la couleur en sont exclues. La charité existante se limite presque à l'aide abstraite des « dons d'argent », sans répondre aux besoins esthétiques quotidiens. <b>La beauté n'est pas une vanité, c'est une dignité.</b> En tant qu'entreprise dédiée à la beauté, nous nous sentons responsables d'agir.</p>
+  </div>
+  <div class="intro-section">
+    <h2>1. Ce que nous faisons</h2>
+    <p>Les patients qui perdent leurs cheveux portent déjà des foulards ; les immunodéprimés portent déjà des masques. <b>Nous ne débattons pas de « savoir si les patients peuvent se maquiller » — nous transformons en toiles les articles qu'ils doivent déjà porter.</b></p>
+    <p style="margin-top:10px">Sur la plateforme « Porter le printemps », chacun peut utiliser les teintes des produits L'Oréal comme « pigments » pour créer librement peintures numériques ou calligraphies. L'IA transforme automatiquement chaque œuvre en motif imprimable, prévisualisé en temps réel sur foulards et masques. Vous pouvez acheter ce produit unique, ou le donner en un clic. <b>Après approbation, votre œuvre devient un produit réel, remis par les assistantes sociales aux femmes et aux enfants des chambres.</b></p>
+    <p style="margin-top:10px">Créer depuis un lit d'hôpital est tout aussi léger. Quelques traits suffisent : l'IA génère un motif personnel, transformé en foulard ou masque livré à l'hôpital. La thérapie de la création agit pendant le processus, et la dignité de porter sa propre création dure chaque jour.</p>
+    <p style="margin-top:10px">Nous avons aussi développé l'essai maquillage IA, permettant aux personnes fatiguées par la maladie d'emprunter librement nos produits, de retrouver leur image confiante et de goûter un plaisir esthétique. Les personnes en bonne santé peuvent aussi découvrir nos nouveautés et faire des choix d'achat éclairés.</p>
+    <div class="grid grid-2" style="margin-top:18px">
+      <img class="intro-img" src="纹样效果.png" alt="Motif foulard">
+      <img class="intro-img" src="口罩纹样.png" alt="Motif masque">
+    </div>
+  </div>
+  <div class="intro-section">
+    <h2>Le mur des histoires : des dons qui résonnent</h2>
+    <p><b>Les patients bénéficiaires (avec l'accord d'eux-mêmes ou de leurs tuteurs) renvoient aux créateurs des photos d'eux portant l'œuvre. Vous voyez le foulard que vous avez peint sur la tête d'une vraie fille souriante.</b> Le don n'est plus un geste à sens unique, mais un lien avec un écho. Ces histoires défilent sur la page caritative, pour que chaque création soit vue.</p>
+  </div>
+  <div class="intro-section">
+    <h2>Pourquoi cela compte</h2>
+    <p><b>La beauté n'est pas un privilège des bien-portants.</b> La technologie doit avoir de la chaleur. Ici, l'IA ne fait rien de sensationnel — elle porte simplement une touche de couleur sur un lit d'hôpital blanc.</p>
+    <p style="margin-top:10px">Nous croyons que la charité n'est pas seulement donner de l'argent ou des biens, mais rendre aux personnes aidées leur rôle de créateurs. Quand une fillette hospitalisée porte un foulard qu'elle a dessiné, elle n'est plus seulement une « patiente » — elle est une « créatrice ».</p>
+  </div>
+  <div class="intro-section">
+    <h2>Comment participer</h2>
+    <div class="participate-step"><div class="n">1</div><div><b>Créer une œuvre :</b> peignez avec vos teintes préférées ; l'IA la transforme en motif imprimable ;</div></div>
+    <div class="participate-step"><div class="n">2</div><div><b>Donner un produit :</b> un clic transforme l'œuvre en foulard ou masque livré dans sa chambre ;</div></div>
+    <div class="participate-step"><div class="n">3</div><div><b>Partager une histoire :</b> quand vous recevez une photo en retour, partagez-la pour faire voir ce lien de beauté ;</div></div>
+    <div class="participate-step"><div class="n">4</div><div><b>Offrir un « colis beauté » :</b> pour chaque œuvre partagée, L'Oréal offre un colis, pour une charité durable.</div></div>
+    <div class="grid grid-3" style="margin-top:18px">
+      <img class="intro-img r43" src="登陆页面3.png" alt="">
+      <img class="intro-img r43" src="登录页图4.png" alt="">
+      <img class="intro-img r43" src="登陆页面5.png" alt="">
+    </div>
+  </div>
+  <div class="intro-section">
+    <h2>Deux voies, un même cœur</h2>
+    <div class="intro-sub">Côté utilisateurs en bonne santé</div>
+    <p>C'est l'entrée de création pour chaque utilisateur ordinaire. <b>Il vous suffit de choisir une teinte que vous aimez, de réaliser chaque œuvre avec sincérité, et de laisser le reste à l'IA.</b></p>
+    <p style="margin-top:10px"><b>1. Peinture</b></p>
+    <p>Dans l'interface de peinture, <b>vous pouvez sélectionner des teintes de cosmétiques et les utiliser comme pigments pour créer librement</b> : les teintes de rouge à lèvres, de fard à paupières et de blush peuvent toutes servir de « pigments » pour créer des peintures numériques ou de la calligraphie sur la plateforme. Nous fournissons également des liens vers les sites web des marques associées à ces teintes, afin que vous puissiez vous connecter pour découvrir nos produits.</p>
+    <p>Dans l'interface de modélisation automatique par IA, votre œuvre est convertie en motif imprimable sans couture en un clic, et prévisualisée en temps réel sur foulards et masques. Achetez-la vous-même ou donnez votre œuvre en un clic : si elle vous plaît, achetez ce produit unique personnalisé (production à la demande C2M), ou donnez-le en un clic pour que l'œuvre devienne un produit réel livré à l'hôpital.</p>
+    <p>Vous pouvez également recevoir un retour d'histoires. <b>Avec l'accord du patient bénéficiaire, vous verrez comment votre œuvre réchauffe quelqu'un qui lutte contre la maladie.</b></p>
+    <p style="margin-top:10px"><b>2. Essai maquillage IA :</b></p>
+    <p>Nous proposons une série de produits classiques. Vous pouvez cliquer sur essai comme référence pour vos achats.</p>
+    <div class="intro-sub">Côté patients</div>
+    <p>C'est une entrée légère conçue spécifiquement pour les femmes et les enfants hospitalisés. <b>Créer ne demande aucun effort, mais la beauté peut vous accompagner chaque jour.</b></p>
+    <p style="margin-top:10px"><b>1. Peinture :</b></p>
+    <p>Comme les utilisateurs ordinaires, dans l'interface de peinture IA vous pouvez toujours créer de manière légère, en utilisant des couleurs vives pour résister à l'érosion de la maladie. Personnalisé en produits physiques : le motif s'adapte automatiquement aux foulards ou masques, et est livré à l'hôpital après personnalisation. Participation sans seuil : aucune base en peinture n'est requise, aucune longue opération n'est nécessaire — cela se fait facilement depuis un lit d'hôpital.</p>
+    <p style="margin-top:10px"><b>2. Essai maquillage IA</b></p>
+    <p>Nous espérons que les femmes et les enfants hospitalisés pourront ajouter une touche de couleur à leur vie grâce à la fonction d'essai, <b>gardant leur confiance en la vie et leur espoir de guérison à partir de l'émerveillement de « je suis toujours belle ».</b></p>
+  </div>
+  <div class="intro-section">
+    <h2>Conformité et dignité</h2>
+    <p>Foulards et masques sont une amélioration esthétique de biens essentiels ; aucun cosmétique ne touche les patients en traitement. La distribution passe entièrement par les assistantes sociales, emballage scellé, conforme au contrôle infectieux. <b>Le renvoi des photos des patients exige un accord actif ; ils sont présentés comme « créateurs » et non comme « patients ». Les personnes servies sont des co-créateurs, pas du matériau.</b></p>
+  </div>`
+};
+
+let lang = Store.get('lang','zh');
+const t = k => (I18N[lang] && I18N[lang][k] != null) ? I18N[lang][k]
+             : (I18N.zh[k] != null ? I18N.zh[k] : k);
+function nowText(){ return new Date().toLocaleString({zh:'zh-CN',en:'en-US',fr:'fr-FR'}[lang], {hour12:false}); }
+function applyI18n(){
+  document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => el.placeholder = t(el.dataset.i18nPh));
+  const sel = $('langSel'); if(sel) sel.value = lang;
+  $('authBtn').textContent = t(authMode === 'login' ? 'login' : 'register');
+  $('authTip').textContent = t(authMode === 'login' ? 'no_account' : 'have_account');
+  $('authSwitch').textContent = t(authMode === 'login' ? 'register_now' : 'login_now');
+  renderIntro();
+}
+function setLang(l, silent){
+  lang = l; Store.set('lang', l); applyI18n();
+  if(currentUser){
+    renderMeMain(); renderMyWorks(); renderGallery();
+    if($('page-me-cart').classList.contains('active')) renderCart();
+    if($('page-me-follows').classList.contains('active')) renderFollows();
+    if($('page-me-donations').classList.contains('active')) renderDonations();
+    if($('page-me-history').classList.contains('active')) renderHist();
+    if($('page-me-messages').classList.contains('active')) renderMsgs();
+    if($('page-tryon-select').classList.contains('active')) renderTryMoods();
+  }
+  if(!silent) toast(t('toast_lang'));
+}
+onLangRestore(function(l){ if(l !== lang) setLang(l, true); });
+function renderIntro(){ $('introBody').innerHTML = INTRO[lang] || INTRO.zh; }
+
+/* ================= Auth ================= */
+let authMode = 'login', currentUser = null;
+(function restore(){
+  const s = getSession();
+  if(s && s.type === 'n' && getUsers('n')[s.name]) currentUser = s.name;
+})();
+function toggleAuthMode(){
+  authMode = authMode === 'login' ? 'register' : 'login';
+  applyI18n();
+}
+function doAuth(){
+  const u = $('authUser').value.trim(), p = $('authPass').value;
+  if(!u || !p) return toast(t('toast_need_credentials'));
+  const users = getUsers('n');
+  if(authMode === 'register'){
+    if(users[u]) return toast(t('toast_user_taken'));
+    users[u] = ensureUserObj({pass:p, nickname:u});
+    saveUsers('n', users);
+    toast(t('toast_reg_ok'));
+    toggleAuthMode();
+  }else{
+    if(!users[u] || users[u].pass !== p) return toast(t('toast_auth_fail'));
+    currentUser = u; setSession('n', u);
+    enterApp();
+  }
+}
+function logout(){ currentUser = null; clearSession(); $('topnav').style.display = 'none'; go('auth'); }
+function enterApp(){
+  $('topnav').style.display = 'block';
+  renderMeMain(); renderMyWorks(); renderGallery();
+  go('home');
+}
+
+/* ================= Router ================= */
+const PATHS = ['auth','home','intro','paint/rules','paint/colors','paint/canvas','paint/confirm',
+  'tryon/select','tryon/result','gallery',
+  'me','me/works','me/cart','me/follows','me/donations','me/history','me/messages'];
+function go(path){
+  if(!currentUser) path = 'auth';
+  PATHS.forEach(p => $('page-'+p.replace(/\//g,'-')).classList.toggle('active', p === path));
+  document.querySelectorAll('[data-route]').forEach(b => b.classList.toggle('on', b.dataset.route === path));
+  location.hash = '#/' + path;
+  if(path === 'gallery') renderGallery();
+  if(path === 'intro') renderIntro();
+  if(path === 'paint/colors') renderColors();
+  if(path === 'paint/canvas') enterCanvas();
+  if(path === 'paint/confirm') renderConfirm();
+  if(path === 'tryon/select') renderTryMoods();
+  if(path === 'me') renderMeMain();
+  if(path === 'me/works') renderMyWorks();
+  if(path === 'me/cart') renderCart();
+  if(path === 'me/follows') renderFollows();
+  if(path === 'me/donations') renderDonations();
+  if(path === 'me/history') renderHist();
+  if(path === 'me/messages') renderMsgs();
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange', () => {
+  const h = location.hash.replace(/^#\//,'');
+  if(PATHS.includes(h)) go(h);
+});
+
+/* ================= Home banner ================= */
+let bIdx = 0;
+function bannerRender(){
+  $('bannerTrack').style.transform = `translateX(-${bIdx*100}%)`;
+  [...$('bannerDots').children].forEach((d,i) => d.classList.toggle('on', i === bIdx));
+}
+function bannerGo(dir){ bIdx = (bIdx + dir + 4) % 4; bannerRender(); }
+setInterval(() => {
+  if(!$('page-home').classList.contains('active')) return;
+  bIdx = (bIdx+1) % 4;
+  bannerRender();
+}, 3500);
+
+/* ================= Paint: colors ================= */
+let chosenColors = [];
+function swatchEl(no, c){
+  const rec = RECOMMENDED.includes(no) ? `<span class="tag" style="position:absolute;top:3px;left:3px;background:var(--accent);color:var(--ink)">${t('rec_tag')}</span>` : '';
+  return `<button class="swatch lp-timer" style="background:${c}" data-no="${no}" id="sw-${no}">${rec}<span>${no}</span></button>`;
+}
+function renderColors(){
+  $('colorsPalette').innerHTML = COLORS.map(([no,c]) => swatchEl(no,c)).join('');
+  $('recommendRow').innerHTML = RECOMMENDED.map(no => {
+    const c = colorName(no);
+    return `<span class="color-chip" onclick="toggleChosen('${no}');renderColors()"><i style="background:${c}"></i>${no}</span>`;
+  }).join('');
+  COLORS.forEach(([no]) => bindLongPress(no));
+  markChosen();
+}
+function bindLongPress(no){
+  const el = $('sw-' + no);
+  let timer, fired = false;
+  el.addEventListener('mousedown', () => {
+    fired = false;
+    timer = setTimeout(() => { fired = true; productModal(no); }, 600);
+  });
+  el.addEventListener('mouseup', () => clearTimeout(timer));
+  el.addEventListener('mouseleave', () => clearTimeout(timer));
+  el.addEventListener('click', () => {
+    if(!fired) toggleChosen(no);
+    renderColors();
+  });
+}
+function toggleChosen(no){
+  const i = chosenColors.indexOf(no);
+  if(i >= 0) chosenColors.splice(i,1); else chosenColors.push(no);
+}
+function markChosen(){
+  chosenColors.forEach(no => { const el = $('sw-'+no); if(el) el.classList.add('sel'); });
+}
+function confirmColors(){
+  if(!chosenColors.length) return toast(t('toast_need_color'));
+  go('paint/canvas');
+}
+
+/* Product intro modal */
+function productModal(no){
+  no = no || COLORS[0][0];
+  const c = colorName(no);
+  openModal(t('product_intro') + no,
+    `<div style="display:flex;gap:16px;align-items:center">
+       <div style="width:80px;height:80px;background:${c};flex-shrink:0;border-radius:10px"></div>
+       <div>
+         <p><b>${t('product_no')}</b>${no}</p>
+         <p class="muted">${t('product_desc')}</p>
+         <p class="muted">${t('product_note')}</p>
+       </div>
+     </div>`,
+    `<button class="btn" onclick="closeModal()">${t('close')}</button>
+     <button class="btn btn-primary" onclick="closeModal();toast(t('toast_cart_closed'))">${t('go_product')}</button>`);
+}
+
+/* ================= Paint: canvas ================= */
+let pCanvas, pCtx, pCurColor;
+let usedNos = [];
+function enterCanvas(){
+  pCanvas = $('paintCanvas'); pCtx = pCanvas.getContext('2d');
+  pCtx.fillStyle = '#fff'; pCtx.fillRect(0,0,pCanvas.width,pCanvas.height);
+  const palette = chosenColors.length ? chosenColors.map(no => [no, colorName(no)]) : COLORS;
+  pCurColor = palette[0][1];
+  $('canvasPalette').innerHTML = palette.map(([no,c]) =>
+    `<button class="swatch" style="background:${c}" id="cp-${no}" data-c="${c}" data-no="${no}"><span>${no}</span></button>`).join('');
+  palette.forEach(([no,c]) => $('cp-'+no).onclick = () => {
+    pCurColor = c;
+    document.querySelectorAll('#canvasPalette .swatch').forEach(x=>x.classList.remove('sel'));
+    $('cp-'+no).classList.add('sel');
+  });
+  $('cp-'+palette[0][0]).classList.add('sel');
+  bindCanvas();
+}
+let drawing2 = false;
+function bindCanvas(){
+  const c = pCanvas;
+  c.onmousedown = e => {
+    drawing2 = true; const p = pos(c,e); pCtx.beginPath(); pCtx.moveTo(p.x,p.y);
+  };
+  c.onmousemove = e => {
+    if(!drawing2) return;
+    const p = pos(c,e);
+    pCtx.strokeStyle = pCurColor; pCtx.lineWidth = 6; pCtx.lineCap='square';
+    pCtx.lineTo(p.x,p.y); pCtx.stroke();
+    const no = COLORS.find(x => x[1] === pCurColor);
+    if(no && !usedNos.includes(no[0])) usedNos.push(no[0]);
+  };
+  c.onmouseup = c.onmouseleave = () => drawing2 = false;
+}
+function pos(c,e){
+  const r = c.getBoundingClientRect();
+  return {x:(e.clientX-r.left)*(c.width/r.width), y:(e.clientY-r.top)*(c.height/r.height)};
+}
+function clearCanvas2(){ pCtx.fillStyle='#fff'; pCtx.fillRect(0,0,pCanvas.width,pCanvas.height); usedNos=[]; }
+function saveDraft(){
+  Store.set('draft_'+currentUser, {img:pCanvas.toDataURL(), colors:chosenColors, used:usedNos});
+  toast(t('toast_draft_saved'));
+}
+function loadDraft(){
+  const d = Store.get('draft_'+currentUser, null);
+  if(!d) return toast(t('toast_no_draft'));
+  chosenColors = d.colors || chosenColors;
+  enterCanvas();
+  const img = new Image();
+  img.onload = () => { pCtx.drawImage(img,0,0,pCanvas.width,pCanvas.height); usedNos = d.used||[]; };
+  img.src = d.img;
+  toast(t('toast_draft_loaded'));
+}
+function shareWork(){
+  openModal(t('share_title'),
+    `<p>${t('share_p1')}</p><p class="muted" style="margin-top:10px">${t('share_p2')}</p>`,
+    `<button class="btn" onclick="closeModal()">${t('later')}</button>
+     <button class="btn btn-primary" onclick="closeModal();toast(t('toast_shared'))">${t('share_now')}</button>`);
+}
+
+/* ================= Paint: confirm ================= */
+function renderConfirm(){
+  const cc = $('confirmCanvas');
+  cc.width = pCanvas.width; cc.height = pCanvas.height;
+  cc.getContext('2d').drawImage(pCanvas,0,0);
+  $('usedColorRow').innerHTML = usedNos.map(no =>
+    `<span class="color-chip" onclick="productModal('${no}')"><i style="background:${colorName(no)}"></i>${no}</span>`).join('');
+}
+function submitWork(mode){
+  const list = getWorks('n', currentUser);
+  const work = {
+    id:Date.now(), img:pCanvas.toDataURL(), colors:[...usedNos],
+    time:nowText(), sel:'pending', gal:1, likes:0, mode, bg:'#ffffff'
+  };
+  list.unshift(work);
+  saveWorks('n', currentUser, list);
+  if(mode === 'buy'){                          /* 选择购买而非认捐 → 加入个人中心购物车 */
+    const users = getUsers('n'), u = users[currentUser];
+    u.cart = u.cart || [];
+    u.cart.unshift({id:work.id, img:work.img, time:work.time, colors:work.colors, mode:'buy'});
+    saveUsers('n', users);
+  }
+  addRecord('n', currentUser, {icon:'🖼️', text:t(mode==='donate'?'rec_donate':'rec_buy')});
+  toast(t(mode==='donate' ? 'toast_donate' : 'toast_buy'));
+  go('me/works');
+}
+
+/* ================= Try-on ================= */
+let tryMood = -1;
+function renderTryMoods(){
+  $('tryMoodGrid').innerHTML = MOODS.map((m,i) =>
+    `<button class="btn ${i===tryMood?'btn-primary':''}" id="tm-${i}">${t('mood_'+m[0])}</button>`).join('');
+  MOODS.forEach((m,i) => $('tm-'+i).onclick = () => { tryMood = i; renderTryMoods(); });
+}
+function runTryon(){
+  if(tryMood < 0) return toast(t('toast_select_mood'));
+  const m = MOODS[tryMood];
+  $('tryFace').textContent = m[2];
+  $('tryLook').textContent = t('look_'+m[0]);
+  go('tryon/result');
+}
+
+/* ================= Gallery wall ================= */
+let gWorks = [], openWorkId = null;
+function wallItemHTML(w){
+  const bg = w.bg || '#ffffff';
+  return `<button class="wall-item" style="background:${bg};border-color:rgba(0,0,0,.06)" onclick="openWork(${w.id})">
+    <img src="${w.img}" alt="">
+    <div class="wall-meta"><span>🧡 <b>${w.likes||0}</b></span><span>${esc(w.owner)}</span></div>
+  </button>`;
+}
+function renderGallery(){
+  gWorks = galleryWorks();
+  const track = $('wallTrack');
+  if(!gWorks.length){
+    track.style.animation = 'none';
+    track.innerHTML = `<div class="wall-empty">${t('gal_empty')}</div>`;
+    return;
+  }
+  const html = gWorks.map(wallItemHTML).join('');
+  track.innerHTML = html + html;
+  track.style.animation = '';
+  track.style.animationDuration = Math.max(14, gWorks.length * 5) + 's';
+}
+function findWork(id){ return gWorks.find(w => w.id === id); }
+function workComments(id){ return getComments().filter(c => !c.del && c.workId === id); }
+function isFollowing(w){
+  const u = getUsers('n')[currentUser];
+  return (u.follows||[]).some(f => f.type === w.type && f.name === w.owner);
+}
+function openWork(id){
+  const w = findWork(id);
+  if(!w) return;
+  openWorkId = id;
+  openModal(t('comments_title'),
+    `<img class="wall-modal-img" src="${w.img}">
+     <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap">
+       <span>🧡 <b id="wallLikeN">${w.likes||0}</b> ${t('likes_unit')}</span>
+       <span class="muted">${esc(w.owner)}</span>
+       <span style="margin-left:auto;display:flex;gap:8px;align-items:center">
+         <button class="chip-btn" id="wallFollowBtn" onclick="toggleFollowOpen()">${isFollowing(w)?t('following'):t('follow')}</button>
+         <button class="chip-btn round" onclick="likeOpenWork()" aria-label="${t('like')}">❤</button>
+       </span>
+     </div>
+     <div class="comment-panel"><div class="wall-comments" id="wallComments"></div></div>
+     <div class="chat-bar">
+       <input id="wallChatInput" placeholder="${t('ph_chat')}">
+       <button class="send-btn" onclick="sendWallChat()">${t('send')}</button>
+     </div>`);
+  refreshOpenWork();
+}
+function refreshOpenWork(){
+  const w = findWork(openWorkId);
+  if(!w) return;
+  if($('wallLikeN')) $('wallLikeN').textContent = w.likes||0;
+  if($('wallFollowBtn')) $('wallFollowBtn').textContent = isFollowing(w)?t('following'):t('follow');
+  if($('wallComments')){
+    const cs = workComments(openWorkId);
+    $('wallComments').innerHTML = cs.length
+      ? cs.map(c => `<div class="chat-item"><div><b style="font-size:13px">${esc(c.user)}</b>
+          <div>${esc(c.text)}</div><div class="muted">${c.time}</div></div></div>`).join('')
+      : `<div class="empty">${t('no_records')}</div>`;
+  }
+}
+function likeOpenWork(){
+  const w = findWork(openWorkId);
+  if(!w) return;
+  const updated = updateWork(w.type, w.owner, w.id, {likes:(w.likes||0)+1});
+  w.likes = updated.likes;
+  addRecord('n', currentUser, {icon:'🧡', text:t('rec_liked') + ' · ' + w.owner, workId:w.id, img:w.img});
+  refreshOpenWork(); renderGallery();
+  toast(t('toast_liked'));
+}
+function toggleFollowOpen(){
+  const w = findWork(openWorkId);
+  if(!w) return;
+  const users = getUsers('n'), u = users[currentUser];
+  u.follows = u.follows || [];
+  const i = u.follows.findIndex(f => f.type === w.type && f.name === w.owner);
+  if(i >= 0){ u.follows.splice(i,1); toast(t('toast_unfollowed')); }
+  else{ u.follows.push({type:w.type, name:w.owner}); toast(t('toast_followed')); }
+  saveUsers('n', users);
+  refreshOpenWork();
+}
+function sendWallChat(){
+  const v = $('wallChatInput').value.trim();
+  if(!v) return;
+  addComment('n', currentUser, v, openWorkId);
+  addRecord('n', currentUser, {icon:'💬', text:t('rec_comment') + v});
+  refreshOpenWork();
+  $('wallChatInput').value = '';
+}
+
+/* ================= Me: main ================= */
+function me(){ return getUsers('n')[currentUser]; }
+function renderMeMain(){
+  const u = me();
+  $('nameShow').textContent = currentUser;
+  $('nickShow').textContent = u.nickname || currentUser;
+  $('avatarBox').innerHTML = avatarHTML(currentUser, u.avatar, 'avatar-big');
+}
+async function setAvatar(input){
+  const f = input.files[0]; if(!f) return;
+  const img = await readImageFile(f);
+  const users = getUsers('n');
+  users[currentUser].avatar = img;
+  saveUsers('n', users);
+  renderMeMain(); toast(t('toast_avatar'));
+}
+
+/* ================= Me: works ================= */
+function workBadge(w){
+  if(w.gal === 0 || w.sel === 'rejected') return `<span class="badge badge-rejected">${t('badge_rejected')}</span>`;
+  if(w.sel === 'selected') return `<span class="badge badge-selected">${t('badge_selected')}</span>`;
+  return `<span class="badge badge-pending">${t('badge_pending')}</span>`;
+}
+function renderMyWorks(){
+  const list = getWorks('n', currentUser);
+  $('myWorksList').innerHTML = list.length
+    ? list.map(w => {
+        const cs = workComments(w.id);
+        const commentsHtml = cs.length
+          ? `<div class="muted" style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--line)">
+              <span>💬 ${cs.length} ${t('comments_unit')}</span>
+              ${cs.slice(-2).map(c => `<span style="margin-left:8px">· ${esc(c.user)}：${esc(c.text).slice(0,28)}</span>`).join('')}
+            </div>` : '';
+        return `<div class="row-item row-item-click" onclick="viewWork('${w.img}')"><img class="thumb" src="${w.img}">
+        <div style="flex:1">${workBadge(w)}
+          <p class="muted" style="margin-top:5px">${w.time} · ${w.mode==='donate'?t('mode_donate'):t('mode_buy')}</p>
+          <p class="muted">🧡 ${w.likes||0} ${t('likes_unit')} · ${(w.colors||[]).join(', ')||'—'}</p>
+          ${commentsHtml}
+        </div></div>`;
+      }).join('')
+    : `<div class="empty">${t('no_works')}</div>`;
+}
+function viewWork(img){
+  openModal(t('menu_works'), `<img class="wall-modal-img" src="${img}">`);
+}
+
+/* ================= Cart ================= */
+function renderCart(){
+  const cart = me().cart || [];
+  $('cartList').innerHTML = cart.length
+    ? cart.map(x => (x && typeof x === 'object')
+        ? `<div class="row-item"><img class="thumb" src="${x.img}">
+             <div style="flex:1"><b>${t('mode_buy')}</b>
+               <p class="muted" style="margin-top:5px">${x.time||''} · ${(x.colors||[]).join(', ')||'—'}</p></div></div>`
+        : `<div class="row-item">${x}</div>`).join('')
+    : `<div class="empty">${t('cart_empty')}</div>`;
+}
+
+/* ================= Follows ================= */
+function renderFollows(){
+  const follows = me().follows || [];
+  $('followsList').innerHTML = follows.length
+    ? follows.map(f => {
+        const users = getUsers(f.type);
+        const u = users[f.name];
+        return `<div class="row-item">${avatarHTML(f.name, u?u.avatar:null)}
+          <div><b>${esc(f.name)}</b><p class="muted">${f.type==='c'?t('charity_creator'):t('role_user')}</p></div></div>`;
+      }).join('')
+    : `<div class="empty">${t('follows_empty')}</div>`;
+}
+
+/* ================= Donations ================= */
+function renderDonations(){
+  const list = getWorks('n', currentUser).filter(w => w.sel === 'selected');
+  $('donCount').textContent = list.length;
+  $('donationsList').innerHTML = list.length
+    ? list.map(w => `<div class="row-item"><img class="thumb" src="${w.img}">
+        <div><span class="badge badge-selected">${t('badge_selected')}</span>
+        <p class="muted" style="margin-top:5px">${w.time}</p></div></div>`).join('')
+    : `<div class="empty">${t('no_selected')}</div>`;
+}
+
+/* ================= History ================= */
+let histTab = 'liked';
+function switchHist(t2){
+  histTab = t2;
+  $('histLike').classList.toggle('on', t2==='liked');
+  $('histFollow').classList.toggle('on', t2==='followed');
+  renderHist();
+}
+function renderHist(){
+  if(histTab === 'liked'){
+    const recs = getRecords('n', currentUser).filter(r => r.icon === '🧡');
+    $('histList').innerHTML = recs.length
+      ? recs.map(r => `<div class="row-item">${r.img?`<img class="thumb" src="${r.img}">`:''}
+          <div><b>${esc(r.text)}</b><p class="muted">${r.time}</p></div></div>`).join('')
+      : `<div class="empty">${t('no_likes')}</div>`;
+  }else{
+    const follows = me().follows || [];
+    $('histList').innerHTML = follows.length
+      ? follows.map(f => `<div class="row-item">
+          <div class="avatar-sm" style="background:${avatarColor(f.name)}">${esc(f.name[0])}</div>
+          <div><b>${esc(f.name)}</b><p class="muted">${f.type==='c'?t('followed_patient'):t('role_user')}</p></div></div>`).join('')
+      : `<div class="empty">${t('no_follows')}</div>`;
+  }
+}
+
+/* ================= Messages ================= */
+function renderMsgs(){
+  const list = getMsgs('n', currentUser);
+  $('msgsList').innerHTML = list.length
+    ? list.map(m => `<div class="msg-card">
+        <b>${esc(m.title||t('notice'))}</b>
+        ${m.img ? `<img src="${m.img}">` : ''}
+        <div>${esc(m.text||'')}</div>
+        <div class="when">${m.time||''}</div>
+        ${m.kind==='photo'
+          ? `<div class="chat-bar" style="margin-top:10px">
+               <input id="reply-${m.distId}" placeholder="${t('reply_ph')}">
+               <button class="btn btn-primary btn-sm" onclick="sendThanks(${m.distId})">${t('send')}</button>
+             </div>` : ''}
+      </div>`).join('')
+    : `<div class="empty">${t('msgs_empty')}</div>`;
+}
+function sendThanks(distId){
+  const v = $('reply-'+distId).value.trim();
+  if(!v) return toast(t('toast_enter_reply'));
+  const dist = getDist();
+  const d = dist.find(x => x.id === distId);
+  if(!d) return;
+  d.replies = d.replies || [];
+  d.replies.push({text:v, time:nowText()});
+  saveDist(dist);
+  addMsg('c', d.charity, {kind:'thanks', title:t('notice'), text:v});
+  toast(t('toast_thanks_sent'));
+  renderMsgs();
+}
+
+/* ================= Boot ================= */
+applyI18n();
+if(currentUser) enterApp(); else go('auth');
+</script>
+</body>
+</html>
