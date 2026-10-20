@@ -407,7 +407,7 @@ canvas#patternCanvas{touch-action:none;cursor:default}
 .pat-stage-wrap canvas{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:14px}
 .pat-tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .pat-panel{display:flex;flex-direction:column;gap:0}
-.pat-action-bar{margin-top:14px;padding-top:14px;border-top:1px solid #d8c6ae}
+.pat-action-bar{margin-top:14px;padding-top:14px;border-top:none}
 .pat-sec{margin:0}
 .pat-sec > h3{
   cursor:pointer;display:flex;align-items:center;gap:7px;
@@ -420,10 +420,6 @@ canvas#patternCanvas{touch-action:none;cursor:default}
 .pat-sec.open > h3{background:#fff;border-radius:12px 12px 0 0;border-bottom:1px solid var(--line)}
 .pat-sec-body{display:none;background:#fff;padding:6px 14px 16px;border-radius:0 0 12px 12px}
 .pat-sec.open .pat-sec-body{display:block}
-.pat-sec h3 .n{
-  width:19px;height:19px;flex-shrink:0;background:var(--primary);color:#fff;
-  font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;border-radius:50%;
-}
 .pat-row{display:flex;align-items:center;gap:9px;margin-top:9px;flex-wrap:wrap}
 .pat-row label{font-size:12.5px;color:var(--ink-soft);min-width:52px}
 .pat-row input[type=range]{flex:1;min-width:110px;accent-color:var(--primary)}
@@ -794,6 +790,21 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 .brush-btn[data-brush] .bi{box-shadow:none}
 /* ⑤ 作画界面顶部小字「作画说明」字号调大 1–2 号 */
 #page-paint-canvas .page-head p,#page-paint-pattern .page-head p{font-size:15px;line-height:1.65}
+/* ⑥ AI 纹样化工作台：栏目标题右箭头 / 导出与应用下方棕色线移除 / 画板底部说明 / 工具按钮 */
+.pat-caret{margin-left:auto;font-size:12px;color:var(--ink-soft);letter-spacing:1px}
+.pat-sec:has(+ .pat-action-bar) > h3{border-bottom:none}
+#page-paint-pattern .brush-hint{background:transparent;border:none;margin-top:12px}
+#page-paint-pattern .pat-tools{flex-wrap:nowrap}
+#page-paint-pattern .pat-tools .btn{
+  background:transparent !important;border:none !important;
+  color:var(--ink) !important;font-size:12px !important;
+  padding:5px 11px !important;border-radius:9px !important;
+  transition:background .16s ease,color .16s ease,border-radius .16s ease;
+}
+#page-paint-pattern .pat-tools .btn:hover,
+#page-paint-pattern .pat-tools .btn.is-active{
+  background:var(--primary) !important;color:#fff !important;border-radius:999px !important;
+}
 </style>
 <style>
   .banner{height:420px}
@@ -1039,12 +1050,13 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 
       <div class="pat-stage-wrap" data-page-node-id="c8XYkSFrdBvP348ces605D">
         <canvas id="patternCanvas" width="720" height="720" data-page-node-id="md8HFrSOh27fUAVAtCSDoX"></canvas>
+        <div class="brush-hint" data-p="pat_hint" data-p-html="1"></div>
       </div>
 
       <div class="pat-panel" data-page-node-id="zsjgeusCr2kpiJFaKKQBiz">
 
           <div class="pat-sec open" data-page-node-id="U03pj88mD7dAGMnBWPic5K">
-            <h3 onclick="togglePatSec(this)" data-page-node-id="OZHeC1OBtzDSRfJRYVRYjE"><span class="n" data-page-node-id="orNqCUxdnlfXPLqbFPEZfV">1</span><span data-p="pat_s1">扫描与抠图</span></h3>
+            <h3 onclick="togglePatSec(this)" data-page-node-id="OZHeC1OBtzDSRfJRYVRYjE"><span data-p="pat_s1">扫描与抠图</span><span class="pat-caret">&gt;&gt;</span></h3>
             <div class="pat-sec-body">
             <p class="muted" data-page-node-id="tNQqd6DQ5aWiZ5lkI6XHBS" data-p="pat_s1d">自动识别画布上的主体、去掉白色底，得到可重复排列的纹样元件。</p>
             <div id="patMotifBox" class="pat-empty" style="margin-top:10px" data-page-node-id="G93JcaB3X0H5nFHtb91C3E" data-p="pat_empty">尚未扫描 · 点击「扫描作品」</div>
@@ -1057,7 +1069,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
           </div>
 
           <div class="pat-sec" data-page-node-id="QHiwOiFJNBuhjcKwdDifKT">
-            <h3 onclick="togglePatSec(this)" data-page-node-id="p5hY0y5aLAf0MFLBEnzOIn"><span class="n" data-page-node-id="32Dfx36qVXJFpOLB6imimP">2</span><span data-p="pat_s2">四方连续底纹</span></h3>
+            <h3 onclick="togglePatSec(this)" data-page-node-id="p5hY0y5aLAf0MFLBEnzOIn"><span data-p="pat_s2">四方连续底纹</span><span class="pat-caret">&gt;&gt;</span></h3>
             <div class="pat-sec-body">
             <div class="pat-row" data-page-node-id="ZuviXFtZpJRtDrcnHICz8P">
               <label data-page-node-id="FPa6pC4wbjKSFv0Ove3bcw" data-p="pat_arrange">排列</label>
@@ -1085,7 +1097,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
           </div>
 
           <div class="pat-sec" data-page-node-id="JvM3QhTGqavxsOBiWeBkcn">
-            <h3 onclick="togglePatSec(this)" data-page-node-id="lquMr0QMrLa63ypUE8Gx4j"><span class="n" data-page-node-id="ZF9A6JID5jY419PJon4fdR">3</span><span data-p="pat_s3">面料预览</span></h3>
+            <h3 onclick="togglePatSec(this)" data-page-node-id="lquMr0QMrLa63ypUE8Gx4j"><span data-p="pat_s3">面料预览</span><span class="pat-caret">&gt;&gt;</span></h3>
             <div class="pat-sec-body">
             <div class="seg" id="patMockSeg" data-page-node-id="47unktjQVhzpbSBjqMcDVC">
               <button data-k="flat" class="on" onclick="patSetMock('flat')" data-page-node-id="gAsNRfy5CkP5pfgFLpHqeo" data-p="c_mock_flat">平铺</button>
@@ -1097,7 +1109,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
           </div>
 
           <div class="pat-sec" data-page-node-id="s10GEKv9Pi3z0HXHH0bZ2C">
-            <h3 onclick="togglePatSec(this)" data-page-node-id="dbDfJYCXitsa3SaUFTdL1b"><span class="n" data-page-node-id="AFcCAObEkGZLOBPfDBnc0Z">4</span><span data-p="pat_s5">导出与应用</span></h3>
+            <h3 onclick="togglePatSec(this)" data-page-node-id="dbDfJYCXitsa3SaUFTdL1b"><span data-p="pat_s5">导出与应用</span><span class="pat-caret">&gt;&gt;</span></h3>
             <div class="pat-sec-body">
             <div class="pat-row" data-page-node-id="0QTblZCW8PjmLNdHCa3FjP">
               <button class="btn btn-sm" onclick="patExport()" data-page-node-id="r3vK1zoZZAicCd0oA6U3XH" data-p="pat_export">导出纹样 PNG</button>
@@ -1108,12 +1120,10 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 
           <div class="pat-action-bar">
             <div class="pat-tools" data-page-node-id="Y0A2djbDUUAQyo9T70DU0k">
-              <button class="btn btn-sm" onclick="patScan()" data-page-node-id="fqxruh5jwqH16xq5c4qG6e" data-p="pat_scan">扫描作品</button>
               <button class="btn btn-sm" onclick="patSpread()" data-page-node-id="yVAmYxsulElgCIKXeexK2W" data-p="pat_spread">错落铺开</button>
               <button class="btn btn-sm" onclick="patBringTop()" data-page-node-id="sSCu5KTbFT1MJeifR0UEwv" data-p="pat_top">置顶</button>
               <button class="btn btn-sm" onclick="patUndo()" data-page-node-id="mC8nihbs6YXmirNohIyZkb" data-p="c_undo">↶ 撤销</button>
             </div>
-            <div class="brush-hint" data-p="pat_hint" data-p-html="1"></div>
             <div style="margin-top:12px"><button class="btn btn-primary btn-block btn-lg" onclick="go('paint/confirm')" data-p="pat_next">下一步：提交作品 ›</button></div>
           </div>
 
@@ -3805,6 +3815,12 @@ function togglePatSec(h){
   const sec = h.closest('.pat-sec');
   if(sec) sec.classList.toggle('open');
 }
+/* 右侧工具按钮：点击后保持胶囊态，点击别处恢复原状 */
+document.addEventListener('click', (e) => {
+  const btn = e.target.closest('.pat-tools .btn');
+  document.querySelectorAll('.pat-tools .btn.is-active').forEach(b => b.classList.remove('is-active'));
+  if(btn) btn.classList.add('is-active');
+});
 function patScan(silent){
   if(!pCanvas) return toast(PT('pat_nocanvas'));
   Pat.thr = +$('patThr').value || 238;
