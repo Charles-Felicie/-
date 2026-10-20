@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-page-node-id="mcCFI5uAB3avxoW4uOqa6l" data-dm-ref="1"><head data-page-node-id="QTSiIhiAo2yhW2JhxIC9FF">
+<html lang="zh-CN" data-page-node-id="mcCFI5uAB3avxoW4uOqa6l"><head data-page-node-id="QTSiIhiAo2yhW2JhxIC9FF">
 <meta charset="UTF-8" data-page-node-id="ZZysVr9wSNFsv86JEKngpc">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="u8TnnKxwqO6KpoxceHLOkv">
-<title>戴上春天 · 作画</title>
-<style id="css-main">/* ============================================================
+<title data-page-node-id="mUcPgDD4iJW0pATSFrCcBO">戴上春天 · 作画</title>
+<style id="css-main" data-page-node-id="96pHeRiGEzfg9cw4bEl5Kh">/* ============================================================
    Ward Aesthetics Program — Shared stylesheet (PC version)
    All buttons / inputs / panels are rectangular (no radius).
    ============================================================ */
@@ -760,6 +760,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 #paintCanvas,#miniCanvas{border-radius:18px}
 
 /* ⑥ 作画入口：红白配色 → 森林绿 + 白 */
+#page-paint-guide1,#page-paint-guide2,#page-paint-guide3,#page-paint-guide4,#page-paint-guide5,#page-paint-guide6,#page-paint-guide7,
 #page-paint-colors,#page-paint-opening,#page-paint-canvas,#page-paint-pattern,#page-paint-confirm{
   --primary:#F2A93B; --primary-deep:#D98A1F; --secondary:#F7C873; --accent:#FBE3B5}
 
@@ -836,8 +837,22 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 #page-paint-confirm .pat-tools .btn.on{
   background:var(--primary) !important;color:#fff !important;border-radius:999px !important;
 }
+
+/* 【指南】作画规则 7 页：步骤标题＝初号(42pt≈56px)黑体，正文＝小二(18pt≈24px)宋体 */
+.guide-wrap{max-width:900px;margin:0 auto;padding:34px 0 60px}
+.guide-kicker{font-family:SimSun,'宋体','Songti SC',serif;font-size:24px;color:var(--ink-soft);letter-spacing:.35em;margin-bottom:6px}
+.guide-step{font-family:SimHei,'黑体','Heiti SC','Microsoft YaHei',sans-serif;font-size:56px;line-height:1.35;font-weight:700;color:var(--ink);margin:8px 0 24px}
+.guide-text{font-family:SimSun,'宋体','Songti SC',serif;font-size:24px;line-height:1.9;color:var(--ink);margin:16px 0}
+.guide-shot{background:#fff;border:1px solid var(--primary);border-radius:16px;padding:14px;margin:18px 0;box-shadow:0 6px 18px rgba(217,138,31,.10)}
+.guide-shot img{display:block;width:100%;border-radius:10px}
+.guide-shot-sm img{max-height:180px;width:auto;max-width:100%;margin:0 auto}
+.guide-row{display:flex;gap:14px;align-items:flex-start}
+.guide-row .guide-shot{flex:1;margin:18px 0}
+.guide-nav{display:flex;align-items:center;gap:12px;margin-top:28px}
+.guide-page-no{margin-left:auto;margin-right:auto;font-family:SimSun,'宋体',serif;font-size:24px;color:var(--ink-soft);letter-spacing:.1em}
+@media (max-width:760px){.guide-step{font-size:34px}.guide-text,.guide-kicker,.guide-page-no{font-size:18px}.guide-row{flex-direction:column}}
 </style>
-<style>
+<style data-page-node-id="aOZWsoym3G3xo9HSWBoyCX">
   .banner{height:420px}
   .banner-slide:nth-child(1){background-image:url('poster1.jpg');background-position:50% 32%}
   .banner-slide:nth-child(2){background-image:url('poster2.jpg');background-position:42% 40%}
@@ -854,21 +869,21 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 
 <nav class="topnav" id="topnav" style="display: block;" data-page-node-id="ztQO94Uh8AUHrYJcqEgoHT">
   <div class="container" data-page-node-id="ocKBJYS3tcWL9r4e9AvZYp">
-    <div class="nav-history" id="navHistory" role="group" aria-label="页面导航">
-      <button id="navBack" type="button" onclick="navBack()" title="返回上一页" aria-label="返回上一页">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    <div class="nav-history" id="navHistory" role="group" aria-label="页面导航" data-page-node-id="vTnLeXDBjwWTDUkIaw1GTd">
+      <button id="navBack" type="button" onclick="navBack()" title="返回：AI 纹样化" aria-label="返回：AI 纹样化" data-page-node-id="sM4ekfrHvnQDVkFMaAE9ea">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-page-node-id="2ZknrORukreYe5MrRcM5D5"><path d="M15 5l-7 7 7 7" data-page-node-id="CJvqIdXEyHMkJVK25ycDNy"></path></svg>
       </button>
-      <button id="navFwd" type="button" onclick="navFwd()" title="前进到下一页" aria-label="前进到下一页">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+      <button id="navFwd" type="button" onclick="navFwd()" title="已经在最后面一页" aria-label="已经在最后面一页" data-page-node-id="JONceqwx6YjvQIpMlUHLUh" disabled="">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-page-node-id="cwLGYbo9fKbfy9FDRrEJzL"><path d="M9 5l7 7-7 7" data-page-node-id="xWh7FCm7d4iijE6fFoqU5j"></path></svg>
       </button>
     </div>
     <span class="brand brand-loreal" data-page-node-id="poup8ZW9A4bg1SKNaON46f"><img src="商标.jpg" alt="戴上春天" class="brand-logo" data-page-node-id="F6Hu5uPKimhZARaXN2Fp81"></span>
     <div class="nav-links" data-page-node-id="1kQ451jKgVxIjepZGvQlVY">
-      <button class="btn btn-sm" onclick="backToPortal()" data-p="nav_portal">‹ 门户</button>
-      <select id="langSel" class="lang-sel" aria-label="language" onchange="setLang(this.value)">
-        <option value="zh">简体中文</option>
-        <option value="en">English</option>
-        <option value="fr">Français</option>
+      <button class="btn btn-sm" onclick="backToPortal()" data-p="nav_portal" data-page-node-id="9yTvTSG2A3HgzoAlC8VL51">‹ 门户</button>
+      <select id="langSel" class="lang-sel" aria-label="language" onchange="setLang(this.value)" data-page-node-id="l1cbDdupk3b0GxzUtGUbQV">
+        <option value="zh" data-page-node-id="EyASnwwxT3HvhM97ClzsT6">简体中文</option>
+        <option value="en" data-page-node-id="jblcF56wdk0iwLAyGbSPP5">English</option>
+        <option value="fr" data-page-node-id="sIIVJZnxAtHD3IBJxR36Ii">Français</option>
       </select>
     </div>
   </div>
@@ -889,14 +904,14 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
         <a href="#" id="authSwitch" onclick="toggleAuthMode();return false;" data-page-node-id="GEbcyRwT3dajFFBcOD1zpk">立即登记</a>
       </p>
       <div class="divider" data-page-node-id="x2DividerAuth"></div>
-      <p class="muted" style="text-align:center;font-size:12px">看功能不用注册，直接进</p>
-      <button class="btn btn-block" onclick="demoEnter()">演示模式 · 一键进入 ›</button>
+      <p class="muted" style="text-align:center;font-size:12px" data-page-node-id="AyZWuhI4YKI11ZNAV7x1UO">看功能不用注册，直接进</p>
+      <button class="btn btn-block" onclick="demoEnter()" data-page-node-id="Rj9bkmYS0UczCI44knvPHq">演示模式 · 一键进入 ›</button>
     </div>
   </div>
 </div>
 
 <!-- ===== Home ===== -->
-<div class="page active" id="page-home" data-page-node-id="BVA02ZkBbM6PAgjWfbd7Me">
+<div class="page" id="page-home" data-page-node-id="BVA02ZkBbM6PAgjWfbd7Me">
   <div class="container" data-page-node-id="3G7MiHMpIFDhqvfO3tGxuR">
     <div class="banner" data-page-node-id="G5cRxP5Bu87uvulo9LUP7B">
       <div class="banner-track" id="bannerTrack" data-page-node-id="fu38y92Ab14islzJ0UwdCN" style="transform: translateX(-100%);">
@@ -906,21 +921,21 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
         <div class="banner-slide" data-page-node-id="ZAvPI771xgBo8AeROxAqgl"><div class="headline" data-page-node-id="FPQN5uBJsIAimKJAceHjnX" data-p="home_bn4">爱心捐赠 · 公益产品领取</div></div>
       </div>
       <div class="banner-dots" id="bannerDots" data-page-node-id="dl6EM6PaejGZUsEME3XxbM"><i class="" data-page-node-id="HfEEo3KqESBAjp4nwybMh3"></i><i data-page-node-id="jTb8JEbisbizn9ieX8Cpuu" class="on"></i><i data-page-node-id="XYVxYONWYZRCW7lDpmNhnX" class=""></i><i data-page-node-id="hHL6P6gTEANLyqrp4OWJ28" class=""></i></div>
-      <button class="banner-arrow prev" onclick="bannerGo(-1)" aria-label="上一张海报">‹</button>
-      <button class="banner-arrow next" onclick="bannerGo(1)" aria-label="下一张海报">›</button>
+      <button class="banner-arrow prev" onclick="bannerGo(-1)" aria-label="上一张海报" data-page-node-id="5LBcwkp0CLl7L82oP8GSVZ">‹</button>
+      <button class="banner-arrow next" onclick="bannerGo(1)" aria-label="下一张海报" data-page-node-id="AWRw6G1AUQk8e0a6ddcykM">›</button>
     </div>
     <div class="grid grid-4" style="margin-top:28px" data-page-node-id="bOpipzvemblKQpy6Tob9gD">
-      <button class="entry-card" onclick="go('paint/colors')" data-page-node-id="z8K7JTmvOCccfldcSLt2A5">
-        <div class="ic" data-page-node-id="MylTz8QPNRrJpSCTEXBt5i">🖌️</div><h3 data-p="home_e1">作画</h3><p data-p="home_e1d">选择色号自由创作，可捐赠或自购定制头巾口罩</p>
+      <button class="entry-card" onclick="go('paint/guide1')" data-page-node-id="z8K7JTmvOCccfldcSLt2A5">
+        <div class="ic" data-page-node-id="MylTz8QPNRrJpSCTEXBt5i">🖌️</div><h3 data-p="home_e1" data-page-node-id="cWVYOG3gCKyF61Yn7C9Zd0">作画</h3><p data-p="home_e1d" data-page-node-id="G2zX62O8lWUEDm92Etq5d7">选择色号自由创作，可捐赠或自购定制头巾口罩</p>
       </button>
       <button class="entry-card" onclick="go('tryon/select')" data-page-node-id="4YriNrK9VRL5jKNMoDp833">
-        <div class="ic" data-page-node-id="xyJWfWPtLMhB05T14ZJLWB">💄</div><h3 data-p="home_e2">AI 试妆</h3><p data-p="home_e2d">情绪智能匹配妆容，体验最新产品</p>
+        <div class="ic" data-page-node-id="xyJWfWPtLMhB05T14ZJLWB">💄</div><h3 data-p="home_e2" data-page-node-id="bIGuoPjQ5ACg5bdKjlr69a">AI 试妆</h3><p data-p="home_e2d" data-page-node-id="GS8rHMdAs6hKJKk6a67K0Q">情绪智能匹配妆容，体验最新产品</p>
       </button>
       <button class="entry-card" onclick="go('intro')" data-page-node-id="HAA4JzFpy202D9NaAmCM1g">
-        <div class="ic" data-page-node-id="Qq8fKxdnTtgBElR2JVWy3N">📖</div><h3 data-p="home_e3">项目介绍</h3><p data-p="home_e3d">了解“戴上春天”的故事与参与方式</p>
+        <div class="ic" data-page-node-id="Qq8fKxdnTtgBElR2JVWy3N">📖</div><h3 data-p="home_e3" data-page-node-id="cIetAlsHSlYsDZ7RCGNkb3">项目介绍</h3><p data-p="home_e3d" data-page-node-id="GKxiQfLKeONtL3DR2h56oj">了解“戴上春天”的故事与参与方式</p>
       </button>
       <button class="entry-card" onclick="go('me/works')" data-page-node-id="wdAD2RuzbnqhihAJqrTpad">
-        <div class="ic" data-page-node-id="Qzu26gG6gERDTnriUOzNVL">🖼️</div><h3 data-p="home_e4">我的作品</h3><p data-page-node-id="q7fF8zEv4SzR3DyMHiVLw8" data-p="home_e4d">作品历史、评选状态与捐赠记录</p>
+        <div class="ic" data-page-node-id="Qzu26gG6gERDTnriUOzNVL">🖼️</div><h3 data-p="home_e4" data-page-node-id="UGbsSW0PnB8ie4SnAFNpeG">我的作品</h3><p data-page-node-id="q7fF8zEv4SzR3DyMHiVLw8" data-p="home_e4d">作品历史、评选状态与捐赠记录</p>
       </button>
     </div>
   </div>
@@ -933,7 +948,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
       <div class="hero-slogan" data-page-node-id="aSDJ9pmjmySh4kyc0pECD8">戴上春天</div>
       <div class="hero-en hero-slogan" style="font-size:clamp(20px,2.4vw,30px)" data-page-node-id="eHYTfFtWz3kNJOao6c7psb">Beauty Belongs to Every Bed</div>
       <p style="margin-top:18px;font-size:16px" data-page-node-id="EOwEAaACVFdT4xERdBRweV">让长期住院的女性和儿童，把本来就必须戴的头巾和口罩，变成自己创作的艺术品。</p>
-      <button class="btn btn-primary btn-lg" style="margin-top:26px" onclick="go('paint/colors')" data-page-node-id="yUoDxjx1YWuSv4As2DIuUC">开始作画 ›</button>
+      <button class="btn btn-primary btn-lg" style="margin-top:26px" onclick="go('paint/guide1')" data-page-node-id="yUoDxjx1YWuSv4As2DIuUC">开始作画 ›</button>
     </div>
 
     <div class="intro-section" data-page-node-id="nRGI4VhS2vveFjavCb5Ktm">
@@ -988,45 +1003,73 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 </div>
 
 <!-- ===== Paint: colors（品牌海报 · 作画规则） ===== -->
+<!-- ===== 作画规则指南（第 1-2 组，插在选色页前） ===== -->
+<div class="page" id="page-paint-guide1" data-page-node-id="3kFEKUo4QbirMCJ87kCDSY">
+  <div class="container guide-wrap" data-page-node-id="MY0nz3VnUBvy0jWQ7r4WyX">
+    <p class="guide-kicker" data-page-node-id="KuuPsd8BoyuFxwl5RsaNKk">作画规则</p>
+    <h1 class="guide-step" data-page-node-id="JI5HgzHUhsPRbB6yg0oqKm">步骤一：进入选色页面</h1>
+    <div class="guide-shot" data-page-node-id="50CZJceWasfWL0boX8Xphf"><img src="guide-wheel.png" alt="选色转盘" data-page-node-id="L1pYoqlvT2tw4hNWLm7jn4"></div>
+    <p class="guide-text" data-page-node-id="hdMFfZfm8KVsUaMWfmbaHD">把鼠标放在色轮上可以自由选择喜欢的色系。色系中的每一个色号对应欧莱雅旗下的一种美妆产品。</p>
+    <div class="guide-nav" data-page-node-id="Bd9k2hAQ0XZ4rqyseigTak">
+      <button class="btn btn-outline" onclick="go('paint/colors')" data-page-node-id="zruFKycZlsqPkHhpKpGtza">跳过指南 ›</button>
+      <span class="guide-page-no" data-page-node-id="nJDEH2FwUMGrGSjKgo1Bsh">1 / 7</span>
+      <button class="btn btn-primary" onclick="go('paint/guide2')" data-page-node-id="Ofqri7AD8UPDUAxZMVdcmC">下一页 ›</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-paint-guide2" data-page-node-id="N4yubpKWiWvHgLEN5TVVwJ">
+  <div class="container guide-wrap" data-page-node-id="gtvhMB0Tj3GuX7OrAEswyB">
+    <p class="guide-kicker" data-page-node-id="bZ136Y6hVqPLpeTSBIsmI0">作画规则</p>
+    <div class="guide-shot" data-page-node-id="cIeamCrUdQVEfYgf75v4s4"><img src="guide-shade-card.png" alt="色号产品卡片" data-page-node-id="7eBt0T1tQaw6GCzjzyuKcp"></div>
+    <p class="guide-text" data-page-node-id="rrZn1LWbJxyHgoNci5lWTr">将鼠标放在色号上，会出现产品的介绍以及官网商品页，对产品有兴趣可以点击链接。</p>
+    <p class="guide-text" data-page-node-id="OVgHOnDQltSIOlYpDj16CG">每个色号附赠一句“关于生命的诗”——这是关于颜色的感官表达。</p>
+    <div class="guide-nav" data-page-node-id="bfjAWTAAsjsIt0IOFBtBi6">
+      <button class="btn btn-outline" onclick="go('paint/guide1')" data-page-node-id="y4tFYDu7Vy71x3h0rVWlFr">‹ 上一页</button>
+      <span class="guide-page-no" data-page-node-id="gsgJoUT2uMpOeCCZPT9kKi">2 / 7</span>
+      <button class="btn btn-primary" onclick="go('paint/colors')" data-page-node-id="dHHD2WeqJLK1U25lE7Z8gR">下一页 ›</button>
+    </div>
+  </div>
+</div>
 <div class="page" id="page-paint-colors" data-page-node-id="tBSysqJFEyCb0VuZyNOsZf">
-  <div class="collage-hero" id="collageHero" onclick="go('paint/opening')" title="点击开启作画之旅">
-    <img src="assets/hex-collage.jpg" alt="半透明六角奢华美妆品牌拼贴">
-    <div class="collage-hero-veil"></div>
-    <div class="collage-rules" id="collageRules">
-      <h2 data-p="rule_title">作画规则</h2>
-      <p data-p="rule1"></p>
-      <p data-p="rule2"></p>
-      <p data-p="rule3"></p>
-      <span class="collage-go" data-p="rule_hint">点击这里 · 开始作画</span>
+  <div class="collage-hero" id="collageHero" onclick="go('paint/opening')" title="点击开启作画之旅" data-page-node-id="wzvmRy3OJW3B78QRbxCb0X">
+    <img src="assets/hex-collage.jpg" alt="半透明六角奢华美妆品牌拼贴" data-page-node-id="5Oc2XdsP9AZ8TMIZvzZB9K">
+    <div class="collage-hero-veil" data-page-node-id="rQWoEctK4LREggwkF4NrPo"></div>
+    <div class="collage-rules" id="collageRules" data-page-node-id="gJVojEfAQxRyTWOm2m9nf7">
+      <h2 data-p="rule_title" data-page-node-id="8SpViUpLDfVnkjwAAhGkA8">作画规则</h2>
+      <p data-p="rule1" data-page-node-id="GzrRkNwGUddAoB9LC3924U">① 选色：从欧莱雅产品色号库中挑选“颜料”，色号即颜料。</p>
+      <p data-p="rule2" data-page-node-id="0RD02Z3E1w8nSgZWxngKKE">② 创作：在画布上自由作画，可保存草稿；AI 会将作品转为可印花的四方连续纹样。</p>
+      <p data-p="rule3" data-page-node-id="cbw4RWThFjJd6UKCZ6WNku">③ 提交：选择认捐（一键捐赠实物）或自己购买定制产品；作品进入审核。</p>
+      <span class="collage-go" data-p="rule_hint" data-page-node-id="XuvhG8xnPMJLHYn6vg2v2J">点击这里 · 开始作画</span>
     </div>
   </div>
 </div>
 
 <!-- ===== Paint: opening（品牌三角开场 + 命运色轮） ===== -->
-<div class="page" id="page-paint-opening">
-  <div class="open-stage" id="openStage">
-    <div class="poster-band" id="posterBand"></div>
-    <div class="open-quote" id="openQuote">
-      <p class="q-line" id="quoteP1"></p>
-      <p class="q-line" id="quoteP2"></p>
+<div class="page" id="page-paint-opening" data-page-node-id="XPDp4IBblDte7iANd7gFWt">
+  <div class="open-stage done" id="openStage" data-page-node-id="0igNNGL6LEFN80Xt6gMQO7">
+    <div class="poster-band gone" id="posterBand" data-page-node-id="9Dw1LXvllCwtJyzJEgnd3R"><div class="poster-col from-up in" id="posterCol0" style="background-position:0% 50%" data-page-node-id="MF2LesZOy5VRZpv8y9EoAJ"></div><div class="poster-col from-down in" id="posterCol1" style="background-position:20% 50%" data-page-node-id="LXT8ZyPDOjFBWMCJWpcOLF"></div><div class="poster-col from-up in" id="posterCol2" style="background-position:40% 50%" data-page-node-id="CQu7ny58NsBEjE2sWoNstF"></div><div class="poster-col from-down in" id="posterCol3" style="background-position:60% 50%" data-page-node-id="WlzXsmtgnHwv1tQ3lIHc8T"></div><div class="poster-col from-up in" id="posterCol4" style="background-position:80% 50%" data-page-node-id="qIIvOzIF0WDArJEcAbGKVh"></div><div class="poster-col from-down in" id="posterCol5" style="background-position:100% 50%" data-page-node-id="YOc3NK62eysClkY9EbOlCg"></div></div>
+    <div class="open-quote show" id="openQuote" data-page-node-id="xis3POlqDkgd46luFZgawX">
+      <p class="q-line show" id="quoteP1" data-page-node-id="3M5llwkVUSzaq8L6Vz1upe">颜色是生命能量的表达。</p>
+      <p class="q-line show" id="quoteP2" data-page-node-id="yiWHxpjyytKoB2gpYIc4Dl">愿这些小小的色彩，成为你可以看见、可以触摸、可以记住的温柔</p>
     </div>
-    <button class="open-skip" onclick="finishOpening()" data-p="open_skip">跳过开场 ›</button>
+    <button class="open-skip" onclick="finishOpening()" data-p="open_skip" data-page-node-id="z4HRw6qkMlZYzhafYyQdTd">跳过开场 ›</button>
   </div>
-  <div class="wheel-stage" id="wheelStage">
-    <div class="container" style="max-width:1080px">
-      <div class="page-head"><h1 data-p="wheel_title">命运色轮</h1><p class="muted" data-p="wheel_sub">九大色系自然相融 · 悬停或点击色块查看色号 · 悬停色号可见产品卡片</p></div>
-      <div class="wheel-flex">
-        <div class="wheel-wrap" onmouseleave="setWheelFocus(wheelLocked, false)">
-          <div class="wheel-disc" id="wheelDisc"></div>
-          <div class="wheel-hits" id="wheelHits"></div>
-          <div class="wheel-core" id="wheelCore"></div>
+  <div class="wheel-stage show" id="wheelStage" data-page-node-id="NZtbNOqGNabJLlTworEc1O">
+    <div class="container" style="max-width:1080px" data-page-node-id="Fz69y0yKH62uNrOHHtKTiQ">
+      <div class="page-head" data-page-node-id="DOekCFpTf35YkdAiTeuDWo"><h1 data-p="wheel_title" data-page-node-id="t4uPKRN4e1UkrUTEIvB1lM">选色转盘</h1><p class="muted" data-p="wheel_sub" data-page-node-id="w9Amfw2pmICdGbEOD5X7CE">把鼠标放在色轮上，选择你想要的色系吧！</p></div>
+      <div class="wheel-flex" data-page-node-id="J7FZ4Mc88moCuelIasFHwL">
+        <div class="wheel-wrap" onmouseleave="setWheelFocus(wheelLocked, false)" data-page-node-id="p7CbFXsp7jfCeqrKkwDMb7">
+          <div class="wheel-disc" id="wheelDisc" style="background: conic-gradient(from -90deg, rgb(226, 58, 58) 20deg, rgb(242, 134, 30) 60deg, rgb(242, 194, 48) 100deg, rgb(47, 160, 95) 140deg, rgb(46, 107, 214) 180deg, rgb(122, 74, 191) 220deg, rgb(139, 94, 60) 260deg, rgb(20, 20, 20) 300deg, rgb(244, 242, 238) 340deg, rgb(226, 58, 58) 360deg);" data-page-node-id="OPEiHP2ZHenUoWp1aefy5y"></div>
+          <div class="wheel-hits" id="wheelHits" data-page-node-id="tpgkpc35bIPxI8chJu4eyw"><div class="whot on" data-f="红" style="clip-path:polygon(50% 50%,0.60% 50.00%,12.16% 18.25%)" onmouseenter="setWheelFocus('红', false)" onclick="setWheelFocus('红', true)" data-page-node-id="8jwwxVJWfGg3WYxFG2wGEe"></div><div class="whot" data-f="橙" style="clip-path:polygon(50% 50%,12.16% 18.25%,41.42% 1.35%)" onmouseenter="setWheelFocus('橙', false)" onclick="setWheelFocus('橙', true)" data-page-node-id="8Ie1ix43gnYTabXmBPeUba"></div><div class="whot" data-f="黄" style="clip-path:polygon(50% 50%,41.42% 1.35%,74.70% 7.22%)" onmouseenter="setWheelFocus('黄', false)" onclick="setWheelFocus('黄', true)" data-page-node-id="u2C9MMw0vzCvlXhKOlsS15"></div><div class="whot" data-f="绿" style="clip-path:polygon(50% 50%,74.70% 7.22%,96.42% 33.10%)" onmouseenter="setWheelFocus('绿', false)" onclick="setWheelFocus('绿', true)" data-page-node-id="D3tdhABFPMCOPR3BAlLfKn"></div><div class="whot" data-f="蓝" style="clip-path:polygon(50% 50%,96.42% 33.10%,96.42% 66.90%)" onmouseenter="setWheelFocus('蓝', false)" onclick="setWheelFocus('蓝', true)" data-page-node-id="PFYaKAEYQxen3gavFxsqVX"></div><div class="whot" data-f="紫" style="clip-path:polygon(50% 50%,96.42% 66.90%,74.70% 92.78%)" onmouseenter="setWheelFocus('紫', false)" onclick="setWheelFocus('紫', true)" data-page-node-id="EErdW6HSfxqm8IJmTKvXVB"></div><div class="whot" data-f="棕" style="clip-path:polygon(50% 50%,74.70% 92.78%,41.42% 98.65%)" onmouseenter="setWheelFocus('棕', false)" onclick="setWheelFocus('棕', true)" data-page-node-id="tzXMNIT87FgtM4H7IYsV9C"></div><div class="whot" data-f="黑" style="clip-path:polygon(50% 50%,41.42% 98.65%,12.16% 81.75%)" onmouseenter="setWheelFocus('黑', false)" onclick="setWheelFocus('黑', true)" data-page-node-id="V2jZoIIDu9DdyYO9U5Tqd5"></div><div class="whot" data-f="白" style="clip-path:polygon(50% 50%,12.16% 81.75%,0.60% 50.00%)" onmouseenter="setWheelFocus('白', false)" onclick="setWheelFocus('白', true)" data-page-node-id="qWrGZHRczJAJupcmNRGHoK"></div></div>
+          <div class="wheel-core" id="wheelCore" style="box-shadow: rgba(226, 58, 58, 0.333) 0px 0px 0px 3px, rgba(0, 0, 0, 0.35) 0px 10px 30px;" data-page-node-id="fRdsKUvLiXfSyWH3OFdYVb"><b data-page-node-id="QN8DKZOKZ6UhcFTEVKZj6q">红色系</b><span data-page-node-id="SG95LDZWEpgbv3HjHmoTAB">40 个色号</span></div>
         </div>
-        <div class="wheel-side">
-          <div class="wheel-panel-head"><b id="wheelFamName">红色系</b><span id="wheelFamCount"></span></div>
-          <div class="wheel-panel" id="wheelPanel"></div>
-          <p class="muted" style="margin:14px 0 6px" data-p="wheel_chosen">已选色号（点击可移除）：</p>
-          <div class="chosen-row" id="wheelChosen"></div>
-          <button class="btn btn-primary btn-block btn-lg" style="margin-top:16px" onclick="confirmColors()"<span data-p="wheel_go">用已选色号开始作画 ›</span></button>
+        <div class="wheel-side" data-page-node-id="q3QE2n4PrFFlnn5WuJ5ZaQ">
+          <div class="wheel-panel-head" data-page-node-id="683p62rDSYCA7eYlffL1yt"><b id="wheelFamName" data-page-node-id="NVuAxul1aEzB06lu0NcS5Y">红色系</b><span id="wheelFamCount" data-page-node-id="tBNeOyDpT6zjIdBjlnIGG8">40 个色号 · 点击颜色选择作画色号，鼠标放在色号上可以查看颜色对应产品型号与“一句生命的诗”</span></div>
+          <div class="wheel-panel" id="wheelPanel" data-page-node-id="icJOALLVVjh08hEfbC5CKi"><div class="wp-line" data-page-node-id="GCFKVDNBJGf4YftwqZf3hG"><span data-page-node-id="D95YzYYfYyTkDtKoPNJXko">圣罗兰 · 纯口红「方管」</span><div class="shade-grid" data-page-node-id="0nJXnZeMO7j45uS7ipEhjz"><button class="shade-sw" data-no="S001" onclick="wheelPick('S001')" data-page-node-id="kFeaBInfKZpG2v7jXlcJlT"><i style="background:#CD6655" data-page-node-id="l37Eu9tS5AI0AORIed51on"></i><b data-page-node-id="AS3cYXP0p8Qv9gqNBxc2B7">NM 裸色缪斯</b><span data-page-node-id="xHbwAvJXD2fCW0NCF5iToZ">17-1444</span></button><button class="shade-sw" data-no="S002" onclick="wheelPick('S002')" data-page-node-id="fztMHrCwjvQEoZAaT8upFd"><i style="background:#C55257" data-page-node-id="e6UoLJwoGPBSmfRL5D9eao"></i><b data-page-node-id="kidhbBbzRDqBaHdeAt8ZoR">N8 烟粉裸</b><span data-page-node-id="Fgdgcgfy1hcEzmSUXptcyM">17-1545</span></button><button class="shade-sw" data-no="S003" onclick="wheelPick('S003')" data-page-node-id="1FQMeZ2Fm2CPGwmXSofI39"><i style="background:#AC1E1A" data-page-node-id="AlkcmzP0TY8k7dnu9Dq7K2"></i><b data-page-node-id="OGsXEgWOdlJJBuFv67QpLF">R1966 无法复刻的红棕</b><span data-page-node-id="hRayd3gxSsuxmf7CoPKfd7">18-1551</span></button><button class="shade-sw" data-no="S004" onclick="wheelPick('S004')" data-page-node-id="xSO5vYo2OtwpWjSlD92bNV"><i style="background:#D1392B" data-page-node-id="e3oA4ut3PBDF21ZJniFUNH"></i><b data-page-node-id="CtZuHJ3fjRYkr5xBt2A7SH">O154 甜茶橘</b><span data-page-node-id="IPl8VQoH6W4RJXz1hlegty">18-1564</span></button></div></div><div class="wp-line" data-page-node-id="5VAAHOmq6xWrpSFKV8kSwL"><span data-page-node-id="wEa98tscpAVs7fsolaeGMG">圣罗兰 · 高定皮革四色眼影盘</span><div class="shade-grid" data-page-node-id="bX1aCcb6ADLMGRY7kTBM38"><button class="shade-sw" data-no="S010" onclick="wheelPick('S010')" data-page-node-id="mH0xs1nbStzmp5U9ELFVmp"><i style="background:#CB7763" data-page-node-id="7C7zjAh3GfRwzvHdR46bVn"></i><b data-page-node-id="NjsRIhfDM0fk42067OGMku">#200 马拉喀什日落-2</b><span data-page-node-id="k6o2Ly3aXAFTyxVVcUyLnO">17-1341</span></button><button class="shade-sw" data-no="S012" onclick="wheelPick('S012')" data-page-node-id="XeZbhZCEUvlCgt5kn4Vrgc"><i style="background:#AE5443" data-page-node-id="uccRw17laoLrzDOCEDoinR"></i><b data-page-node-id="10549lGfKXNhYHgqvSxK4d">#200 马拉喀什日落-4</b><span data-page-node-id="BBS4Tycu5ATQ6VDPugY56l">18-1536</span></button></div></div><div class="wp-line" data-page-node-id="o4jdBy6lqtLpFhP1qPR9Xj"><span data-page-node-id="2qGwiGzx7xqn1vo9PJBv87">圣罗兰 · 高定皮革腮红 Make Me Blush</span><div class="shade-grid" data-page-node-id="WEsf6WrDJsfmX1kP11RnVv"><button class="shade-sw" data-no="S013" onclick="wheelPick('S013')" data-page-node-id="TnQhxKKZOhas4erwJUkoRl"><i style="background:#CD6B7B" data-page-node-id="PzRyWFATdi1c8hAAPZyVc9"></i><b data-page-node-id="MRszDaRz02o5oO6yhTaM6L">54 Berry Bang</b><span data-page-node-id="VSKDPLtLhdnY4hCXXLcEaS">17-1927</span></button><button class="shade-sw" data-no="S014" onclick="wheelPick('S014')" data-page-node-id="kFsxJi7UVln27Bb58FO3wD"><i style="background:#EE8677" data-page-node-id="PSKnVtzdtsZBfwZJHECCiK"></i><b data-page-node-id="AGHxW4MbIUbA1YuSWG6M33">37 Peachy Nude</b><span data-page-node-id="gQ2RX77sYBJBzKW0M3yU6t">16-1529</span></button><button class="shade-sw" data-no="S017" onclick="wheelPick('S017')" data-page-node-id="3a1huHJ7HQTytb1bahda2U"><i style="background:#F7B0D7" data-page-node-id="o9nQChoIu908QcajaApJ2J"></i><b data-page-node-id="KxWcfFkY5qDwv7PzGSBABr">42 Babydoll Pink</b><span data-page-node-id="U5yFEkiXh0Nsq1kYmsvENI">14-2710</span></button></div></div><div class="wp-line" data-page-node-id="6PGtmJz2lHwNh3WWJJywRB"><span data-page-node-id="ymixRzy6TdN6FZHMgMDOoa">美宝莲 · Super Stay Matte Ink 超持久哑光液体唇膏</span><div class="shade-grid" data-page-node-id="CUgPxSwxRC3gh0ay6tdiOo"><button class="shade-sw" data-no="S021" onclick="wheelPick('S021')" data-page-node-id="0DElO62dL46xDDFmI3nLcK"><i style="background:#DC7B6B" data-page-node-id="hwzs6Hi0mOGO0pn6f6kr5M"></i><b data-page-node-id="hulCMF4iLYGsWAiTg3q9ib">05 Loyalist</b><span data-page-node-id="yUtjsh5xr7TbwqWZmWZE41">16-1532</span></button><button class="shade-sw" data-no="S022" onclick="wheelPick('S022')" data-page-node-id="xTlIUQB4PuJouLsXvbJXrS"><i style="background:#C75674" data-page-node-id="1Dn7xg5a4ZmKtL84GwYBqN"></i><b data-page-node-id="vdP9gobCGbrlEBpOV2S2Cv">15 Lover</b><span data-page-node-id="8ZXE8u0TpYTDuwbZXdyiRN">17-1926</span></button><button class="shade-sw" data-no="S023" onclick="wheelPick('S023')" data-page-node-id="87TOWGkYSu385Chzc0YidH"><i style="background:#AB031C" data-page-node-id="tB0VqXuengIScWwk0EkQVA"></i><b data-page-node-id="jWa4zhEcvHQmD2VlczLlDF">20 Pioneer</b><span data-page-node-id="4zeFICVFOa4x28dqwtgdhz">18-1659</span></button><button class="shade-sw" data-no="S024" onclick="wheelPick('S024')" data-page-node-id="7ZkoNuWCAcCogQppvC68wt"><i style="background:#721619" data-page-node-id="iCAE7qYyLMPxfFw39yES3O"></i><b data-page-node-id="fGeM6iy3ilwaFElr5PfCye">50 Voyager</b><span data-page-node-id="3y8xtxF9YrlWwOy0JDO2St">19-1555</span></button><button class="shade-sw" data-no="S025" onclick="wheelPick('S025')" data-page-node-id="8cy1JHdEbI2fAaX2fMR1zR"><i style="background:#EE7E70" data-page-node-id="Ih6ZBRNmt3ZU0FX9pQCXhg"></i><b data-page-node-id="rh8k5r2hDktXWC97IbvE71">60 Poet</b><span data-page-node-id="6X42XLCW13R99KGjR8oju5">16-1543</span></button><button class="shade-sw" data-no="S026" onclick="wheelPick('S026')" data-page-node-id="3LTHba9RESdZodM2ejF8Ls"><i style="background:#9E2338" data-page-node-id="Uog8rYpHTgl4v25BPjYuhY"></i><b data-page-node-id="DqCprN7zapKBQJjnK761tA">80 Ruler</b><span data-page-node-id="FQgdDGptrtzUMeo4Ko9lED">19-1863</span></button><button class="shade-sw" data-no="S027" onclick="wheelPick('S027')" data-page-node-id="tpOruA5uvK5KbLQTrwoDMY"><i style="background:#BF1755" data-page-node-id="rCYbnYuBXQRPMP5QEmD3hW"></i><b data-page-node-id="SOpot5smfZxFup4cEFsGqP">120 Artist</b><span data-page-node-id="KYsU5SM3M08XZH5pQy9m4y">18-1951</span></button><button class="shade-sw" data-no="S028" onclick="wheelPick('S028')" data-page-node-id="vkTGwrU9CTJf7WGsIME2uv"><i style="background:#BA4152" data-page-node-id="ffYm9Cz23LdgyyG1zWEkuE"></i><b data-page-node-id="ja7uYcZFACQEiHxBf4CL0G">155 Savant</b><span data-page-node-id="4zcSBYwjvTz5FtEdMIyGPH">17-1641</span></button><button class="shade-sw" data-no="S029" onclick="wheelPick('S029')" data-page-node-id="lnH1m7F5TFefYpA9ul9z5b"><i style="background:#AC2A29" data-page-node-id="Ek3LeCYDE5EhCxjAC1PaCg"></i><b data-page-node-id="kG5ULy6VklFC2yrUoMUN5O">335 Hustler</b><span data-page-node-id="qtGaPzLLDBsV4zJf1D6uxG">18-1555</span></button></div></div><div class="wp-line" data-page-node-id="MgDPbpWVlBA5w1YDglRSE2"><span data-page-node-id="TuhBa5yX6x4hCepjgY3kWb">美宝莲 · The City Mini Palette 城市迷你眼影盘</span><div class="shade-grid" data-page-node-id="hy7slMhnRQDjEJOtin5uSq"><button class="shade-sw" data-no="S038" onclick="wheelPick('S038')" data-page-node-id="uxgGDhs17ho2yRquUwu9wj"><i style="background:#F2B59E" data-page-node-id="hpQknElcCAKlbMzmM8NL0O"></i><b data-page-node-id="PEavl9Fpvhz5DhVSiOXFZl">Blushed Avenue-1</b><span data-page-node-id="w4MOf4HytHD5np5V7y9AEw">14-1219</span></button><button class="shade-sw" data-no="S039" onclick="wheelPick('S039')" data-page-node-id="sLDBht8Zc0DpC2MGLCdGs9"><i style="background:#C36C62" data-page-node-id="4cNZd0yUaqRdIO4L6FmpCu"></i><b data-page-node-id="mp30KpjjJvoTS8famprtOe">Blushed Avenue-2</b><span data-page-node-id="ZwwaJEFzHXBuLShegaWtpb">17-1540</span></button><button class="shade-sw" data-no="S042" onclick="wheelPick('S042')" data-page-node-id="aA9zVvK1ZEl0dH1j5AVoHH"><i style="background:#EA8D7C" data-page-node-id="WeMW3Z7iNQ6mVvb3ZMef0g"></i><b data-page-node-id="nXqwbH885Bg8QZzY828wbE">Blushed Avenue-5</b><span data-page-node-id="Xfd69FtoakMZij0dPZW1pL">16-1529</span></button><button class="shade-sw" data-no="S045" onclick="wheelPick('S045')" data-page-node-id="lXXElU8cwFAr8F1P31q2q0"><i style="background:#DBA9A1" data-page-node-id="JSOhnZXkPYYjQyPHve5z0n"></i><b data-page-node-id="ai72wTcOcZux0xQVVFm1XR">Diamond District-2</b><span data-page-node-id="qM0dZn1CmNFOGY0hJ5wDEw">15-1515</span></button></div></div><div class="wp-line" data-page-node-id="k2dw6aypA3XoMWzs3peuEy"><span data-page-node-id="D923CtFHS1wOAjDOISFmGX">美宝莲 · Fit Me 定制腮红</span><div class="shade-grid" data-page-node-id="SVIQ1kIVt78UFKZhTVwyND"><button class="shade-sw" data-no="S051" onclick="wheelPick('S051')" data-page-node-id="4XiX6KsUzGGD38JIm2Qxoo"><i style="background:#DEA898" data-page-node-id="Wuq7cYqSupRQjKEEOvFSGa"></i><b data-page-node-id="6CdxBVFJQXRqvsCpEpCMY5">25 Pink</b><span data-page-node-id="wcapuPLnU0xKNUgRAtlHtK">14-1316</span></button><button class="shade-sw" data-no="S052" onclick="wheelPick('S052')" data-page-node-id="z80NNoe8nWNJYuu1KNP6oy"><i style="background:#EC8878" data-page-node-id="0Biz94PdDMU1OjNp1WA6JT"></i><b data-page-node-id="Iyh8zCkddBottGXNCCweyQ">30 Rose</b><span data-page-node-id="tHUrCHxYibkTZiD62d21Zg">16-1529</span></button><button class="shade-sw" data-no="S055" onclick="wheelPick('S055')" data-page-node-id="n7Olm5Xw9G697LieJ52V5F"><i style="background:#BE6460" data-page-node-id="NaxYbckUKkaP5MBHelGGAA"></i><b data-page-node-id="L6u7uWYCnGaJXQrVd7ociF">55 Berry</b><span data-page-node-id="CZfZUMtvbUlcHm1SKxHGDG">18-1629</span></button></div></div><div class="wp-line" data-page-node-id="D0DjOLSXF15RLt8Uf9lMdd"><span data-page-node-id="DZNuAa5ymSOxIrq3SLpd1d">阿玛尼 · 阿玛尼传奇「红管」</span><div class="shade-grid" data-page-node-id="G2lwnyJralzVhz4IYLquZ8"><button class="shade-sw sel" data-no="S060" onclick="wheelPick('S060')" data-page-node-id="TjEGuApTMp3TVm3jlfK5Fe"><i style="background:#C5645F" data-page-node-id="akYM1ATZRecm6EuDJo8cre"></i><b data-page-node-id="Abhc89obLoEuwpcyynIAo9">#100 绝色</b><span data-page-node-id="qtbXhQ0QO76uJPnyTxDgzA">18-1629</span></button><button class="shade-sw" data-no="S061" onclick="wheelPick('S061')" data-page-node-id="ScEC9I0Zz48pgzsvpbY2m8"><i style="background:#C45B45" data-page-node-id="3Ad886rVydZgoArVySVIsf"></i><b data-page-node-id="Kka5wMXCg3mPfb5j4Ohym0">#208 焦糖奶咖</b><span data-page-node-id="blnsnPMy8B8UF7SLNQAlrE">17-1444</span></button><button class="shade-sw" data-no="S062" onclick="wheelPick('S062')" data-page-node-id="jB8YlFGjSbZ2nSZlfOB1NV"><i style="background:#BE6057" data-page-node-id="S0eF98L1eDGYECSBP03DY7"></i><b data-page-node-id="90wAh1GOzJG8qkTHpJA2ag">#214 暧昧</b><span data-page-node-id="qnkzwHvQOOBsWMhRWb9HXe">17-1540</span></button><button class="shade-sw" data-no="S063" onclick="wheelPick('S063')" data-page-node-id="d26z1MOKDs7VZfRUEa4rZu"><i style="background:#D25D60" data-page-node-id="Dry5cdaTzkpTUkCwy4EQLi"></i><b data-page-node-id="8elbjInAOSz65yBBIzMISQ">#520 粉纱</b><span data-page-node-id="GrejFv5teAU5xxKu9gLHdy">17-1644</span></button><button class="shade-sw" data-no="S064" onclick="wheelPick('S064')" data-page-node-id="vphwAhjqirw0nUc40SYcxN"><i style="background:#C55E5C" data-page-node-id="2ZRVDTPT75R7pr8E6BBO8q"></i><b data-page-node-id="EmFgF5DoWbdCDzlng6HvXR">#321 心动粉</b><span data-page-node-id="kyZWkZFG2B1EuCC1IEzsj6">17-1644</span></button><button class="shade-sw" data-no="S065" onclick="wheelPick('S065')" data-page-node-id="PZiwkaTcveeoK1pSMZzwpz"><i style="background:#A93D2A" data-page-node-id="C7ZyHMmbkN2dAO0jin7bAP"></i><b data-page-node-id="tJ0zQhfEP86AsMy8vRPOE9">#405 传奇番茄红</b><span data-page-node-id="WDMJREuEbSqw4AMmxz82xt">18-1355</span></button></div></div><div class="wp-line" data-page-node-id="3urwBfYY3igZj5yHwkGLN5"><span data-page-node-id="LleeoBRk2NZsB4uA81FZEl">欧莱雅 · 白管口红 低饱和裸色系</span><div class="shade-grid" data-page-node-id="9hi5vChT9GG9uSzQEF9IJ9"><button class="shade-sw" data-no="S072" onclick="wheelPick('S072')" data-page-node-id="uWM7U9tgdXPi5Yc8awVJ4T"><i style="background:#A6574A" data-page-node-id="DrfJMBCjRLWjn7rIojcT4c"></i><b data-page-node-id="ltoslG1hwGhZgNNaSe58qo">【木质奶杏】#195 冷奶杏</b><span data-page-node-id="mWBFv8rEglIHL7K83HMe3L">18-1536</span></button><button class="shade-sw" data-no="S073" onclick="wheelPick('S073')" data-page-node-id="TGLFqwr5V3p6yMYhB7LbsM"><i style="background:#954B43" data-page-node-id="H1pEE6SB1WIrFYU34m00qm"></i><b data-page-node-id="QdzDlNPcmsGSxIqjFrqDDg">【乌龙茶棕】#196 冷栗棕</b><span data-page-node-id="RabUSHk9qmHakkEB45nAAg">19-1245</span></button><button class="shade-sw" data-no="S074" onclick="wheelPick('S074')" data-page-node-id="CisxULEHrvnyZj47CZlXqH"><i style="background:#AA4C4C" data-page-node-id="whXcR6dyHW5XUfDNEt80AH"></i><b data-page-node-id="YgKUUJ0crJc6kwMC55Tcsq">【伯爵红茶】#197 冷赤豆</b><span data-page-node-id="9wKHt5tgXJJ8gg4taaXpIx">18-1633</span></button><button class="shade-sw" data-no="S075" onclick="wheelPick('S075')" data-page-node-id="abdrO3XoHNQYdFiSKwOnZm"><i style="background:#A24A47" data-page-node-id="zhZZcDTNzpjFebikgl9O5A"></i><b data-page-node-id="ZQdBcDnTiwxYZghJELB9sd">【玫瑰粉棕】#198 冷粉棕</b><span data-page-node-id="enxVbWclWrH4QfTdYLo1Pg">18-1633</span></button><button class="shade-sw" data-no="S076" onclick="wheelPick('S076')" data-page-node-id="NVrO4TP0FsQSN64LKXgmlc"><i style="background:#9E504D" data-page-node-id="nbXFPPRYtlm5JhR6fRVLnT"></i><b data-page-node-id="IYmeGKLqSiGmpbrBth1gHl">【低饱冷粉】#199 冷美人</b><span data-page-node-id="IOL7u2AXckcIZfy1gv8nDw">18-1633</span></button></div></div><div class="wp-line" data-page-node-id="leHsrLwRSsMc7cA6O4637Y"><span data-page-node-id="VfX5Wb07LFA42ktNrVx6XW">兰蔻 · Blush Subtil 柔美腮红</span><div class="shade-grid" data-page-node-id="uwIcyWC7w2jjFTmmc2Hh8d"><button class="shade-sw" data-no="S087" onclick="wheelPick('S087')" data-page-node-id="d47UR23JSOihA2dxtM9yr7"><i style="background:#BC584A" data-page-node-id="XwmVIcIDEvuMPGhQH1oozP"></i><b data-page-node-id="qJJYZ8JDkWxmk5qw0XxTIP">Folie Rouge 暖调砖红</b><span data-page-node-id="zyrjqjuw27nurtfDIfTK9x">18-1536</span></button><button class="shade-sw" data-no="S089" onclick="wheelPick('S089')" data-page-node-id="SLgSOGJXzqT9cZ7WMO0M3d"><i style="background:#EAA1B6" data-page-node-id="NQcLz8DBbTwM8FzCjBL2O2"></i><b data-page-node-id="t7uFSwYDCybKb165JqWQCL">Pink Ôh La La 樱花粉</b><span data-page-node-id="49PRNZNyYQ28K92fkJ4mMy">14-1911</span></button><button class="shade-sw" data-no="S091" onclick="wheelPick('S091')" data-page-node-id="lgHw2S7QBHyeVQFTmH3ZCl"><i style="background:#C65775" data-page-node-id="It6wCrkHcDx5mJplEvuBtZ"></i><b data-page-node-id="UbYHK0yzXFeGEHfVdahv7G">I don’t give a Fuchsia 紫玫红</b><span data-page-node-id="YyBO19Ks7K0dXfbalhlGHc">17-1926</span></button></div></div><div class="wp-line" data-page-node-id="1788lTp3FgxfkTysbmyVlw"><span data-page-node-id="BIeo2Qkhlslb7UxPIDHESr">3CE · 单色腮红</span><div class="shade-grid" data-page-node-id="OXX9QYoBZ3WlDh6yOg0O7B"><button class="shade-sw" data-no="S101" onclick="wheelPick('S101')" data-page-node-id="nHpeNEESIXVd81fuay8qQM"><i style="background:#F8A8B0" data-page-node-id="XMNq20Ah88wtqEAW4dz8ke"></i><b data-page-node-id="9Mh2ne1hXMHQ6WgD9eQK60">DELECTABLE 草莓牛奶粉</b><span data-page-node-id="vjgypSUH7ZeDf1F1XaMbQ4">14-1714</span></button></div></div></div>
+          <p class="muted" style="margin:14px 0 6px" data-p="wheel_chosen" data-page-node-id="34XkYH74s9bNxaj0tFDHAz">已选色号（点击可移除）：</p>
+          <div class="chosen-row" id="wheelChosen" data-page-node-id="9yJy6qLv8Qh5OBGb5zszqg"><span class="chosen-chip" data-no="S060" onclick="wheelPick('S060')" data-page-node-id="dpvRpZApWpeMKyqfEWb7UR"><i style="background:#C5645F" data-page-node-id="cg1h54hKGSCKyIXfYe3Gzi"></i>S060 #100 绝色<u data-page-node-id="eVdDdOyzRNTsOHvVXN9ibc">×</u></span></div>
+          <button class="btn btn-primary btn-block btn-lg" style="margin-top:16px" onclick="confirmColors()" <span="" data-p="wheel_go" data-page-node-id="M2Syel2fU6iTE5M3ZEGmGG">用已选色号开始作画 ›</button>
         </div>
       </div>
     </div>
@@ -1034,13 +1077,30 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 </div>
 
 <!-- ===== Paint: canvas ===== -->
+<!-- ===== 作画规则指南（第 3 组，插在画布页前） ===== -->
+<div class="page" id="page-paint-guide3" data-page-node-id="KcV8MM4oKd2P3AticCTAEK">
+  <div class="container guide-wrap" data-page-node-id="IuSjGpUJOLOQLFOV48dogz">
+    <p class="guide-kicker" data-page-node-id="CwrUnw1S4ZebOhQodIKYgT">作画规则</p>
+    <h1 class="guide-step" data-page-node-id="ew8XAXZ6nlhfhh0WwMotPD">步骤二：开始作画</h1>
+    <div class="guide-shot" data-page-node-id="cuFpmxrymJAtJ7qJkHsHNJ"><img src="guide-canvas.png" alt="画布作画与五种笔刷" data-page-node-id="vwQzeLDFxDzmylNKNTL4Gw"></div>
+    <p class="guide-text" data-page-node-id="UZmCL6thG75LkBG8FnOdeR">选择好颜色后进入作画页面。一共有五种笔刷效果，分别是哑光口红、水光唇釉、粉雾腮红、眼线液笔和眼线胶笔。</p>
+    <div class="guide-shot guide-shot-sm" data-page-node-id="BHpnBZtfNqL90lXbOlYT1e"><img src="guide-toolbar.png" alt="笔刷大小 · 撤销 · 清空画布" data-page-node-id="H6wriddsImweEN2fjnLwuI"></div>
+    <p class="guide-text" data-page-node-id="czL1xAGqjcRCTanxBljHYN">若中途想要增加颜色，可点击“选择颜色”重返选色页面。</p>
+    <p class="guide-text" data-page-node-id="evD0MeWPyHKCRddDjVJRYF">往下拖可以调整笔刷大小、撤销操作和清空画布。</p>
+    <div class="guide-nav" data-page-node-id="2iBU0Nq7HyjY6R8uvlYYoX">
+      <button class="btn btn-outline" onclick="go('paint/colors')" data-page-node-id="i8j07cIbBxuGtewazGA0tD">‹ 上一页</button>
+      <span class="guide-page-no" data-page-node-id="Olg4d8cN1VnWerEgNKb4Xi">3 / 7</span>
+      <button class="btn btn-primary" onclick="go('paint/canvas')" data-page-node-id="MtpNHbbH2TfawI7WdkDHUQ">下一页 ›</button>
+    </div>
+  </div>
+</div>
 <div class="page" id="page-paint-canvas" data-page-node-id="iRAstGsVHgo3dnrQKSdRlY">
   <div class="container" data-page-node-id="UfzUOyMK9AspNjSrqnzXfI">
-    <div class="page-head" data-page-node-id="fAczX1eiG85UAgBc1gOpj0"><h1 data-page-node-id="KQE09SEEDkaiGiO0X6so2B" data-p="p_canvas">画布作画</h1><p class="muted" data-page-node-id="zqzzF66COArWkb5kLqEz11" data-p="c_sub">选择画笔与色号，在画布上自由创作</p><p class="muted" data-p="c_sub2">自由挑选“哑光口红”“水光唇釉”“粉雾腮红”“眼线液笔”“眼线胶笔”五种作画效果</p></div>
+    <div class="page-head" data-page-node-id="fAczX1eiG85UAgBc1gOpj0"><h1 data-page-node-id="KQE09SEEDkaiGiO0X6so2B" data-p="p_canvas">画布作画</h1><p class="muted" data-page-node-id="zqzzF66COArWkb5kLqEz11" data-p="c_sub">选择画笔与色号，在画布上自由创作</p><p class="muted" data-p="c_sub2" data-page-node-id="lqQHMX5KuuuzSdqdPvsX7H">自由挑选“哑光口红”“水光唇釉”“粉雾腮红”“眼线液笔”“眼线胶笔”五种作画效果</p></div>
       <div class="paint-grid" data-page-node-id="2uH6uUFpkH6dKmkVpwNONY">
 
         <div class="studio" data-page-node-id="NWozWF3hPY58pBEunBQMQ8">
-          <canvas id="paintCanvas" width="800" height="800" data-page-node-id="HG9MjQTOJjxI1NbFWhqMga"></canvas>
+          <canvas id="paintCanvas" width="800" height="800" data-page-node-id="HG9MjQTOJjxI1NbFWhqMga" style="cursor: crosshair;"></canvas>
           <div class="brush-opts" data-page-node-id="9oQKUZHkM0Hx1bWi8V6BUy">
             <label data-page-node-id="U5BgGckIkJ943MMcqacfY0">笔刷大小
               <input type="range" id="brushSize" min="25" max="300" value="100" oninput="onBrushSize(this.value)" data-page-node-id="Ek5svuz9dRUranLfWtCqqr">
@@ -1050,13 +1110,25 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
             <button class="btn btn-sm" onclick="undoPaint()" data-page-node-id="SfwQUaAG8hNbPftOs2DeYw" data-p="c_undo">撤销</button>
             <button class="btn btn-sm" onclick="clearCanvas2()" data-page-node-id="rw7D3WgWVr3B1tAsdOK5E3" data-p="c_clear">清空画布</button>
           </div>
-          <div class="brush-hint" id="brushHint" data-page-node-id="xVTRw0lakbAlcE14nZYUqq"></div>
+          <div class="brush-hint" id="brushHint" data-page-node-id="xVTRw0lakbAlcE14nZYUqq"><b data-page-node-id="wibslPSJ3mZCm7QJmUv2PW">哑光口红</b> · 饱和厚实 · 粉绒质感</div>
         </div>
 
         <div data-page-node-id="kL0fHsePBoTYKZaY5Xi9Y2">
-          <div class="brush-bar" id="brushBar" data-page-node-id="fy0E7xrancBSdB2j1IDI89"></div>
+          <div class="brush-bar" id="brushBar" data-page-node-id="fy0E7xrancBSdB2j1IDI89"><button class="brush-btn on" data-brush="matte" onclick="pickBrush('matte')" title="哑光口红 · 饱和厚实 · 粉绒质感" data-page-node-id="WmgbtwKpp7CTqFg7JkSSFx">
+       <span class="bs" data-page-node-id="WGXV2RYAEwHbChX4CU4Q5F"></span><span class="bi" data-page-node-id="eoccJwTqt2ZJVn3E6j0qBx">💄</span><span class="bn" data-page-node-id="JdgrOHPXWIxcX7ilxwBGTR">哑光口红</span>
+     </button><button class="brush-btn" data-brush="glaze" onclick="pickBrush('glaze')" title="水光唇釉 · 通透果冻 · 水亮反光" data-page-node-id="irB58Vqe9ehqsjsIJgYHB5">
+       <span class="bs" data-page-node-id="qQE9feaDR8sW5mqaZKY9YB"></span><span class="bi" data-page-node-id="d1BmBr9hJVSAtPtxvF1eW5">✨</span><span class="bn" data-page-node-id="knwJ0nDvAJ8CN8yYOv2ec9">水光唇釉</span>
+     </button><button class="brush-btn" data-brush="blush" onclick="pickBrush('blush')" title="粉雾腮红 · 蓬松颗粒 · 雾面无边界" data-page-node-id="BISeSTZ280jtlNJSpHfxkO">
+       <span class="bs" data-page-node-id="l5Oz9i4yhHBkTjni2P8YgQ"></span><span class="bi" data-page-node-id="Csm1BT1UVE4kusCDyzepmh">🌸</span><span class="bn" data-page-node-id="AdolGrkKIQMkEGhkOwfQxQ">粉雾腮红</span>
+     </button><button class="brush-btn" data-brush="liner" onclick="pickBrush('liner')" title="眼线液笔 · 锐利干净 · 速度联动粗细" data-page-node-id="imgRqAjXNfWH9Y1uJwu4rr">
+       <span class="bs" data-page-node-id="a0T29CFn1HfK8njDH0mhDV"></span><span class="bi" data-page-node-id="6LMisDY0CiAWwgJc8aLjGv">🖋️</span><span class="bn" data-page-node-id="sI4iYz2BNG48dzMOW2GVU1">眼线液笔</span>
+     </button><button class="brush-btn" data-brush="gel" onclick="pickBrush('gel')" title="眼线胶笔 · 哑光绒感 · 有体积" data-page-node-id="xzGsdEVStoZGG6Iid29jJe">
+       <span class="bs" data-page-node-id="fMIGrsFThbiBPgIdbWFBke"></span><span class="bi" data-page-node-id="cJjWhieNYGCUiixlGJIoG6">🖊️</span><span class="bn" data-page-node-id="fbNiw6VOu1qW8591QE80B0">眼线胶笔</span>
+     </button><button class="brush-btn" data-brush="eraser" onclick="pickBrush('eraser')" title="橡皮擦 · 擦除已绘制的内容" data-page-node-id="9ymqoukCH9L7IJnvyioVFb">
+       <span class="bs" data-page-node-id="SmD5Sc4JCUhvokZBYgp8Y3"></span><span class="bi" data-page-node-id="0djlzm0230GyErZPwh7IB0">🧽</span><span class="bn" data-page-node-id="sDBnyH0cZsXbMYe9AHTm04">橡皮擦</span>
+     </button></div>
           <p class="muted" data-page-node-id="HEsaKdu8W8Mv5cF4fhVC32" data-p="c_used">本次使用色号（悬停色块可查看颜色寓意）：</p>
-          <div class="palette" id="canvasPalette" style="grid-template-columns:repeat(4,1fr);margin-top:8px" data-page-node-id="gFEDCHp4VSZ9XavptQfLmW"></div>
+          <div class="palette" id="canvasPalette" style="grid-template-columns:repeat(4,1fr);margin-top:8px" data-page-node-id="gFEDCHp4VSZ9XavptQfLmW"><button class="swatch sel" style="background:#C5645F" id="cp-S060" data-c="#C5645F" data-no="S060" data-page-node-id="IPlYm4hU0PY95ZYZ3oRCaQ"><span data-page-node-id="FWLae3qYtGG3ePOKduCtEc">S060</span></button></div>
           <button class="btn btn-outline btn-block" style="margin-top:12px" onclick="moreColors()" data-page-node-id="MoreColorsBtn01" data-p="c_pickcolor">选择颜色 ›</button>
           <button class="btn btn-outline btn-block" style="margin-top:10px" onclick="pickBgColor()" data-page-node-id="BgColorBtn01" data-p="c_pickbg">背景颜色选择 ›</button>
 
@@ -1065,7 +1137,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
             <button class="btn" onclick="loadDraft()" data-page-node-id="6Ipswf7nRkkxPcgkYrcciz" data-p="c_load">读取草稿</button>
           </div>
           <button class="btn btn-outline btn-block" style="margin-top:10px" onclick="shareWork()" data-page-node-id="DsOclr7CfHCQHtTmiC1IeM" data-p="c_share">分享</button>
-          <button class="btn btn-primary btn-block btn-lg" style="margin-top:10px" onclick="go('paint/pattern')" data-page-node-id="J6iaHOe3774MVQaCgSEoid" data-p="c_done">完成 ›</button>
+          <button class="btn btn-primary btn-block btn-lg" style="margin-top:10px" onclick="go('paint/guide4')" data-page-node-id="J6iaHOe3774MVQaCgSEoid" data-p="c_done">完成 ›</button>
         </div>
 
       </div>
@@ -1073,6 +1145,53 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 </div>
 
 <!-- ===== Paint: pattern (AI 纹样化工作台) ===== -->
+<!-- ===== 作画规则指南（第 4-6 组，插在纹样页前） ===== -->
+<div class="page" id="page-paint-guide4" data-page-node-id="wicbIaQwerzeNRYffWWyRC">
+  <div class="container guide-wrap" data-page-node-id="XbhfNFuSRvNWG4ZF8V9Qxr">
+    <p class="guide-kicker" data-page-node-id="3IsNWoYoE7SUZsCWOATcFz">作画规则</p>
+    <h1 class="guide-step" data-page-node-id="kuhlsLGgOYT1tRYhBClP5r" style="white-space: pre-wrap;">步骤三：AI 纹样化​</h1>
+    <div class="guide-shot" data-page-node-id="dyYc4S6GCzdNnvXNSpQeyD"><img src="guide-pattern.png" alt="AI 纹样化工作台" data-page-node-id="fNWPFYmurHjjpbk6Sh8xBC"></div>
+    <p class="guide-text" data-page-node-id="G2dbjd4iAmgBYbTsAVgE76">进入 AI 纹样化页面后，版面会同时保留底纹和主体。</p>
+    <div class="guide-shot guide-shot-sm" data-page-node-id="uFxSUhbbe2N5T8ku5TcZLP"><img src="guide-subject.png" alt="仅保留主体" data-page-node-id="jFStclSB8X8Gtho4Aj7ldR"></div>
+    <p class="guide-text" data-page-node-id="jJArpi69badIMhTHacx9Zx">若只想要一个图案（即保留主体），可选择“清除底纹”。</p>
+    <div class="guide-nav" data-page-node-id="yjjvoBeLWokdKDQra9qDxC">
+      <button class="btn btn-outline" onclick="go('paint/canvas')" data-page-node-id="oSPEIiih9sdlyBgT4bNwYX">‹ 上一页</button>
+      <span class="guide-page-no" data-page-node-id="8bBMUVwKSKtqyVLXFTsdqq">4 / 7</span>
+      <button class="btn btn-primary" onclick="go('paint/guide5')" data-page-node-id="dnXI5Ok8YH7bzIzR6lLjT5">下一页 ›</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-paint-guide5" data-page-node-id="4oQ9H5AfxOHaJnAo8XxXGC">
+  <div class="container guide-wrap" data-page-node-id="fHzmgcUG4BTVABhT1BCuH8">
+    <p class="guide-kicker" data-page-node-id="8LclOrjELGWR1igMYZRgup">作画规则</p>
+    <p class="guide-text" data-page-node-id="pAhQ2kQyUD5EAnQevYrAwc">若想保留底纹，则直接点击键盘上的删除键删除主体。</p>
+    <p class="guide-text" data-page-node-id="mJxMquclSFWREt3RBp9EuF">底纹有“网格”“半错位”“镜像”三种效果。</p>
+    <div class="guide-row" data-page-node-id="9f4lmD6mx7lVCGBHilZmvN">
+      <div class="guide-shot" data-page-node-id="uzTbEajPQxJSgw6spgKVeX"><img src="guide-grid.png" alt="网格底纹" data-page-node-id="xtvkCIyGuRVq4mDWFd6DR0"></div>
+      <div class="guide-shot" data-page-node-id="U2sd0PjEJ8fGt2OJO0DmnZ"><img src="guide-half.png" alt="半错位底纹" data-page-node-id="Lr5uKB7iCqacZiQdWHaApG"></div>
+      <div class="guide-shot" data-page-node-id="XhmsZPDkTuhjiysi9X9UJO"><img src="guide-mirror.png" alt="镜像底纹" data-page-node-id="Ff0uF0e5ag1kVYqysGi0jP"></div>
+    </div>
+    <div class="guide-nav" data-page-node-id="qEiFTBLi5OH30JCRj27LJY">
+      <button class="btn btn-outline" onclick="go('paint/guide4')" data-page-node-id="60XAHbKySRXy8slLwrFaoy">‹ 上一页</button>
+      <span class="guide-page-no" data-page-node-id="iAEFwPrN8YKJ6qWMq5BBhh">5 / 7</span>
+      <button class="btn btn-primary" onclick="go('paint/guide6')" data-page-node-id="HTdsZNwdXjnQo30iN4w2a6">下一页 ›</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="page-paint-guide6" data-page-node-id="ruG6SwNS52zAqx6pmUEVgI">
+  <div class="container guide-wrap" data-page-node-id="QDi8WlBsJ8SQBnEAlTtytW">
+    <p class="guide-kicker" data-page-node-id="d83VGRLFSrsVMCi0gEFEEO">作画规则</p>
+    <div class="guide-shot" data-page-node-id="PcwRsJNyKDRdwm91bNWNqL"><img src="guide-fabric.png" alt="面料预览" data-page-node-id="Gw1Ou8nIESi6OczMLh4qOb"></div>
+    <p class="guide-text" data-page-node-id="r6uhzNryp97FqDLrcHk2LM">选择好纹样之后，可以在“面料预览”中查看你的画作平铺和印在头巾、口罩上的状态。</p>
+    <div class="guide-nav" data-page-node-id="PP0pWVMBKPl5NS1Li9UHLN">
+      <button class="btn btn-outline" onclick="go('paint/guide5')" data-page-node-id="KOpeyeOwiQvQlweHuTrWRw">‹ 上一页</button>
+      <span class="guide-page-no" data-page-node-id="HkJolvCJ1uqgJyYvNNSYBn">6 / 7</span>
+      <button class="btn btn-primary" onclick="go('paint/pattern')" data-page-node-id="jSaAv7DVFthzw5BUszWn22">下一页 ›</button>
+    </div>
+  </div>
+</div>
 <div class="page" id="page-paint-pattern" data-page-node-id="QBr04XioOipF09PrDsJEDq">
   <div class="container" data-page-node-id="9CtrQqlPzfww5DmlzEXM0l">
     <div class="page-head" data-page-node-id="IGGNucpKUXbcyox2kAXMAH"><h1 data-page-node-id="UX6MjmhteeFMu8cuVOntUG" data-p="c_ai">AI 纹样化</h1><p class="muted" data-page-node-id="GdcL8BVsxNZEN3eC4q1gCk" data-p="pat_sub">把作品扫描成可印花的四方连续纹样，可直接用于头巾、口罩</p></div>
@@ -1080,16 +1199,16 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 
       <div class="pat-stage-wrap" data-page-node-id="c8XYkSFrdBvP348ces605D">
         <canvas id="patternCanvas" width="720" height="720" data-page-node-id="md8HFrSOh27fUAVAtCSDoX"></canvas>
-        <div class="brush-hint" data-p="pat_hint" data-p-html="1"></div>
+        <div class="brush-hint" data-p="pat_hint" data-p-html="1" data-page-node-id="AZkAlNjL5MOM1JENGaBapk">单击元件选中 → <b data-page-node-id="JSZw552dAI2ExasjlOY53U">拖动</b>移动 · <b data-page-node-id="rNYAPIxhsHk184GeyZmqX9">拖四角</b>缩放 · <b data-page-node-id="fZIFi2Ul78uT6t8OWyqVai">拖顶部圆点</b>旋转（按住 Shift 吸附 15°）· 也可用右侧滑块精确调整</div>
       </div>
 
       <div class="pat-panel" data-page-node-id="zsjgeusCr2kpiJFaKKQBiz">
 
           <div class="pat-sec open" data-page-node-id="U03pj88mD7dAGMnBWPic5K">
-            <h3 onclick="togglePatSec(this)" data-page-node-id="OZHeC1OBtzDSRfJRYVRYjE"><span data-p="pat_s1">扫描与抠图</span><span class="pat-caret">&gt;&gt;</span></h3>
-            <div class="pat-sec-body">
+            <h3 onclick="togglePatSec(this)" data-page-node-id="OZHeC1OBtzDSRfJRYVRYjE"><span data-p="pat_s1" data-page-node-id="nu5JNtPXdbEx0SBN4iGAgy">扫描与抠图</span><span class="pat-caret" data-page-node-id="leb4KJSEaZf3ckwtVIAgI6">&gt;&gt;</span></h3>
+            <div class="pat-sec-body" data-page-node-id="1tvJxI30cKYtQwwfvVGnOx">
             <p class="muted" data-page-node-id="tNQqd6DQ5aWiZ5lkI6XHBS" data-p="pat_s1d">自动识别画布上的主体、去掉白色底，得到可重复排列的纹样元件。</p>
-            <div id="patMotifBox" class="pat-empty" style="margin-top:10px" data-page-node-id="G93JcaB3X0H5nFHtb91C3E" data-p="pat_empty">尚未扫描 · 点击「扫描作品」</div>
+            <div id="patMotifBox" class="pat-motif-prev" style="margin-top:10px" data-page-node-id="G93JcaB3X0H5nFHtb91C3E" data-p="pat_empty"><canvas width="64" height="64" data-page-node-id="KloqA213Aeh0mBwczHEvH1"></canvas><div data-page-node-id="pVPxD7a6xmotUQEXZGD4FP"><b data-page-node-id="V91Msu1W3s9qiWXwk79azG">主体已提取</b><br data-page-node-id="SzmOzZLP0ouGObPAXbBGBN"><span class="tag-soft" data-page-node-id="iVXZEoMte2hGlqiMwJgPuD">412×401px</span></div></div>
             <div class="pat-row" data-page-node-id="AoDoOpB91Do9izlIiK0YLZ">
               <label data-page-node-id="mnLy1NdgzYijZ858pwHX0F" data-p="pat_thr">去底强度</label>
               <input type="range" id="patThr" min="200" max="252" value="238" oninput="patRescan()" data-page-node-id="9mS6QBqV7mmzKWF6gCPSLk">
@@ -1099,8 +1218,8 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
           </div>
 
           <div class="pat-sec" data-page-node-id="QHiwOiFJNBuhjcKwdDifKT">
-            <h3 onclick="togglePatSec(this)" data-page-node-id="p5hY0y5aLAf0MFLBEnzOIn"><span data-p="pat_s2">四方连续底纹</span><span class="pat-caret">&gt;&gt;</span></h3>
-            <div class="pat-sec-body">
+            <h3 onclick="togglePatSec(this)" data-page-node-id="p5hY0y5aLAf0MFLBEnzOIn"><span data-p="pat_s2" data-page-node-id="3E8jNRUotHoKNjjqz4WKmA">四方连续底纹</span><span class="pat-caret" data-page-node-id="bWODhCPksX1KsKL9VQ0F8F">&gt;&gt;</span></h3>
+            <div class="pat-sec-body" data-page-node-id="Ad3BOkh5NnKEhEJ4msVD4I">
             <div class="pat-row" data-page-node-id="ZuviXFtZpJRtDrcnHICz8P">
               <label data-page-node-id="FPa6pC4wbjKSFv0Ove3bcw" data-p="pat_arrange">排列</label>
               <div class="seg" id="patModeSeg" style="flex:1" data-page-node-id="gT57nG3ha8DgLDs0kE9tNm">
@@ -1127,8 +1246,8 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
           </div>
 
           <div class="pat-sec" data-page-node-id="JvM3QhTGqavxsOBiWeBkcn">
-            <h3 onclick="togglePatSec(this)" data-page-node-id="lquMr0QMrLa63ypUE8Gx4j"><span data-p="pat_s3">面料预览</span><span class="pat-caret">&gt;&gt;</span></h3>
-            <div class="pat-sec-body">
+            <h3 onclick="togglePatSec(this)" data-page-node-id="lquMr0QMrLa63ypUE8Gx4j"><span data-p="pat_s3" data-page-node-id="rOS5ZPIrk6y332c0IcrFxc">面料预览</span><span class="pat-caret" data-page-node-id="bQQP4nVjKtCyMFwwp4b2ye">&gt;&gt;</span></h3>
+            <div class="pat-sec-body" data-page-node-id="QvrEGCNYCDsqw2sZtnoVFS">
             <div class="seg" id="patMockSeg" data-page-node-id="47unktjQVhzpbSBjqMcDVC">
               <button data-k="flat" class="on" onclick="patSetMock('flat')" data-page-node-id="gAsNRfy5CkP5pfgFLpHqeo" data-p="c_mock_flat">平铺</button>
               <button data-k="scarf" onclick="patSetMock('scarf')" data-page-node-id="Nd38bRZytNmfXf5DTCqxcF" data-p="c_mock_scarf">头巾</button>
@@ -1139,8 +1258,8 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
           </div>
 
           <div class="pat-sec" data-page-node-id="s10GEKv9Pi3z0HXHH0bZ2C">
-            <h3 onclick="togglePatSec(this)" data-page-node-id="dbDfJYCXitsa3SaUFTdL1b"><span data-p="pat_s5">导出与应用</span><span class="pat-caret">&gt;&gt;</span></h3>
-            <div class="pat-sec-body">
+            <h3 onclick="togglePatSec(this)" data-page-node-id="dbDfJYCXitsa3SaUFTdL1b"><span data-p="pat_s5" data-page-node-id="rmb9TsJtjzp96TICZEcwQC">导出与应用</span><span class="pat-caret" data-page-node-id="4yUeOESVKSSS6WDNEFVL53">&gt;&gt;</span></h3>
+            <div class="pat-sec-body" data-page-node-id="WEej71EOStVAnffA9IRq1b">
             <div class="pat-row" data-page-node-id="0QTblZCW8PjmLNdHCa3FjP">
               <button class="btn btn-sm" onclick="patExport()" data-page-node-id="r3vK1zoZZAicCd0oA6U3XH" data-p="pat_export">导出纹样 PNG</button>
               <button class="btn btn-sm btn-outline" onclick="go('paint/canvas')" data-page-node-id="UrRGFITzalxQBWfjezpCfi" data-p="pat_back">‹ 回到画布</button>
@@ -1148,13 +1267,13 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
             </div>
           </div>
 
-          <div class="pat-action-bar">
+          <div class="pat-action-bar" data-page-node-id="huvEu1nEYtGFcLJ9TWzzRv">
             <div class="pat-tools" data-page-node-id="Y0A2djbDUUAQyo9T70DU0k">
               <button class="btn btn-sm" onclick="patSpread()" data-page-node-id="yVAmYxsulElgCIKXeexK2W" data-p="pat_spread">错落铺开</button>
               <button class="btn btn-sm" onclick="patBringTop()" data-page-node-id="sSCu5KTbFT1MJeifR0UEwv" data-p="pat_top">置顶</button>
-              <button class="btn btn-sm" onclick="patUndo()" data-page-node-id="mC8nihbs6YXmirNohIyZkb" data-p="c_undo">↶ 撤销</button>
+              <button class="btn btn-sm" onclick="patUndo()" data-page-node-id="mC8nihbs6YXmirNohIyZkb" data-p="c_undo">撤销</button>
             </div>
-            <div style="margin-top:12px"><button class="btn btn-primary btn-block btn-lg" onclick="go('paint/confirm')" data-p="pat_next">下一步：提交作品 ›</button></div>
+            <div style="margin-top:12px" data-page-node-id="ANxKBlMffNCvQRVKfgwJlN"><button class="btn btn-primary btn-block btn-lg" onclick="go('paint/guide7')" data-p="pat_next" data-page-node-id="x6gyDI0LAy4PyerXNqJg1z">下一步：提交作品 ›</button></div>
           </div>
 
       </div>
@@ -1164,28 +1283,45 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 </div>
 
 <!-- ===== Paint: confirm ===== -->
+<!-- ===== 作画规则指南（第 7 组，插在确认页前） ===== -->
+<div class="page active" id="page-paint-guide7" data-page-node-id="iGyJTlqZFfm1uF8X8iRzgH">
+  <div class="container guide-wrap" data-page-node-id="y9Hy39jFMzomIWXrAmtdG9">
+    <p class="guide-kicker" data-page-node-id="PyLkgGL7nvriRPStEwzNb7">作画规则</p>
+    <h1 class="guide-step" data-page-node-id="b2oR8thLEj7CnFGMo3EHTK" style="white-space: pre-wrap;">步骤四：认捐或者购买自己定制的作品​</h1>
+    <p class="guide-text" data-page-node-id="ISzJ8o8jeQKNQbbAAPEBfX">提交作品后可以选择把画作捐给合作医院或者购买印有自己画作的产品，我们在审核成功后将向您发放优惠券。</p>
+    <div class="guide-shot" data-page-node-id="m4GBZrADYgTe1bJ2rQzC56"><img src="guide-confirm-user.png" alt="提交确认 · 认捐或购买" data-page-node-id="qX92AcXBMr5EaunwGEAF3N"></div>
+    <div class="guide-nav" data-page-node-id="eg5fEBfQ3iguJdT74pjN8Y">
+      <button class="btn btn-outline" onclick="go('paint/pattern')" data-page-node-id="q8r7fOLjN9UJvGIiAGHh4v">‹ 上一页</button>
+      <span class="guide-page-no" data-page-node-id="4okEptaTQXKfZ0pM8EBWSz">7 / 7</span>
+      <button class="btn btn-primary" onclick="go('paint/confirm')" data-page-node-id="QtGy1nSwmeyZ4wcI9y3atr">进入作画 ›</button>
+    </div>
+  </div>
+</div>
 <div class="page" id="page-paint-confirm" data-page-node-id="MTKB6GQ3HgE4h1kt9agOJr">
   <div class="container" style="max-width:900px" data-page-node-id="EKP7USIwBiCH1GLN7KR4BG">
     <div class="page-head" data-page-node-id="gPFGY7j9njgAmJ2xzooutO"><h1 data-page-node-id="hOshV6gkxXHBjiBnWAHN4u" data-p="cf_title">提交确认</h1></div>
     <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:24px" data-page-node-id="YyudNgvIKpq1MLC88BYD7j">
-      <canvas id="confirmCanvas" width="640" height="640" style="width:100%;border:1px solid var(--line)" data-page-node-id="AG8tzBRrPhdo3O02k2tnK4"></canvas>
+      <canvas id="confirmCanvas" width="800" height="800" style="width:100%;border:1px solid var(--line)" data-page-node-id="AG8tzBRrPhdo3O02k2tnK4"></canvas>
       <div data-page-node-id="kBbtsMXyG2pyFeP3GKPdqM">
-        <p class="muted" data-page-node-id="seQbAOnTgovDTZXxFybt9w" data-p="cf_pick">请选择作品去向：</p>
-        <button class="btn btn-primary btn-block btn-lg" style="margin-top:12px" onclick="submitWork('donate')" data-page-node-id="oioqvQiWrDQjjna58kfsln" data-p="cf_donate">认捐（一键捐赠实物）</button>
-        <button class="btn btn-outline btn-block btn-lg" style="margin-top:10px" onclick="submitWork('buy')" data-page-node-id="2DMRxvtI0HDrsAOdPTCePk" data-p="cf_buy">自己购买（C2M 定制）</button>
+        <div id="cfChoice" style="display: block;" data-page-node-id="Yi8ZJtynnL4gz1k9xyMokK">
+          <p class="muted" data-page-node-id="seQbAOnTgovDTZXxFybt9w" data-p="cf_pick">请选择作品去向：</p>
+          <button class="btn btn-primary btn-block btn-lg" style="margin-top:12px" onclick="submitWork('donate')" data-page-node-id="oioqvQiWrDQjjna58kfsln" data-p="cf_donate">认捐（一键捐赠实物）</button>
+          <button class="btn btn-outline btn-block btn-lg" style="margin-top:10px" onclick="submitWork('buy')" data-page-node-id="2DMRxvtI0HDrsAOdPTCePk" data-p="cf_buy">自己购买（C2M 定制）</button>
+        </div>
+        <button type="button" class="cf-wait" id="cfWait" style="display:none" onclick="cfBackHome()" data-p="cf_wait" data-page-node-id="E4XMXB8aitpczwxem4KDVI">请等待你的专属口罩or头巾吧！</button>
         <div class="divider" data-page-node-id="mfZJwtfgMY2EVTYDuFSUAb"></div>
         <p class="muted" data-page-node-id="ykuzo7NpWCwhbiaZT3u9VI" data-p="cf_used">所用颜色介绍，戳我了解：</p>
-        <div id="usedColorRow" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px" data-page-node-id="ZGMI34572IsEjWHgF8xWf8"></div>
-        <p class="muted" style="margin-top:14px" data-page-node-id="8QLbeuS77FmlxnV84rWukR" data-p="cf_audit">作品提交后进入审核，审核通过将发放优惠券，可在信息栏查看。</p>
+        <div id="usedColorRow" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px" data-page-node-id="ZGMI34572IsEjWHgF8xWf8"><span class="color-chip" data-no="P02" onclick="productModal('P02')" data-page-node-id="2CiQCayfjkVcaoEDi1b2lc"><i style="background:#E76F51" data-page-node-id="OOnKR0z9L8SKUvg98aOTAK"></i>P02</span></div>
+        <p class="muted" id="cfAudit" style="margin-top: 14px; display: block;" data-page-node-id="8QLbeuS77FmlxnV84rWukR" data-p="cf_audit">作品提交后进入审核，审核通过将发放优惠券，可在信息栏查看。</p>
       </div>
     </div>
 
     <div data-page-node-id="eNLUnun3HuerBzp7SrFQOc" style="margin-top:18px">
-      <div style="display:flex;align-items:baseline;gap:12px">
+      <div style="display:flex;align-items:baseline;gap:12px" data-page-node-id="crTMkQsmTyNSMvHn3sgWSX">
         <h2 style="margin:0" data-page-node-id="uapLKwNh2ZZJ0CcO08JkDG" data-p="cf_pv">印花效果预览</h2>
-        <button id="cfPreviewToggle" onclick="toggleCfPreview()" style="background:none;border:none;padding:0;margin:0;font-family:'Heiti SC','SimHei','Microsoft YaHei',sans-serif;font-weight:300;font-size:14px;color:var(--ink-soft);cursor:pointer;letter-spacing:1px">展开</button>
+        <button id="cfPreviewToggle" onclick="toggleCfPreview()" style="background:none;border:none;padding:0;margin:0;font-family:'Heiti SC','SimHei','Microsoft YaHei',sans-serif;font-weight:300;font-size:14px;color:var(--ink-soft);cursor:pointer;letter-spacing:1px" data-page-node-id="4JOLCW9lOfcEDHF6UoiEGe">展开</button>
       </div>
-      <div id="cfPreviewBody" style="display:none;margin-top:8px">
+      <div id="cfPreviewBody" style="display:none;margin-top:8px" data-page-node-id="3zJS8ylz1tLcwneNqFo4aq">
         <p class="muted" data-page-node-id="2CeYKk4CBR37YNvGl1NlTr" data-p="cf_pvd">作品经 AI 纹样化后，印在头巾 / 口罩上的效果</p>
         <div class="pat-tools" id="cfMockSeg" style="max-width:320px;margin-top:12px" data-page-node-id="ZhNILgKzzroPqifZKxXk2F">
           <button class="btn on" data-k="flat" onclick="cfSetMock('flat')" data-page-node-id="NVO4KtHs13tOWWBmJbTqwi" data-p="c_mock_flat">平铺</button>
@@ -1235,21 +1371,15 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
   <div class="container" style="display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:start" data-page-node-id="5SBHnCojz7cjKl735kaYSU">
     <div data-page-node-id="Mxz7dvAT70Iwgswu6baFIu">
       <div class="stage" style="margin-top:20px" data-page-node-id="n5BiGN1mJhoLZZSNr4lFVT">
-        <div class="stage-track" id="galleryTrack" data-page-node-id="HfmMEqeEBGqiHFoSKlPowu"></div>
+        <div class="stage-track" id="galleryTrack" data-page-node-id="HfmMEqeEBGqiHFoSKlPowu"><div class="stage-item" data-page-node-id="8Zp0ZB8uLEGA1If3Heeg4A"><div class="muted" data-page-node-id="GDj0SY8CKpbuHMuLlYc5Ss">🖼️ 作品展示区<br data-page-node-id="3Mpuh6Afc2IDJW3j2J6Jnt">（预留空位 · 等待第一幅作品）</div></div></div>
         <button class="stage-fab" onclick="likeCurrent()" data-page-node-id="VW3wpyq3vv6SA9dgPC2XBz">🧡 点赞 <span id="likeCount" data-page-node-id="ZaptpmB3Vuj6hj87BGpHqe">0</span></button>
         <button class="btn btn-sm follow-box" id="followBtn" onclick="toggleFollow()" data-page-node-id="U4LpR4PY15YgwQFpLC5bGn">＋ 关注作者</button>
       </div>
-      <div class="color-strip" id="colorStrip" data-page-node-id="p75OvSZ58YJafelDQ4jS3m"><span class="muted">作者：olivia</span><span class="color-chip" title="点击查看（购物车暂未开放）" onclick="productModal('P01')">
-      <i style="background:#C9553A"></i>P01</span><span class="color-chip" title="点击查看（购物车暂未开放）" onclick="productModal('P10')">
-      <i style="background:#84A59D"></i>P10</span><span class="color-chip" title="点击查看（购物车暂未开放）" onclick="productModal('P08')">
-      <i style="background:#A8DADC"></i>P08</span><span class="color-chip" title="点击查看（购物车暂未开放）" onclick="productModal('P02')">
-      <i style="background:#E76F51"></i>P02</span><span class="color-chip" title="点击查看（购物车暂未开放）" onclick="productModal('P05')">
-      <i style="background:#8A6F5C"></i>P05</span><span class="color-chip" title="点击查看（购物车暂未开放）" onclick="productModal('P07')">
-      <i style="background:#D88C9A"></i>P07</span></div>
+      <div class="color-strip" id="colorStrip" data-page-node-id="p75OvSZ58YJafelDQ4jS3m"><span class="muted" data-page-node-id="0PW7VoMPxFPMvR38ESVdeT">—</span></div>
     </div>
     <div class="card" style="margin-top:20px" data-page-node-id="jhHL6VNegbLrYPGPo0gvPB">
       <h2 data-page-node-id="BbJ33kcvVhGKadUCXhSZuw">互动区</h2>
-      <div class="chat-list" id="chatList" data-page-node-id="oFzP5dhdwcDxfcXHuFAj3A"><div class="empty">还没有留言，来写下第一句鼓励吧</div></div>
+      <div class="chat-list" id="chatList" data-page-node-id="oFzP5dhdwcDxfcXHuFAj3A"><div class="empty" data-page-node-id="ehDVGHHYC5GcyHzkP7hKAT">还没有留言，来写下第一句鼓励吧</div></div>
       <div class="chat-bar" data-page-node-id="97ZtK3ATUVKcmNSEla0tO5">
         <input id="chatInput" placeholder="写下鼓励或评价…" data-page-node-id="6dsynjoRYhUXIMiTy2sCJC">
         <button class="btn btn-primary" onclick="sendChat()" data-page-node-id="yVZ0VnbPrPj0H5ZtE66GND">发送</button>
@@ -1263,29 +1393,29 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
   <div class="container" style="max-width:820px" data-page-node-id="XJVLrnUDduuyV34tGBeZcU">
     <div class="page-head" data-page-node-id="MQvCUXSI3qcnomueya3EL7"><h1 data-page-node-id="0Qj3yccuUBKIEPFeRTEwQY">个人中心</h1></div>
     <div class="card" style="display:flex;gap:18px;align-items:center" data-page-node-id="B3UGmATWGAuKhJjb1GyOcG">
-      <div id="avatarBox" data-page-node-id="qT6Fnm2iVi9rZd1ewTiO81"><div class="avatar-big" style="background:#E9C46A">o</div></div>
+      <div id="avatarBox" data-page-node-id="qT6Fnm2iVi9rZd1ewTiO81"><div class="avatar-big" style="background:#E76F51" data-page-node-id="cuEi2QP4nc8MdnrODcTPMu">访</div></div>
       <div style="flex:1" data-page-node-id="FTCSNwOdtJpm6oI8BaaHxz">
-        <div style="font-size:19px;font-weight:700" id="nickShow" data-page-node-id="bci4zM8dFtgdOX825VrBF6">olivia</div>
-        <p class="muted" data-page-node-id="FfqUrvQ3zr8fDPhEjEdJcS">用户名：<span id="nameShow" data-page-node-id="1GvopYCf5s1trpljjhpdbT">olivia</span></p>
+        <div style="font-size:19px;font-weight:700" id="nickShow" data-page-node-id="bci4zM8dFtgdOX825VrBF6">访客演示</div>
+        <p class="muted" data-page-node-id="FfqUrvQ3zr8fDPhEjEdJcS">用户名：<span id="nameShow" data-page-node-id="1GvopYCf5s1trpljjhpdbT">访客演示</span></p>
       </div>
       <button class="btn" onclick="document.getElementById('avatarInput').click()" data-page-node-id="YqZ1m2Adz4F2zDywnWCOTA">设置头像</button>
       <button class="btn" onclick="editNick()" data-page-node-id="TFxm56MQ77zqyWsseFIQhe">设置昵称</button>
       <input type="file" id="avatarInput" accept="image/*" hidden="" onchange="setAvatar(this)" data-page-node-id="nHd2xyfCsgyTuVAtGXqQ9K">
     </div>
     <div class="card" data-page-node-id="0GQlvn02XU0bNDkWvKwEcX">
-      <button class="menu-row" onclick="go('me/works')" data-page-node-id="7Ftve1ccNxRG0hrus51UMr">🖼️ <span data-p="p_works">我的作品</span><span class="arrow" data-page-node-id="4Wjw9vcmL48mWOBiu1TUaL">›</span></button>
-      <button class="menu-row" onclick="go('me/cart')" data-page-node-id="25rf2YukTPlTLXn7MByTpj">🛒 <span data-p="p_cart">我的购物车</span><span class="arrow" data-page-node-id="vFnKV2qzwoeoYRL0ZnSNRQ">›</span></button>
-      <button class="menu-row" onclick="go('me/follows')" data-page-node-id="RNjxISjOWcs9JAKZ3dAvTA">👥 <span data-p="p_follows">我的关注</span><span class="arrow" data-page-node-id="7WYiKVMU1vIGzUQCZudodO">›</span></button>
-      <button class="menu-row" onclick="go('me/donations')" data-page-node-id="SHcphPukizASrwPVH6bAWv">🎁 <span data-p="p_donations">我的捐赠记录</span><span class="arrow" data-page-node-id="IVhtupzXiSQARpqyi84yC2">›</span></button>
-      <button class="menu-row" onclick="go('me/history')" data-page-node-id="eskxuCrK1pdDzxAoEaDJW6">🕘 <span data-p="p_history">我的浏览记录</span><span class="arrow" data-page-node-id="4CsAQftwbFg8zNqDJMTwpR">›</span></button>
-      <button class="menu-row" onclick="go('me/messages')" data-page-node-id="1w9dzS8NPLBwcJzWbhZyq1">💬 <span data-p="p_msgs">信息栏</span><span class="arrow" data-page-node-id="ApfI54Lr998ry5s8hDMAAf">›</span></button>
+      <button class="menu-row" onclick="go('me/works')" data-page-node-id="7Ftve1ccNxRG0hrus51UMr">🖼️ <span data-p="p_works" data-page-node-id="Va6nUW4Lj4duIZtHSRmblV">我的作品</span><span class="arrow" data-page-node-id="4Wjw9vcmL48mWOBiu1TUaL">›</span></button>
+      <button class="menu-row" onclick="go('me/cart')" data-page-node-id="25rf2YukTPlTLXn7MByTpj">🛒 <span data-p="p_cart" data-page-node-id="R3DeA8T9UoP4h6AK5PWeCK">我的购物车</span><span class="arrow" data-page-node-id="vFnKV2qzwoeoYRL0ZnSNRQ">›</span></button>
+      <button class="menu-row" onclick="go('me/follows')" data-page-node-id="RNjxISjOWcs9JAKZ3dAvTA">👥 <span data-p="p_follows" data-page-node-id="7k6UuK8WTLCOgkJUTEB6rq">我的关注</span><span class="arrow" data-page-node-id="7WYiKVMU1vIGzUQCZudodO">›</span></button>
+      <button class="menu-row" onclick="go('me/donations')" data-page-node-id="SHcphPukizASrwPVH6bAWv">🎁 <span data-p="p_donations" data-page-node-id="O3LtJJEqrPmUJuH03kbPEM">我的捐赠</span><span class="arrow" data-page-node-id="IVhtupzXiSQARpqyi84yC2">›</span></button>
+      <button class="menu-row" onclick="go('me/history')" data-page-node-id="eskxuCrK1pdDzxAoEaDJW6">🕘 <span data-p="p_history" data-page-node-id="xhjsshiy5nVALf9BdXPkpM">浏览记录</span><span class="arrow" data-page-node-id="4CsAQftwbFg8zNqDJMTwpR">›</span></button>
+      <button class="menu-row" onclick="go('me/messages')" data-page-node-id="1w9dzS8NPLBwcJzWbhZyq1">💬 <span data-p="p_msgs" data-page-node-id="x8h5HmZaLIwmQSHoRmaUXO">消息</span><span class="arrow" data-page-node-id="ApfI54Lr998ry5s8hDMAAf">›</span></button>
     </div>
-    <div class="card">
-      <h3 data-p="lang_title">语言</h3>
-      <div class="lang-row">
-        <button class="lang-btn" data-l="zh" onclick="setLang('zh')" data-p="lang_zh">简体中文</button>
-        <button class="lang-btn" data-l="en" onclick="setLang('en')" data-p="lang_en">English</button>
-        <button class="lang-btn" data-l="fr" onclick="setLang('fr')" data-p="lang_fr">Français</button>
+    <div class="card" data-page-node-id="UkKQKOSx6xxV0Fh8fhPfRY">
+      <h3 data-p="lang_title" data-page-node-id="TWbfgKfpJi7Q1iSiLO8AXY">语言</h3>
+      <div class="lang-row" data-page-node-id="iic2sfL2WJnwALzLxi5wx4">
+        <button class="lang-btn on sel" data-l="zh" onclick="setLang('zh')" data-p="lang_zh" data-page-node-id="QtpSGDBWIuBi3BInzW4WE1">简体中文</button>
+        <button class="lang-btn" data-l="en" onclick="setLang('en')" data-p="lang_en" data-page-node-id="oFI6ZExEnLUqw4ZZ1Hf91t">English</button>
+        <button class="lang-btn" data-l="fr" onclick="setLang('fr')" data-p="lang_fr" data-page-node-id="1BZW2hVmo5DrkE6AIlutlA">Français</button>
       </div>
     </div>
     <div class="card" data-page-node-id="fSr8e21ZSfzv9KKnEcvNtd">
@@ -1298,8 +1428,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
 <div class="page" id="page-me-works" data-page-node-id="QYqpJuFWZyz89tnhsi3rJY">
   <div class="container" style="max-width:860px" data-page-node-id="IjtEfAP5mUTthJf0m0SyTn">
     <div class="page-head" data-page-node-id="n62AVkkKQBv4Xol6hU4pDw"><h1 data-page-node-id="UI0vZ5YRLNdNitW0ypXiA3">我的作品</h1></div>
-    <div class="card" id="myWorksList" data-page-node-id="k9ce9T5xgrZUeE3xLnDNFE">
-  </div>
+    <div class="card" id="myWorksList" data-page-node-id="k9ce9T5xgrZUeE3xLnDNFE"><div class="empty" data-page-node-id="6AIEnik2OVNgEukbE54HRk">还没有作品，去「作画」创作第一幅吧</div></div>
 </div>
 
 <!-- ===== Me: cart ===== -->
@@ -1349,7 +1478,7 @@ input[type=text],input[type=password],select,textarea{border-radius:12px}
   </div>
 </div>
 
-<script id="js-common">/* ============================================================
+<script id="js-common" data-page-node-id="bYgoJMtO0rPGVKbfwicbDF">/* ============================================================
    Ward Aesthetics Program — Shared JS
    Unified storage + data model across charity / normal / admin
    ============================================================ */
@@ -3094,7 +3223,7 @@ function shadeLinksOn(){
   catch(e){ return true; }
 }
 </script>
-<script>
+<script data-page-node-id="aS3oIw9H2V4AHY2KCt6QHE">
 /* ================= Auth ================= */
 let authMode = 'login', currentUser = null;
 (function restore(){
@@ -3140,7 +3269,7 @@ function demoLogin(){
 function demoEnter(){
   demoLogin();
   enterApp();
-  go('paint/colors');
+  go('paint/guide1');
   toast('已自动进入（演示模式），数据仅存本机浏览器');
 }
 function enterApp(dest){
@@ -3151,7 +3280,10 @@ function enterApp(dest){
 }
 
 /* ================= Router ================= */
-const PATHS = ['auth','home','intro','paint/colors','paint/opening','paint/canvas','paint/pattern','paint/confirm',
+const PATHS = ['auth','home','intro',
+  'paint/guide1','paint/guide2','paint/colors','paint/guide3','paint/canvas',
+  'paint/guide4','paint/guide5','paint/guide6','paint/pattern','paint/guide7','paint/confirm',
+  'paint/opening',
   'tryon/select','tryon/result','gallery',
   'me','me/works','me/cart','me/follows','me/donations','me/history','me/messages'];
 function go(path){
@@ -3412,7 +3544,7 @@ function markChosen(){
 }
 function confirmColors(){
   if(!chosenColors.length) return toast(PT('paint_need'));
-  go('paint/canvas');
+  go('paint/guide3');
 }
 
 /* ================= Paint: opening（品牌三角开场 + 命运色轮） ================= */
@@ -4290,7 +4422,7 @@ function patApply(){
     img:Pat.exported, mock:Pat.mock, thr:Pat.thr, objects:Pat.objects.length, time:nowText()
   });
   toast(PT('pat_applied'));
-  go('paint/confirm');
+  go('paint/guide7');
 }
 
 /* ================= Paint: confirm ================= */
@@ -4308,8 +4440,26 @@ function cfSetMock(k){
   document.querySelectorAll('#cfMockSeg button').forEach(b => b.classList.toggle('on', b.dataset.k === k));
   renderConfirmPattern();
 }
+function paintFromCharity(){
+  if(/[?&]from=charity/.test(location.search || '')) return true;
+  try{
+    if(/charity\.html/.test(document.referrer || '')) return true;
+    if(sessionStorage.getItem('paintSource') === 'charity') return true;
+  }catch(e){}
+  return false;
+}
+function cfApplySource(){
+  const charity = paintFromCharity();
+  const choice = $('cfChoice'), wait = $('cfWait'), audit = $('cfAudit');
+  if(choice) choice.style.display = charity ? 'none' : 'block';
+  if(wait) wait.style.display = charity ? 'flex' : 'none';
+  if(audit) audit.style.display = charity ? 'none' : 'block';
+}
+function cfBackHome(){ location.href = 'charity.html'; }
 function renderConfirm(){
   const cc = $('confirmCanvas');
+  /* 未进过画布页时 pCanvas 尚未初始化，先只做来源判断，避免抛错 */
+  if(!pCanvas){ cfApplySource(); renderConfirmPattern(); return; }
   cc.width = pCanvas.width; cc.height = pCanvas.height;
   const cctx = cc.getContext('2d');
   cctx.fillStyle = pCanvas.style.backgroundColor || '#fff';
@@ -4317,6 +4467,7 @@ function renderConfirm(){
   cctx.drawImage(pCanvas, 0, 0);
   $('usedColorRow').innerHTML = usedNos.map(no =>
     `<span class="color-chip" data-no="${no}" onclick="productModal('${no}')"><i style="background:${colorName(no)}"></i>${no}</span>`).join('');
+  cfApplySource();
   renderConfirmPattern();
 }
 function renderConfirmPattern(){
@@ -4673,4 +4824,5 @@ function hashDest(){
 </script>
 
 
-</body></html>
+</div><div id="toast" class="toast" data-page-node-id="NS4sjnnIYRjwrsVCVHfvz1">请至少选择一个色号</div><div class="mood-tip interactive below" style="left: 667.797px; top: 308.43px;" data-page-node-id="KNPnS0XugYOnsEa8qq5nSX"><div class="mood-tip-flex" data-page-node-id="zSisovT76ihWQG3jki4sS2"><img class="mood-tip-img" src="assets/shades/S014.png" alt="37 Peachy Nude" loading="lazy" onerror="this.style.display='none'" data-page-node-id="4jpiDaHtEiVsUUNCh8X7HD"><div class="mood-tip-info" data-page-node-id="gu8rCXaSAog46coJtVGUWC"><div class="mood-tip-head" data-page-node-id="cxl0PG54f2RVceoFNQotiT"><i style="background:#EE8677" data-page-node-id="fyaqBP9GVTER1c5EkdHgFa"></i><b data-page-node-id="lgmiFeHiZgcOKHcHDUraPC">S014 · 37 Peachy Nude</b></div><div class="mood-tip-row" data-page-node-id="d7u0DViEEVtHnLDm9LM3om"><span data-page-node-id="OEIjCtrBmIS4AFJBsunlr5">品牌</span><em data-page-node-id="XaTENEEdFXVVYAZ7HFAgkE">圣罗兰 · YSL Beauty</em></div><div class="mood-tip-row" data-page-node-id="66pBHB22Y0KbhFwnhGAyDl"><span data-page-node-id="Ff86yF5GXgwZjN30WDAAEF">产品</span><em data-page-node-id="IFkqPxWnh5ik4cD09QTjAS">圣罗兰高定皮革腮红 Make Me Blush</em></div><div class="mood-tip-poem" data-page-node-id="31YrE6WAv1DyUFTmwzXnZY"><i data-page-node-id="SFZlsSb9E45hEcBb20xt8G">一句关于生命的诗</i>一颗柔软的桃子被阳光晒暖，绒毛轻触指尖，空气里满是夏日甜甜的呼吸。</div></div></div><a class="mood-link" href="https://www.yslbeauty.com/int/makeup/face/powder/make-me-blush-bold-blurring-blush/WW-51348YSL.html" target="_blank" rel="noopener noreferrer" data-page-node-id="vwedo7YP1iP4DkNzqlzJAa">查看商品页 · YSL Beauty 官网 ›</a><a class="mood-link mood-link-alt" href="https://www.yslbeautycn.com/" target="_blank" rel="noopener noreferrer" data-page-node-id="hz2KegRiDV1bkHieDlAG1o">品牌官网 · 圣罗兰 中国官网 ›</a></div>
+<div class="mood-tip interactive below" style="left: 563.598px; top: 232.93px;" data-page-node-id="eYzbieyMzoDnv0PO86TKrC"><div class="mood-tip-flex" data-page-node-id="F47xDfByiUQg4N5EI6vW4E"><img class="mood-tip-img" src="assets/shades/S060.png" alt="#100 绝色" loading="lazy" onerror="this.style.display='none'" data-page-node-id="iUhJ95s36IwJhF9qsBAUNW"><div class="mood-tip-info" data-page-node-id="D6hMM8FMPvuU2GYPZFueHW"><div class="mood-tip-head" data-page-node-id="t7nd96wcFg08bV3Mippvl7"><i style="background:#C5645F" data-page-node-id="3f3pRPwi2CBDQQM2cOIJkz"></i><b data-page-node-id="FIiHFQBRE5nEzbBnTmz4lB">S060 · #100 绝色</b></div><div class="mood-tip-row" data-page-node-id="yS6NgPALHSEeGuInt3ujd1"><span data-page-node-id="NPj0SIGRaBLLQk4wChIr0o">品牌</span><em data-page-node-id="OA5vOk5uTK67cMBEODV1s4">阿玛尼 · Giorgio Armani Beauty</em></div><div class="mood-tip-row" data-page-node-id="OtSTQKgfSSDqAEDIpdkPkJ"><span data-page-node-id="4qyjj9eCRM1jXlC0gqVAzo">产品</span><em data-page-node-id="dPiN0WTSGhzmF6E9VEHBat">全新阿玛尼传奇「红管」</em></div><div class="mood-tip-poem" data-page-node-id="E7dcIAUfOtEwYzJyAg8Veo"><i data-page-node-id="ivsh2naBHk9aAmdA7M0qQs">一句关于生命的诗</i>一朵在风里轻轻摇曳的旧玫瑰，花香沉静而绵长，仿佛温柔从来不需要大声宣告。</div></div></div><a class="mood-link" href="https://www.armanibeauty.com/makeup/lip-makeup/lipstick/lip-maestro/ww-00072-arm.html" target="_blank" rel="noopener noreferrer" data-page-node-id="jvk119uJHHMWQ29T5jU7FT">查看商品页 · Armani Beauty 官网 ›</a><a class="mood-link mood-link-alt" href="https://www.giorgioarmanibeauty.cn/" target="_blank" rel="noopener noreferrer" data-page-node-id="X2DtHzy6JlaG8uGGzcyJEC">品牌官网 · 阿玛尼 中国官网 ›</a></div></body></html>
